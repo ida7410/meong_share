@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <div class="d-flex h-100">
 	<div class="d-flex col-3 align-items-end">
@@ -12,13 +13,17 @@
 	</div>
 	<div class="d-flex col-3 align-items-end justify-content-end">
 		<div>
+			<c:if test="${userId eq null}">
 			<div>
-				<a href="#">로그인</a> / <a href="#">회원가입</a>
+				<a href="/log-in">로그인</a> / <a href="/sign-up">회원가입</a>
 			</div>
-
+			</c:if>
+			
+			<c:if test="${userId ne null}">
 			<div>
-				<a href="#">윤현빈 님 환영합니다!</a>
+				<a href="#">윤현빈 님 환영합니다!</a> / <a href="/log-out">로그아웃</a>
 			</div>
+			</c:if>
 		</div>
 	</div>
 </div>

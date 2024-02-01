@@ -45,4 +45,53 @@
 			</div>
 		</div>
 	</div>
+	
+	<div class="col-10">
+		
+		<div class="d-flex flex-wrap">
+			<div class="product bg-primary col-3 p-3 mr-2">
+				<!-- img -->
+				<div class="product-img-box w-100 bg-info mb-3">
+					<img src="" alt="">
+				</div>
+				
+				<!-- title -->
+				<h4 class="font-weight-bold">제목이 들어가는 곳</h4>
+				
+				<h5>18000원</h5>
+				
+				<h7>1일 전</h7>
+				
+				<h6>닉네임뭐하지</h6>
+				<h6>설명ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ</h6>
+			</div>
+			
+			<div class="product bg-primary col-3 p-3 mr-2">
+				<!-- img -->
+				<div class="product-img-box w-100 bg-info mb-3">
+					<img src="" alt="">
+				</div>
+				
+				<!-- title -->
+				<h4 class="font-weight-bold">제목이 들어가는 곳</h4>
+				
+				<h5>18000원</h5>
+				
+				<h7>1일 전</h7>
+				
+				<h6>닉네임뭐하지</h6>
+				<h6>설명ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ</h6>
+			</div>
+		</div>
+
+		<nav aria-label="Page navigation example">
+			<ul class="pagination justify-content-center">
+				<li class="page-item disabled"><a class="page-link" href="#" tabindex="-1">Previous</a></li>
+				<li class="page-item"><a class="page-link" href="#">1</a></li>
+				<li class="page-item"><a class="page-link" href="#">2</a></li>
+				<li class="page-item"><a class="page-link" href="#">3</a></li>
+				<li class="page-item"><a class="page-link" href="#">Next</a></li>
+			</ul>
+		</nav>
+	</div>
 </div>

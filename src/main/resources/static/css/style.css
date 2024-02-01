@@ -22,5 +22,15 @@ footer {height: 100px;}
 /* search */
 .keywords {font-size:17px; color:black;}
 .recent-search-product-img-box {height:150px;}
+.product-img-box {height:250px;}
+
+/* add product */
+#create-btn {font-size:17px; height:45px;}
+
+/* log in */
+#mv-sign-up-btn {margin-bottom:100px;}
+
+/* sign up */
+#sign-up-btn {margin-bottom:100px; font-size:17px; height:45px;}
 
 /* FOOTER */

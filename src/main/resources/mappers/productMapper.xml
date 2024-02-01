@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="com.ms.product.mapper.ProductMapper">
+	<select id="selectProductListByKeyword" resultType="com.ms.product.domain.Product">
+		SELECT
+			`id`
+			,`ownerId`
+			,`name`
+			,`company`
+			,`price`
+			,`imagePath`
+			,,`description`
+			,`boughtDate`
+			,`completed`
+			,`createdAt`
+		FROM
+			`product`
+	</select>
+	
+	<select id="selectProductListByKeyword" parameterType="String" resultType="com.ms.product.domain.Product">
+		SELECT
+			`id`
+			,`ownerId`
+			,`name`
+			,`company`
+			,`price`
+			,`imagePath`
+			,`description`
+			,`boughtDate`
+			,`completed`
+			,`createdAt`
+		FROM
+			`product`
+		WHERE
+			`company` = #{keyword}
+			OR `description` = #{keyword}
+	</select>
+</mapper>
