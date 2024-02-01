@@ -1,0 +1,26 @@
+@charset "UTF-8";
+
+/* LAYOUT */
+header {height: 100px;}
+#main-nev {min-height:40px;}
+.contents {min-height: 200px;}
+footer {height: 100px;}
+
+/* HEADER */
+
+/* MAIN NAV */
+.nav-link:hover {background-color: wheat; color: black;}
+.nav-link {color: black; font-weight: bold; font-size: 17px;}
+
+/* SECTION */
+
+/* main page */
+.banner {height: 500px;}
+.recent-product-box {height: 150px;}
+.recommend-product-box {height: 150px;}
+
+/* search */
+.keywords {font-size:17px; color:black;}
+.recent-search-product-img-box {height:150px;}
+
+/* FOOTER */
