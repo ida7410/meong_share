@@ -4,7 +4,7 @@
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  
 <mapper namespace="com.ms.product.mapper.ProductMapper">
-	<insert id="insertProduct" parameterType="map">
+	<insert id="insertProduct" parameterType="map" useGeneratedKeys="true" keyProperty="idx">
 		INSERT INTO `product`
 		(
 			`ownerId`
@@ -28,6 +28,24 @@
 			,NOW()
 		)
 	</insert>
+	
+	<select id="selectProductById" resultType="com.ms.product.domain.Product">
+		SELECT
+			`id`
+			,`ownerId`
+			,`name`
+			,`company`
+			,`price`
+			,`imagePath`
+			,`description`
+			,`boughtDate`
+			,`completed`
+			,`createdAt`
+		FROM
+			`product`
+		WHERE
+			`id` = #{id}
+	</select>
 	
 	<select id="selectProductList" resultType="com.ms.product.domain.Product">
 		SELECT

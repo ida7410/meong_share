@@ -10,7 +10,7 @@ import com.ms.product.domain.Product;
 @Mapper
 public interface ProductMapper {
 	
-    public void insertProduct(
+    public int insertProduct(
             @Param("ownerId") int ownerId, 
             @Param("name") String name, 
             @Param("company") String company, 
@@ -19,6 +19,7 @@ public interface ProductMapper {
             @Param("description") String description, 
             @Param("boughtDate") String boughtDate);
     
+    public Product selectProductById(int id);
 	public List<Product> selectProductList();
 	public List<Product> selectProductListByKeyword(String keyword);
 	

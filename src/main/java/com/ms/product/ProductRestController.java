@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ms.product.bo.ProductBO;
+import com.ms.product.domain.Product;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -42,9 +43,13 @@ public class ProductRestController {
 			return result;
 		}
 		
-		productBO.addProduct(ownerId, ownerLoginId, name, company, price, productImageFile, description, boughtDate);
+		int insertedProductId = productBO.addProduct(ownerId, ownerLoginId, name, company, price, 
+													productImageFile, description, boughtDate);
+		
 		result.put("code", 200);
 		result.put("result", "success");
+		result.put("insertedProductId", insertedProductId);
+		
 		return result;
 	}
 	

@@ -19,11 +19,17 @@ public class ProductBO {
     @Autowired
     private FileManagerService fileManagerService;
 
-	public void addProduct(int ownerId, String ownerLoginId, String name, String company, int price,
+	public int addProduct(int ownerId, String ownerLoginId, String name, String company, int price,
 							MultipartFile productImageFile, String description, String boughtDate) {
 		
         String imagePath = fileManagerService.saveFile(ownerLoginId, productImageFile);
-        productMapper.insertProduct(ownerId, name, company, price, imagePath, description, boughtDate);
+        int insertedProductId = productMapper.insertProduct(ownerId, name, company, price, imagePath, description, boughtDate);
+        return insertedProductId;
+	}
+
+	public Product getProductById(int id) {
+		Product product = productMapper.selectProductById(id);
+		return product;
 	}
 	
 	public List<Product> getProductList(String keyword) {

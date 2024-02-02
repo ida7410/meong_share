@@ -113,7 +113,7 @@
 				,success:function(data) {
 					if (data.code == 200) {
 						alert("물품 등록에 성공했습니다.");
-						location.href = "/product" + data.productId;
+						location.href = "/product/" + data.insertedProductId;
 					}
 					else {
 						alert(data.error_message);
