@@ -23,7 +23,6 @@
 <script>
 	$(document).ready(function() {
 		$("#log-in-form").on("submit", function(e) {
-			e.preventDefault();
 			
 			let id = $("#id").val().trim();
 			let password = $("#password").val().trim();
@@ -48,6 +47,9 @@
 					if (data.code == 200) {
 						alert("환영합니다!");
 						location.href = "/home";
+					}
+					else {
+						alert(data.error_message);
 					}
 				}
 				,error:function(request, status, error) {

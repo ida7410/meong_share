@@ -4,7 +4,32 @@
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  
 <mapper namespace="com.ms.product.mapper.ProductMapper">
-	<select id="selectProductListByKeyword" resultType="com.ms.product.domain.Product">
+	<insert id="insertProduct" parameterType="map">
+		INSERT INTO `product`
+		(
+			`ownerId`
+			,`name`
+			,`company`
+			,`price`
+			,`imagePath`
+			,`description`
+			,`boughtDate`
+			,`createdAt`
+		)
+		VALUES
+		(
+			#{ownerId}
+			,#{name}
+			,#{company}
+			,#{price}
+			,#{imagePath}
+			,#{description}
+			,#{boughtDate}
+			,NOW()
+		)
+	</insert>
+	
+	<select id="selectProductList" resultType="com.ms.product.domain.Product">
 		SELECT
 			`id`
 			,`ownerId`
@@ -12,7 +37,7 @@
 			,`company`
 			,`price`
 			,`imagePath`
-			,,`description`
+			,`description`
 			,`boughtDate`
 			,`completed`
 			,`createdAt`
@@ -36,6 +61,6 @@
 			`product`
 		WHERE
 			`company` = #{keyword}
-			OR `description` = #{keyword}
+			OR `description` LIKE CONCAT('%', #{keyword}, '%')
 	</select>
 </mapper>

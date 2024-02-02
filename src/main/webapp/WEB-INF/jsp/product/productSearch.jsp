@@ -10,12 +10,14 @@
 	
 	<div class="col-2">
 		<h4 class="font-weight-bold">상품 검색</h4>
+		<form method="GET" action="/search">
 		<div class="input-group mb-5">
-			<input type="text" id="keyword" class="form-control">
+			<input type="text" id="keyword" name="keyword" class="form-control" value="${keyword}">
 			<div class="input-group-append">
-				<button type="button" class="btn btn-light">검색</button>
+				<button id="search-btn" type="submit" class="btn btn-light">검색</button>
 			</div>
 		</div>
+		</form>
 		
 		<h4 class="font-weight-bold">최근 검색 목록</h4>
 		<div class="mb-5">
@@ -95,3 +97,27 @@
 		</nav>
 	</div>
 </div>
+
+
+<script>
+	$(document).ready(function() {
+		/* $("#search-btn").on("click", function() {
+			let keyword = $("#keyword").val().trim();
+			if (!keyword) {
+				return;
+			}
+			
+			$.ajax({
+				url:"/search"
+				,data:{"keyword":keyword}
+				
+				,success:function(data) {
+					location.reload();
+				}
+				,error:function(request, status, error) {
+					alert("검색에 실패했습니다. 관리자에게 문의해주세요.");
+				}
+			});
+		}); */
+	})
+</script>
