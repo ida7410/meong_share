@@ -15,7 +15,6 @@ public interface ProductMapper {
 			@Param("name") String name, 
 			@Param("company") String company, 
 			@Param("price") int price,
-			@Param("imagePath") String imagePath, 
 			@Param("description") String description, 
 			@Param("boughtDate") String boughtDate);
 	

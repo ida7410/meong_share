@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.ms.common.FileManagerService;
 import com.ms.product.domain.Product;
 import com.ms.product.mapper.ProductMapper;
 
@@ -16,14 +15,11 @@ public class ProductBO {
 	@Autowired
 	private ProductMapper productMapper;
 	
-	@Autowired
-	private FileManagerService fileManagerService;
 
 	public void addProduct(int ownerId, String ownerLoginId, String name, String company, int price,
 							MultipartFile productImageFile, String description, String boughtDate) {
 		
-		String imagePath = fileManagerService.saveFile(ownerLoginId, productImageFile);
-		productMapper.insertProduct(ownerId, name, company, price, imagePath, description, boughtDate);
+		productMapper.insertProduct(ownerId, name, company, price, description, boughtDate);
 	}
 	
 	public List<Product> getProductList(String keyword) {

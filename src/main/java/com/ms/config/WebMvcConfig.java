@@ -11,24 +11,23 @@ import com.ms.interceptor.PermissionInterceptor;
 
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer{
-	
-	@Autowired
-	private PermissionInterceptor interceptor;
-	
-	@Override
-	public void addInterceptors(InterceptorRegistry registry) {
-		registry
-		.addInterceptor(interceptor)
-		.addPathPatterns("/**")
-		.excludePathPatterns("/static/**", "/error", "/sign-out", "/home", "/search**", "/log-in", "/sign-up")
-		;
-	}
-	
-	@Override
-	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry
-		.addResourceHandler("/images/**")
-		.addResourceLocations("file:///" + FileManagerService.FILE_UPLOAD_PATH);
-	}
-	
+    
+    @Autowired
+    private PermissionInterceptor interceptor;
+    
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry
+        .addInterceptor(interceptor)
+        .addPathPatterns("/add-product")
+        ;
+    }
+    
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry
+        .addResourceHandler("/images/**")
+        .addResourceLocations("file:///" + FileManagerService.FILE_UPLOAD_PATH);
+    }
+    
 }

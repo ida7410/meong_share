@@ -23,6 +23,7 @@
 <script>
 	$(document).ready(function() {
 		$("#log-in-form").on("submit", function(e) {
+			e.preventDefault();
 			
 			let id = $("#id").val().trim();
 			let password = $("#password").val().trim();
