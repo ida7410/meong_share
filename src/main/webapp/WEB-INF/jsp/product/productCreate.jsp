@@ -81,7 +81,7 @@
 				alert("가격을 입력해주세요.");
 				return;
 			}
-			if (!Number.isInteger(price)) {
+			if (!Number.isInteger(+price)) {
 				alert("가격이 유효하지 않습니다.");
 				return;
 			}
@@ -94,7 +94,7 @@
 				return;
 			}
 			
-			let formData = new formData();
+			let formData = new FormData();
 			formData.append("productImageFile", $("#productImageFile")[0].files[0]);
 			formData.append("name", name);
 			formData.append("company", company);

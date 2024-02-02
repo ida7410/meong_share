@@ -33,11 +33,18 @@ public class ProductRestController {
 		
 		Map<String, Object> result = new HashMap<>();
 		
-		int ownerId = (int)session.getAttribute("id");
-		String ownerLoginId = (String)session.getAttribute("loginId");
+		Integer ownerId = (Integer)session.getAttribute("userId");
+		String ownerLoginId = (String)session.getAttribute("userLoginId");
+		
+		if (ownerId == null) {
+			result.put("code", 300);
+			result.put("error_message", "세션이 만료되었습니다. 다시 로그인해주세요.");
+			return result;
+		}
 		
 		productBO.addProduct(ownerId, ownerLoginId, name, company, price, productImageFile, description, boughtDate);
-		
+		result.put("code", 200);
+		result.put("result", "success");
 		return result;
 	}
 	
