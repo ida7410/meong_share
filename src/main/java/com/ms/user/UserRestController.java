@@ -50,7 +50,7 @@ public class UserRestController {
 		Map<String, Object> result = new HashMap<>();
 		
 		// DB select
-		User user = userBO.getUser(loginId, password);
+		User user = userBO.getUserByLoginIdPassword(loginId, password);
 		
 		session.setAttribute("userId", user.getId());
 		session.setAttribute("userLoginId", user.getLoginId());

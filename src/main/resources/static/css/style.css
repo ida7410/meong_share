@@ -22,10 +22,18 @@ footer {height: 100px;}
 /* search */
 .keywords {font-size:17px; color:black;}
 .recent-search-product-img-box {height:150px;}
+.product:hover {background-color:gray; cursor:pointer;}
 .product-img-box {height:250px;}
 
 /* add product */
 #create-btn {font-size:17px; height:45px;}
+
+/* product info */
+#product-desc {font-size:17px; white-space: pre-wrap; }
+
+/* suggestion */
+.recent-product:hover {background-color:gray; cursor:pointer;}
+.recommend-product:hover {background-color:gray; cursor:pointer;}
 
 /* log in */
 #mv-sign-up-btn {margin-bottom:100px;}

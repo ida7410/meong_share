@@ -20,8 +20,12 @@ public class UserBO {
 		userMapper.insertUser(id, password, nickname, name, phoneNumber, email);
 	}
 	
-	public User getUser(String loginId, String password) {
-		return userMapper.selectUser(loginId, password);
+	public User getUserById(int id) {
+		return userMapper.selectUserById(id);
+	}
+	
+	public User getUserByLoginIdPassword(String loginId, String password) {
+		return userMapper.selectUserByLoginIdPassword(loginId, password);
 	}
 	
 }

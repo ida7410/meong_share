@@ -1,5 +1,6 @@
 package com.ms.product.bo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,18 @@ public class ProductBO {
 							MultipartFile productImageFile, String description, String boughtDate) {
 		
         String imagePath = fileManagerService.saveFile(ownerLoginId, productImageFile);
-        int insertedProductId = productMapper.insertProduct(ownerId, name, company, price, imagePath, description, boughtDate);
+        
+        Product product = new Product();
+        product.setOwnerId(ownerId);
+        product.setName(name);
+        product.setCompany(company);
+        product.setPrice(price);
+		product.setImagePath(imagePath);
+		product.setDescription(description);
+		product.setBoughtDate(boughtDate);
+        
+        int rowCount = productMapper.insertProductByMap(product);
+        int insertedProductId = product.getId();
         return insertedProductId;
 	}
 
@@ -41,6 +53,25 @@ public class ProductBO {
 		else {			
 			productList = productMapper.selectProductList();
 		}
+		return productList;
+	}
+	
+	public List<Product> getLatestThreeProductList() {
+		List<Product> productList = productMapper.selectLatestThreeProductList();
+		return productList;
+	}
+	
+	public List<Product> getThreeRandomProductList() {
+		int totalProductCount = productMapper.selectProductCount();
+		List<Product> productList = new ArrayList<>();
+		
+		for (int i = 0; i < 3; i++) {
+			int randomNumber = (int) (Math.random() * totalProductCount + 1);
+			
+			Product product = productMapper.selectProductById(randomNumber);
+			productList.add(product);
+		}
+		
 		return productList;
 	}
 	

@@ -4,7 +4,10 @@
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  
 <mapper namespace="com.ms.product.mapper.ProductMapper">
-	<insert id="insertProduct" parameterType="map" useGeneratedKeys="true" keyProperty="idx">
+	<insert id="insertProductByMap" parameterType="com.ms.product.domain.Product">
+		<selectKey keyProperty="id" resultType="int">
+       		SELECT LAST_INSERT_ID()
+   		</selectKey>
 		INSERT INTO `product`
 		(
 			`ownerId`
@@ -28,6 +31,13 @@
 			,NOW()
 		)
 	</insert>
+	
+	<select id="selectProductCount" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			`product`
+	</select>
 	
 	<select id="selectProductById" resultType="com.ms.product.domain.Product">
 		SELECT
@@ -80,5 +90,23 @@
 		WHERE
 			`company` = #{keyword}
 			OR `description` LIKE CONCAT('%', #{keyword}, '%')
+	</select>
+	
+	<select id="selectLatestThreeProductList" resultType="com.ms.product.domain.Product">
+		SELECT
+			`id`
+			,`ownerId`
+			,`name`
+			,`company`
+			,`price`
+			,`imagePath`
+			,`description`
+			,`boughtDate`
+			,`completed`
+			,`createdAt`
+		FROM
+			`product`
+		ORDER BY `id` DESC
+		LIMIT 3
 	</select>
 </mapper>

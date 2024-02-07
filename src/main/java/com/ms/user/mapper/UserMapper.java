@@ -16,7 +16,9 @@ public interface UserMapper {
 			@Param("phoneNumber") String phoneNumber,
 			@Param("email") String email);
 	
-	public User selectUser(
+	public User selectUserById(int id);
+	
+	public User selectUserByLoginIdPassword(
 			@Param("loginId") String loginId,
 			@Param("password") String password);
 }

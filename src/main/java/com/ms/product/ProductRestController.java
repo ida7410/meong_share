@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ms.product.bo.ProductBO;
-import com.ms.product.domain.Product;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -33,6 +32,7 @@ public class ProductRestController {
 			HttpSession session) {
 		
 		Map<String, Object> result = new HashMap<>();
+		
 		
 		Integer ownerId = (Integer)session.getAttribute("userId");
 		String ownerLoginId = (String)session.getAttribute("userLoginId");

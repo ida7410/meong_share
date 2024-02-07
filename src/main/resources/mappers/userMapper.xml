@@ -27,7 +27,23 @@
 		)
 	</insert>
 	
-	<select id="selectUser" parameterType="map" resultType="com.ms.user.domain.User">
+	<select id="selectUserById" parameterType="int" resultType="com.ms.user.domain.User">
+		SELECT
+			`id`
+			,`loginId`
+			,`password`
+			,`name`
+			,`phoneNumber`
+			,`email`
+			,`createdAt`
+			,`updatedAt`
+		FROM
+			`user`
+		WHERE
+			`id` = #{id}
+	</select>
+	
+	<select id="selectUserByLoginIdPassword" parameterType="map" resultType="com.ms.user.domain.User">
 		SELECT
 			`id`
 			,`loginId`
