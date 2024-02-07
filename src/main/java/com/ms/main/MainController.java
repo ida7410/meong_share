@@ -70,6 +70,12 @@ public class MainController {
 		return "template/layout";
 	}
 	
+	@GetMapping("/user/{userLoginId}")
+	public String userInfo(Model model) {
+		model.addAttribute("viewName", "user/userInfo");
+		return "template/layout";
+	}
+	
 	@GetMapping("/log-in")
 	public String logIn(Model model) {
 		model.addAttribute("viewName", "user/logIn");

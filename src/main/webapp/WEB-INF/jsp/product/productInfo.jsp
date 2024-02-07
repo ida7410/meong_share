@@ -17,7 +17,7 @@
 				</div>
 				
 				<div class="ml-5">
-					<h5>${card.user.name}</h5>
+					<a href="/user/${card.user.loginId}"><h5>${card.user.name}</h5></a>
 					<span>추천 횟수: </span><br>
 					<span>거래 횟수: </span>
 				</div>
