@@ -13,11 +13,14 @@
 				<div>
 					<h6>${card.product.company}</h6>
 					<h5>${card.product.price}</h5>
-					<img src="#">&nbsp; 찜 12개
+					<h6 class="d-flex align-items-center">
+						<img id="heart" src="/static/img/empty-heart-icon.png" width="15px">
+						&nbsp; 찜 12개
+					</h6>
 				</div>
 				
 				<div class="ml-5">
-					<a href="/user/${card.user.loginId}"><h5>${card.user.name}</h5></a>
+					<h5><a href="/user/${card.user.loginId}">${card.user.name}</a></h5>
 					<span>추천 횟수: </span><br>
 					<span>거래 횟수: </span>
 				</div>
@@ -35,3 +38,34 @@
 	
 	<jsp:include page="../suggestion/recommend.jsp" />
 </div>
+
+
+<script>
+	$(document).ready(function() {
+		$("#heart").on("click", function() {
+			let productId = ${card.product.id};
+			console.log(productId);
+			
+			$.ajax({
+				type:"post"
+				,url:"/like"
+				,data:{"subjectId":productId, "type":"like"}
+			
+				,success:function(data) {
+					if (data.code == 200) {
+						location.reload();
+					}
+					else {
+						alert(data.error_message);
+						if (data.code == 300) {
+							location.href = "/log-in";
+						}
+					}
+				}
+				,error:function(request, status, error) {
+					alert("찜에 실패했습니다. 관리자에게 문의해주세요.");
+				}
+			});
+		});
+	});
+</script>

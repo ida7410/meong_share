@@ -1,4 +1,4 @@
-package com.ms.main.bo;
+package com.ms.main.domain;
 
 import lombok.Data;
 
@@ -14,7 +14,7 @@ public class Criteria {
 	
 	public Criteria() {
 		this.page = 1;
-		this.perPageNum = 8;
+		this.perPageNum = 3;
 	}
 	
 	public void setPage(int page) {

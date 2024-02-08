@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ms.main.domain.Card;
+import com.ms.main.domain.Criteria;
 import com.ms.product.bo.ProductBO;
 import com.ms.product.domain.Product;
 import com.ms.user.bo.UserBO;
@@ -35,49 +36,49 @@ public class MainBO {
 		return card;
 	}
 	
-	public List<Card> getCardByUserLoginId(String userLoginId, int page, int prevProductId) {
-		List<Card> cardList = new ArrayList<>();
-		
-		User user = userBO.getUserByLoginId(userLoginId);
-		int userId = user.getId();
-		List<Product> userProductList = productBO.getProductListByOwnerId(userId);
-		
-		for (Product product : userProductList) {
-			Card card = new Card();
-			
-			card.setProduct(product);
-			card.setUser(user);
-			
-			cardList.add(card);
-		}
-		
-		Collections.reverse(cardList);
-		
-		return cardList;
-	}
-	
-	public List<Card> getCardByKeyword(String keyword, int page, Criteria cri) {
-		List<Card> cardList = new ArrayList<>();
-		
-		int skip = (page - 1) * cri.getPerPageNum();
-		
-		List<Product> productList = productBO.getProductList(keyword, skip, cri.getPerPageNum());
-		
-		for (Product product : productList) {
-			Card card = new Card();
-			
-			User user = userBO.getUserById(product.getOwnerId());
-			
-			card.setProduct(product);
-			card.setUser(user);
-			
-			cardList.add(card);
-		}
-		
-		Collections.reverse(cardList);
-		
-		return cardList;
-	}
+//	public List<Card> getCardByUserLoginId(String userLoginId, int page, int prevProductId) {
+//		List<Card> cardList = new ArrayList<>();
+//		
+//		User user = userBO.getUserByLoginId(userLoginId);
+//		int userId = user.getId();
+//		List<Product> userProductList = productBO.getProductListByOwnerId(userId);
+//		
+//		for (Product product : userProductList) {
+//			Card card = new Card();
+//			
+//			card.setProduct(product);
+//			card.setUser(user);
+//			
+//			cardList.add(card);
+//		}
+//		
+//		Collections.reverse(cardList);
+//		
+//		return cardList;
+//	}
+//	
+//	public List<Card> getCardByKeyword(String keyword, int page, Criteria cri) {
+//		List<Card> cardList = new ArrayList<>();
+//		
+//		int skip = (page - 1) * cri.getPerPageNum();
+//		
+//		List<Product> productList = productBO.getProductList(keyword, skip, cri.getPerPageNum());
+//		
+//		for (Product product : productList) {
+//			Card card = new Card();
+//			
+//			User user = userBO.getUserById(product.getOwnerId());
+//			
+//			card.setProduct(product);
+//			card.setUser(user);
+//			
+//			cardList.add(card);
+//		}
+//		
+//		Collections.reverse(cardList);
+//		
+//		return cardList;
+//	}
 	
 	
 	public List<Card> getCardByUserLoginIdOrKeyword(String userLoginId, String keyword, int page, Criteria cri) {

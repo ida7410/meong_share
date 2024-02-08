@@ -1,4 +1,4 @@
-package com.ms.main.bo;
+package com.ms.main.domain;
 
 import lombok.Data;
 

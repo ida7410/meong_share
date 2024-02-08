@@ -30,6 +30,7 @@ footer {height: 100px;}
 
 /* product info */
 #product-desc {font-size:17px; white-space: pre-wrap; }
+#heart:hover {cursor:pointer;}
 
 /* suggestion */
 .recent-product:hover {background-color:gray; cursor:pointer;}

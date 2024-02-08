@@ -8,7 +8,7 @@
 			<img src="">
 		</div>
 		
-		<h3 class="font-weight-bold">${userName}</h3>
+		<h3 class="font-weight-bold">${userNickname}</h3>
 		<div>
 			<h5>거래 횟수: </h5>
 			<h5>추천 횟수: </h5>

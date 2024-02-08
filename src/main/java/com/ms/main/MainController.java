@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.ms.main.bo.Criteria;
 import com.ms.main.bo.MainBO;
-import com.ms.main.bo.PageMaker;
 import com.ms.main.domain.Card;
+import com.ms.main.domain.Criteria;
+import com.ms.main.domain.PageMaker;
 import com.ms.product.bo.ProductBO;
 import com.ms.product.domain.Product;
 import com.ms.user.bo.UserBO;
@@ -51,6 +51,9 @@ public class MainController {
 		if (page == null) {
 			page = 1;
 		}
+		if (keyword == null) {
+			keyword = null;
+		}
 		
 		int totalCount = productBO.getProductCount(keyword);
 		
@@ -66,7 +69,9 @@ public class MainController {
 		
 		model.addAttribute("viewName", "product/productSearch");
 		model.addAttribute("keyword", keyword);
-		model.addAttribute("keywordParam", "keyword=" + keyword);
+		if (keyword != null) {			
+			model.addAttribute("keywordParam", "keyword=" + keyword + "&");
+		}
 		model.addAttribute("cardList", cardList);
 		model.addAttribute("page", page);
 		model.addAttribute("pm", pm);
@@ -114,14 +119,14 @@ public class MainController {
 		
 		
 		List<Card> cardList = mainBO.getCardByUserLoginIdOrKeyword(userLoginId, null, (int)page, cri);
-		String userName = userBO.getUserByLoginId(userLoginId).getName();
+		String userNickame = userBO.getUserByLoginId(userLoginId).getNickname();
 		
 		model.addAttribute("viewName", "user/userInfo");
 		model.addAttribute("cardList", cardList);
 		model.addAttribute("keywordParam", "");
 		model.addAttribute("page", page);
 		model.addAttribute("pm", pm);
-		model.addAttribute("userName", userName);
+		model.addAttribute("userNickame", userNickame);
 		return "template/layout";
 	}
 	

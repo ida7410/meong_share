@@ -17,7 +17,7 @@
 				
 				<h7>1일 전</h7>
 				
-				<h6>${card.user.name}</h6>
+				<h6>${card.user.nickname}</h6>
 				<h6>${card.product.description}</h6>
 			</div>
 			</c:forEach>
@@ -25,7 +25,7 @@
 
 		<nav aria-label="Page navigation example">
 			<ul class="pagination justify-content-center">
-				<li id="prev-btn" class="page-item disabled">
+				<li id="prev-btn" class="page-item">
 					<a class="page-link" href="?${keywordParam}page=${pm.startPage-1}">Previous</a>
 				</li>
 				
@@ -43,7 +43,7 @@
 		
 
 <script>
-	$(document).on("click", function() {
+	$(document).ready(function() {
 		if (${pm.prev} == false) {
 			$("#prev-btn").addClass("disabled");
 		}
@@ -57,5 +57,6 @@
 		else {
 			$("#next-btn").removeClass("disabled");
 		}
-	})
+		
+	});
 </script>

@@ -9,6 +9,7 @@
 		(
 			`loginId`
 			,`password`
+			,`nickname`
 			,`name`
 			,`phoneNumber`
 			,`email`
@@ -19,6 +20,7 @@
 		(
 			#{id}
 			,#{password}
+			,#{nickname}
 			,#{name}
 			,#{phoneNumber}
 			,#{email}
@@ -32,6 +34,7 @@
 			`id`
 			,`loginId`
 			,`password`
+			,`nickname`
 			,`name`
 			,`phoneNumber`
 			,`email`
@@ -48,6 +51,7 @@
 			`id`
 			,`loginId`
 			,`password`
+			,`nickname`
 			,`name`
 			,`phoneNumber`
 			,`email`
@@ -64,6 +68,7 @@
 			`id`
 			,`loginId`
 			,`password`
+			,`nickname`
 			,`name`
 			,`phoneNumber`
 			,`email`
