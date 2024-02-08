@@ -56,12 +56,12 @@ public class MainBO {
 		return cardList;
 	}
 	
-	public List<Card> getCardByKeyword(String keyword, int page) {
+	public List<Card> getCardByKeyword(String keyword, int page, Criteria cri) {
 		List<Card> cardList = new ArrayList<>();
 		
-		int skip = page * CARD_LIMIT;
+		int skip = (page - 1) * cri.getPerPageNum();
 		
-		List<Product> productList = productBO.getProductList(keyword, skip, CARD_LIMIT);
+		List<Product> productList = productBO.getProductList(keyword, skip, cri.getPerPageNum());
 		
 		for (Product product : productList) {
 			Card card = new Card();

@@ -34,9 +34,13 @@ public class ProductBO {
 		product.setDescription(description);
 		product.setBoughtDate(boughtDate);
         
-        int rowCount = productMapper.insertProductByMap(product);
+        productMapper.insertProductByMap(product);
         int insertedProductId = product.getId();
         return insertedProductId;
+	}
+	
+	public int getProductCount(String keyword) {
+		return productMapper.selectProductCount(keyword);
 	}
 
 	public Product getProductById(int id) {
@@ -52,7 +56,6 @@ public class ProductBO {
 		List<Product> productList = null;
 		if (keyword != null) {
 			productList = productMapper.selectProductListByKeyword(keyword, skip, limit);
-			
 		}
 		else {			
 			productList = productMapper.selectProductList(skip, limit);
@@ -66,7 +69,7 @@ public class ProductBO {
 	}
 	
 	public List<Product> getThreeRandomProductList() {
-		int totalProductCount = productMapper.selectProductCount();
+		int totalProductCount = productMapper.selectProductCount(null);
 		List<Product> productList = new ArrayList<>();
 		
 		for (int i = 0; i < 3; i++) {

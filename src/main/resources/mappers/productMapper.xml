@@ -37,6 +37,11 @@
 			COUNT(*)
 		FROM
 			`product`
+		<if test="keyword != null">
+		WHERE
+			`company` = #{keyword}
+			OR `description` LIKE CONCAT('%', #{keyword}, '%')
+		</if>
 	</select>
 	
 	<select id="selectProductById" resultType="com.ms.product.domain.Product">

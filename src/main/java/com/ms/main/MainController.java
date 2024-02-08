@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.ms.main.bo.Criteria;
 import com.ms.main.bo.MainBO;
+import com.ms.main.bo.PageMaker;
 import com.ms.main.domain.Card;
 import com.ms.product.bo.ProductBO;
 import com.ms.product.domain.Product;
@@ -50,12 +52,23 @@ public class MainController {
 			page = 1;
 		}
 		
+		int totalCount = productBO.getProductCount(keyword);
+		
+		Criteria cri = new Criteria();
+		cri.setPage(page);
+		
+		PageMaker pm = new PageMaker();
+		pm.setCri(cri);
+		pm.setTotalCount(totalCount);
+		
 		// DB select
-		List<Card> cardList = mainBO.getCardByKeyword(keyword, (int)page);
+		List<Card> cardList = mainBO.getCardByKeyword(keyword, (int)page, cri);
 		
 		model.addAttribute("viewName", "product/productSearch");
 		model.addAttribute("keyword", keyword);
 		model.addAttribute("cardList", cardList);
+		model.addAttribute("page", page);
+		model.addAttribute("pm", pm);
 		return "template/layout";
 	}
 	

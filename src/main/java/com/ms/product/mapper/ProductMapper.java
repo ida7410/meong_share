@@ -12,7 +12,7 @@ public interface ProductMapper {
 	
     public int insertProductByMap(Product product);
     
-    public int selectProductCount();
+    public int selectProductCount(String keyword);
     
     public Product selectProductById(int id);
     
