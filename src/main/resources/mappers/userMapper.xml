@@ -43,6 +43,22 @@
 			`id` = #{id}
 	</select>
 	
+	<select id="selectUesrByLoginId" parameterType="String" resultType="com.ms.user.domain.User">
+		SELECT
+			`id`
+			,`loginId`
+			,`password`
+			,`name`
+			,`phoneNumber`
+			,`email`
+			,`createdAt`
+			,`updatedAt`
+		FROM
+			`user`
+		WHERE
+			`loginId` = #{loginId}
+	</select>
+	
 	<select id="selectUserByLoginIdPassword" parameterType="map" resultType="com.ms.user.domain.User">
 		SELECT
 			`id`

@@ -16,6 +16,8 @@ import com.ms.user.domain.User;
 @Service
 public class MainBO {
 	
+	private static final int CARD_LIMIT = 8;
+	
 	@Autowired
 	private ProductBO productBO;
 	
@@ -33,9 +35,33 @@ public class MainBO {
 		return card;
 	}
 	
-	public List<Card> getCardByKeyword(String keyword) {
+	public List<Card> getCardByUserLoginId(String userLoginId, int page, int prevProductId) {
 		List<Card> cardList = new ArrayList<>();
-		List<Product> productList = productBO.getProductList(keyword);
+		
+		User user = userBO.getUserByLoginId(userLoginId);
+		int userId = user.getId();
+		List<Product> userProductList = productBO.getProductListByOwnerId(userId);
+		
+		for (Product product : userProductList) {
+			Card card = new Card();
+			
+			card.setProduct(product);
+			card.setUser(user);
+			
+			cardList.add(card);
+		}
+		
+		Collections.reverse(cardList);
+		
+		return cardList;
+	}
+	
+	public List<Card> getCardByKeyword(String keyword, int page) {
+		List<Card> cardList = new ArrayList<>();
+		
+		int skip = page * CARD_LIMIT;
+		
+		List<Product> productList = productBO.getProductList(keyword, skip, CARD_LIMIT);
 		
 		for (Product product : productList) {
 			Card card = new Card();

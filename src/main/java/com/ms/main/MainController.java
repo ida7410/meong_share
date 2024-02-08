@@ -13,6 +13,7 @@ import com.ms.main.bo.MainBO;
 import com.ms.main.domain.Card;
 import com.ms.product.bo.ProductBO;
 import com.ms.product.domain.Product;
+import com.ms.user.bo.UserBO;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -24,6 +25,9 @@ public class MainController {
 	
 	@Autowired
 	private ProductBO productBO;
+	
+	@Autowired
+	private UserBO userBO;
 	
 	@GetMapping("/home")
 	public String home(Model model) {
@@ -39,10 +43,15 @@ public class MainController {
 	@GetMapping("/search")
 	public String search(
 			@RequestParam(name = "keyword", required = false) String keyword,
+			@RequestParam(value = "page", required = false) Integer page,
 			Model model) {
 		
+		if (page == null) {
+			page = 1;
+		}
+		
 		// DB select
-		List<Card> cardList = mainBO.getCardByKeyword(keyword);
+		List<Card> cardList = mainBO.getCardByKeyword(keyword, (int)page);
 		
 		model.addAttribute("viewName", "product/productSearch");
 		model.addAttribute("keyword", keyword);
@@ -71,8 +80,23 @@ public class MainController {
 	}
 	
 	@GetMapping("/user/{userLoginId}")
-	public String userInfo(Model model) {
+	public String userInfo(
+			@PathVariable("userLoginId") String userLoginId,
+			@RequestParam(value = "page", required = false) Integer page,
+			Model model) {
+		
+		if (page == null) {
+			page = 1;
+		}
+		
+		int prevProductId = page - 0;
+		
+		List<Card> cardList = mainBO.getCardByUserLoginId(userLoginId, (int)page, prevProductId);
+		String userName = userBO.getUserByLoginId(userLoginId).getName();
+		
 		model.addAttribute("viewName", "user/userInfo");
+		model.addAttribute("cardList", cardList);
+		model.addAttribute("userName", userName);
 		return "template/layout";
 	}
 	

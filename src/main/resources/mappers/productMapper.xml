@@ -57,6 +57,24 @@
 			`id` = #{id}
 	</select>
 	
+	<select id="selectProductListByOwnerId" parameterType="int" resultType="com.ms.product.domain.Product">
+		SELECT
+			`id`
+			,`ownerId`
+			,`name`
+			,`company`
+			,`price`
+			,`imagePath`
+			,`description`
+			,`boughtDate`
+			,`completed`
+			,`createdAt`
+		FROM
+			`product`
+		WHERE
+			`ownerId` = #{ownerId}
+	</select>
+	
 	<select id="selectProductList" resultType="com.ms.product.domain.Product">
 		SELECT
 			`id`
@@ -71,6 +89,8 @@
 			,`createdAt`
 		FROM
 			`product`
+		LIMIT
+			#{skip}, #{limit}
 	</select>
 	
 	<select id="selectProductListByKeyword" parameterType="String" resultType="com.ms.product.domain.Product">
@@ -90,6 +110,8 @@
 		WHERE
 			`company` = #{keyword}
 			OR `description` LIKE CONCAT('%', #{keyword}, '%')
+		LIMIT
+			#{skip}, #{limit}
 	</select>
 	
 	<select id="selectLatestThreeProductList" resultType="com.ms.product.domain.Product">
