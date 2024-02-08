@@ -62,10 +62,11 @@ public class MainController {
 		pm.setTotalCount(totalCount);
 		
 		// DB select
-		List<Card> cardList = mainBO.getCardByKeyword(keyword, (int)page, cri);
+		List<Card> cardList = mainBO.getCardByUserLoginIdOrKeyword(null, keyword, (int)page, cri);
 		
 		model.addAttribute("viewName", "product/productSearch");
 		model.addAttribute("keyword", keyword);
+		model.addAttribute("keywordParam", "keyword=" + keyword);
 		model.addAttribute("cardList", cardList);
 		model.addAttribute("page", page);
 		model.addAttribute("pm", pm);
@@ -102,13 +103,24 @@ public class MainController {
 			page = 1;
 		}
 		
-		int prevProductId = page - 0;
+		int totalCount = productBO.getProductCount(null);
+
+		Criteria cri = new Criteria();
+		cri.setPage(page);
 		
-		List<Card> cardList = mainBO.getCardByUserLoginId(userLoginId, (int)page, prevProductId);
+		PageMaker pm = new PageMaker();
+		pm.setCri(cri);
+		pm.setTotalCount(totalCount);
+		
+		
+		List<Card> cardList = mainBO.getCardByUserLoginIdOrKeyword(userLoginId, null, (int)page, cri);
 		String userName = userBO.getUserByLoginId(userLoginId).getName();
 		
 		model.addAttribute("viewName", "user/userInfo");
 		model.addAttribute("cardList", cardList);
+		model.addAttribute("keywordParam", "");
+		model.addAttribute("page", page);
+		model.addAttribute("pm", pm);
 		model.addAttribute("userName", userName);
 		return "template/layout";
 	}

@@ -63,6 +63,10 @@ public class ProductBO {
 		return productList;
 	}
 	
+	public List<Product> getProductListByOwnerIdOrKeyword(Integer ownerId, String keyword,  int skip, int limit) {
+		return productMapper.selectProductListByOwnerIdOrKeyword(ownerId, keyword, skip, limit);
+	}
+	
 	public List<Product> getLatestThreeProductList() {
 		List<Product> productList = productMapper.selectLatestThreeProductList();
 		return productList;

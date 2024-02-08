@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <div class="d-flex pt-5">
 	<nav class="side-nav navbar col-2 d-none">
@@ -51,64 +50,13 @@
 	</div>
 	
 	<div class="col-10">
-		
-		<div class="d-flex flex-wrap">
-			<c:forEach items="${cardList}" var="card">
-			<div class="product bg-primary col-3 p-3" data-product-id="${card.product.id}">
-				<!-- img -->
-				<div class="product-img-box w-100 bg-info mb-3">
-					<img src="${card.product.imagePath}" alt="" width="100%">
-				</div>
-				
-				<!-- title -->
-				<h4 class="font-weight-bold">${card.product.name}</h4>
-				
-				<h5>${card.product.price}원</h5>
-				
-				<h7>1일 전</h7>
-				
-				<h6>${card.user.name}</h6>
-				<h6>${card.product.description}</h6>
-			</div>
-			</c:forEach>
-		</div>
-
-		<nav aria-label="Page navigation example">
-			<ul class="pagination justify-content-center">
-				<li id="prev-btn" class="page-item disabled">
-					<a class="page-link" href="?page=${pm.startPage-1}">Previous</a>
-				</li>
-				
-				<c:forEach begin="${pm.startPage}" end="${pm.endPage}" var="pageNum">
-				<li class="page-item">
-					<a class="page-link" href="?page=${pageNum}">${pageNum}</a>
-				</li>
-				</c:forEach>
-				
-				<li id="next-btn" class="page-item">
-					<a class="page-link" href="?page=${pm.endPage+1}">Next</a>
-				</li>
-			</ul>
-		</nav>
+		<jsp:include page="productList.jsp" />
 	</div>
 </div>
 
 
 <script>
 	$(document).ready(function() {
-		if (${pm.prev} == false) {
-			$("#prev-btn").addClass("disabled");
-		}
-		else {
-			$("#prev-btn").removeClass("disabled");
-		}
-		
-		if (${pm.next} == false && ${pm.endPage} > 0) {
-			$("#next-btn").addClass("disabled");
-		}
-		else {
-			$("#next-btn").removeClass("disabled");
-		}
 		
 		$(".product").on("click", function() {
 			let productId = $(this).data("product-id");

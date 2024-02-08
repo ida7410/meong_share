@@ -44,6 +44,33 @@
 		</if>
 	</select>
 	
+	<select id="selectProductListByOwnerIdOrKeyword" parameterType="map" resultType="com.ms.product.domain.Product">
+		SELECT
+			`id`
+			,`ownerId`
+			,`name`
+			,`company`
+			,`price`
+			,`imagePath`
+			,`description`
+			,`boughtDate`
+			,`completed`
+			,`createdAt`
+		FROM
+			`product`
+		<if test="ownerId != null">
+		WHERE
+			`ownerId` = #{ownerId}
+		</if>
+		<if test="keyword != null">
+		WHERE
+			`company` = #{keyword}
+			OR `description` LIKE CONCAT('%', #{keyword}, '%')
+		</if>
+		LIMIT
+			#{skip}, #{limit}
+	</select>
+	
 	<select id="selectProductById" resultType="com.ms.product.domain.Product">
 		SELECT
 			`id`

@@ -79,4 +79,34 @@ public class MainBO {
 		return cardList;
 	}
 	
+	
+	public List<Card> getCardByUserLoginIdOrKeyword(String userLoginId, String keyword, int page, Criteria cri) {
+		Integer userId = null;
+		if (userLoginId != null) {
+			userId = userBO.getUserByLoginId(userLoginId).getId();
+		}
+		
+		List<Card> cardList = new ArrayList<>();
+		
+		int skip = (page - 1) * cri.getPerPageNum();
+		
+		
+		List<Product> productList = productBO.getProductListByOwnerIdOrKeyword(userId, keyword, skip, cri.getPerPageNum());
+		
+		for (Product product : productList) {
+			Card card = new Card();
+			
+			User user = userBO.getUserById(product.getOwnerId());
+			
+			card.setProduct(product);
+			card.setUser(user);
+			
+			cardList.add(card);
+		}
+		
+		Collections.reverse(cardList);
+		
+		return cardList;
+	}
+	
 }
