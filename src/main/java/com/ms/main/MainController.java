@@ -9,8 +9,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.ms.chat.chatList.bo.ChatListBO;
+import com.ms.chat.chatList.domain.ChatList;
+import com.ms.chat.chatMessage.bo.ChatMessageBO;
+import com.ms.chat.chatMessage.domain.ChatMessage;
 import com.ms.main.bo.MainBO;
 import com.ms.main.domain.Card;
+import com.ms.main.domain.ChatCard;
+import com.ms.main.domain.ChatListCard;
 import com.ms.main.domain.Criteria;
 import com.ms.main.domain.PageMaker;
 import com.ms.product.bo.ProductBO;
@@ -30,6 +36,12 @@ public class MainController {
 	
 	@Autowired
 	private UserBO userBO;
+	
+	@Autowired
+	private ChatListBO chatListBO;
+	
+	@Autowired
+	private ChatMessageBO chatMessageBO;
 	
 	@GetMapping("/home")
 	public String home(Model model) {
@@ -151,5 +163,36 @@ public class MainController {
 		
 		// redirect to login view
 		return "redirect:/home";
+	}
+	
+	@GetMapping("/chat")
+	public String chatList(HttpSession session) {
+		
+		// DB select (latest chat list)
+		ChatList latestChatList = chatListBO.getLatestChatListByUserId((Integer)session.getAttribute("userId"));
+		
+		return "redirect:chat/" + latestChatList.getId();
+	}
+	
+	@GetMapping("/chat/{chatListId}")
+	public String chatList(
+			@PathVariable("chatListId") Integer chatListId,
+			HttpSession session,
+			Model model) {
+		
+		Integer userId = (Integer)session.getAttribute("userId");
+		if (userId == null) {
+			return "redirect:/log-in";
+		}
+		
+		List<ChatListCard> clcList = mainBO.getChatListCard(chatListId, userId);
+		
+		ChatCard cc = mainBO.getChatCard(chatListId);
+		
+		model.addAttribute("viewName", "chat/chatList");
+		model.addAttribute("chatListCardList", clcList);
+		model.addAttribute("chatListId", chatListId);
+		model.addAttribute("chatCard", cc);
+		return "template/layout";
 	}
 }

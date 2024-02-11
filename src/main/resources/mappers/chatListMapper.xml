@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ms.chat.chatList.mapper.ChatListMapper">
+	<insert id="insertChatList" parameterType="com.ms.chat.chatList.domain.ChatList">
+		<selectKey keyProperty="id" resultType="int">
+       		SELECT LAST_INSERT_ID()
+   		</selectKey>
+   		INSERT INTO `chat_list`
+   		(
+			`productId`
+			,`ownerId`
+			,`buyerId`
+			,`createdAt`
+			,`updatedAt`
+   		)
+   		VALUES
+   		(
+			#{productId}
+			,#{ownerId}
+			,#{buyerId}
+			,NOW()
+			,NOW()
+   		)
+	</insert>
+	
+	<select id="selectChatListByProductIdOwnderIdBuyerId" parameterType="map" resultType="com.ms.chat.chatList.domain.ChatList">
+		SELECT
+			`id`
+			,`productId`
+			,`ownerId`
+			,`buyerId`
+			,`createdAt`
+			,`updatedAt`
+		FROM
+			`chat_list`
+		WHERE
+			`productId` = #{productId}
+			AND `ownerId` = #{ownerId}
+			AND `buyerId` = #{buyerId}
+	</select>
+	
+	<select id="selectChatListById" parameterType="int" resultType="com.ms.chat.chatList.domain.ChatList">
+		SELECT
+			`id`
+			,`productId`
+			,`ownerId`
+			,`buyerId`
+			,`createdAt`
+			,`updatedAt`
+		FROM
+			`chat_list`
+		WHERE
+			`id` = #{id}
+	</select>
+	
+	<select id="selectChatListListBySenderIdOrBuyerId" parameterType="int" resultType="com.ms.chat.chatList.domain.ChatList">
+		SELECT
+			`id`
+			,`productId`
+			,`ownerId`
+			,`buyerId`
+			,`createdAt`
+			,`updatedAt`
+		FROM
+			`chat_list`
+		WHERE
+			`ownerId` = #{userId}
+			OR `buyerId` = #{userId}
+		ORDER BY `updatedAt` DESC
+	</select>
+	
+	<select id="selectLatestChatListBySenderIdOrBuyerId" parameterType="int" resultType="com.ms.chat.chatList.domain.ChatList">
+		SELECT
+			`id`
+			,`productId`
+			,`ownerId`
+			,`buyerId`
+			,`createdAt`
+			,`updatedAt`
+		FROM
+			`chat_list`
+		WHERE
+			`ownerId` = #{userId}
+			OR `buyerId` = #{userId}
+		ORDER BY `updatedAt` DESC
+		LIMIT 1
+	</select>
+	
+	<update id="updateChatList" parameterType="map">
+		UPDATE
+			`chat_list`
+		SET
+			`updatedAt` = NOW()
+		WHERE
+			`productId` = #{productId}
+			AND `ownerId` = #{ownerId}
+			AND `buyerId` = #{buyerId}
+	</update>
+</mapper>

@@ -4,7 +4,7 @@
 
 <div class="d-flex h-100">
 	<div class="d-flex col-3 align-items-end">
-		<img src="#">
+		<img src="#" id="chat-btn">
 	</div>
 	<div class="d-flex col-6 align-items-end justify-content-center">
 		<div class="display-4">
@@ -27,3 +27,11 @@
 		</div>
 	</div>
 </div>
+
+<script>
+	$(document).ready(function() {
+		$("#chat-btn").on("click", function() {
+			location.href = "/chat";
+		})
+	})
+</script>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="com.ms.chat.chatMessage.mapper.ChatMessageMapper">
+	<insert id="insertChatMessage" parameterType="map">
+		INSERT INTO `chat_message` 
+		(
+			`chatListId`
+			,`senderId`
+			,`message`
+			,`createdAt`
+		)
+		VALUES
+		(
+			#{chatListId}
+			,#{senderId}
+			,#{message}
+			,NOW()
+		)
+	</insert>
+
+	<select id="selectLatestChatMessageByChatListId" parameterType="int">
+		SELECT
+			`id`
+			,`chatListId`
+			,`senderId`
+			,`message`
+			,`createdAt`
+		FROM
+			`chat_message`
+		WHERE
+			`chatListId` = #{chatListId}
+		ORDER BY `id` DESC
+		LIMIT 1
+	</select>
+	
+	<select id="selectChatMessageListByChatListId" parameterType="int">
+		SELECT
+			`id`
+			,`chatListId`
+			,`senderId`
+			,`message`
+			,`createdAt`
+		FROM
+			`chat_message`
+		WHERE
+			`chatListId` = #{chatListId}
+	</select>
+</mapper>

@@ -33,6 +33,8 @@
 				<br>
 				업로드: ${card.product.createdAt}
 			</div>
+			
+			<button type="button" id="start-chat-btn" class="btn btn-primary">문의하기</button>
 		</div>
 	</div>
 	
@@ -42,6 +44,32 @@
 
 <script>
 	$(document).ready(function() {
+		$("#start-chat-btn").on("click", function() {
+			let productId = ${card.product.id};
+			let ownerId = ${card.user.id};
+			
+			$.ajax({
+				type:"POST"
+				,url:"/chat/create"
+				,data:{"productId":productId, "ownerId":ownerId}
+			
+				,success:function(data) {
+					if (data.code == 200) {
+						location.href = "/chat/" + data.chatListId;
+					}
+					else {
+						alert(data.error_message);
+						if (data.code == 300) {
+							location.href = "/log-in";
+						}
+					}
+				}
+				,error:function(request, status, error) {
+					alert("채팅방 생성에 실패했습니다. 관리자에게 문의해주세요.");
+				}
+			})
+		});
+		
 		$("#heart").on("click", function() {
 			let productId = ${card.product.id};
 			console.log(productId);
