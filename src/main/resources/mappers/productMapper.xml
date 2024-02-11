@@ -58,14 +58,14 @@
 			,`createdAt`
 		FROM
 			`product`
-		<if test="ownerId != null">
 		WHERE
-			`ownerId` = #{ownerId}
+			`completed` = false
+		<if test="ownerId != null">
+			AND `ownerId` = #{ownerId}
 		</if>
 		<if test="keyword != null">
-		WHERE
-			`company` = #{keyword}
-			OR `description` LIKE CONCAT('%', #{keyword}, '%')
+			AND (`company` = #{keyword}
+			OR `description` LIKE CONCAT('%', #{keyword}, '%'))
 		</if>
 		LIMIT
 			#{skip}, #{limit}
