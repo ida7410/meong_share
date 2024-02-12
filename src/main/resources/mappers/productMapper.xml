@@ -32,15 +32,16 @@
 		)
 	</insert>
 	
-	<select id="selectProductCount" resultType="int">
+	<select id="selectProductCount" parameterType="map" resultType="int">
 		SELECT
 			COUNT(*)
 		FROM
 			`product`
 		<if test="keyword != null">
 		WHERE
-			`company` = #{keyword}
-			OR `description` LIKE CONCAT('%', #{keyword}, '%')
+			`completed` = #{completed}
+			AND (`company` LIKE CONCAT('%', #{keyword}, '%')
+			OR `description` LIKE CONCAT('%', #{keyword}, '%'))
 		</if>
 	</select>
 	
@@ -59,12 +60,12 @@
 		FROM
 			`product`
 		WHERE
-			`completed` = false
+			`completed` = #{completed}
 		<if test="ownerId != null">
 			AND `ownerId` = #{ownerId}
 		</if>
 		<if test="keyword != null">
-			AND (`company` = #{keyword}
+			AND (`company` LIKE CONCAT('%', #{keyword}, '%')
 			OR `description` LIKE CONCAT('%', #{keyword}, '%'))
 		</if>
 		LIMIT
@@ -89,7 +90,7 @@
 			`id` = #{id}
 	</select>
 	
-	<select id="selectProductListByOwnerId" parameterType="int" resultType="com.ms.product.domain.Product">
+	<!-- <select id="selectProductListByOwnerId" parameterType="int" resultType="com.ms.product.domain.Product">
 		SELECT
 			`id`
 			,`ownerId`
@@ -105,9 +106,9 @@
 			`product`
 		WHERE
 			`ownerId` = #{ownerId}
-	</select>
+	</select> -->
 	
-	<select id="selectProductList" resultType="com.ms.product.domain.Product">
+	<!-- <select id="selectProductList" resultType="com.ms.product.domain.Product">
 		SELECT
 			`id`
 			,`ownerId`
@@ -123,9 +124,9 @@
 			`product`
 		LIMIT
 			#{skip}, #{limit}
-	</select>
+	</select> -->
 	
-	<select id="selectProductListByKeyword" parameterType="String" resultType="com.ms.product.domain.Product">
+	<!-- <select id="selectProductListByKeyword" parameterType="String" resultType="com.ms.product.domain.Product">
 		SELECT
 			`id`
 			,`ownerId`
@@ -144,7 +145,7 @@
 			OR `description` LIKE CONCAT('%', #{keyword}, '%')
 		LIMIT
 			#{skip}, #{limit}
-	</select>
+	</select> -->
 	
 	<select id="selectLatestThreeProductList" resultType="com.ms.product.domain.Product">
 		SELECT
@@ -160,6 +161,8 @@
 			,`createdAt`
 		FROM
 			`product`
+		WHERE
+			`completed` = false
 		ORDER BY `id` DESC
 		LIMIT 3
 	</select>

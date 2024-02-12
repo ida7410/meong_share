@@ -67,7 +67,7 @@ public class MainController {
 			keyword = null;
 		}
 		
-		int totalCount = productBO.getProductCount(keyword);
+		int totalCount = productBO.getProductCount(keyword, false);
 		
 		Criteria cri = new Criteria();
 		cri.setPage(page);
@@ -120,7 +120,7 @@ public class MainController {
 			page = 1;
 		}
 		
-		int totalCount = productBO.getProductCount(null);
+		int totalCount = productBO.getProductCount(null, false);
 
 		Criteria cri = new Criteria();
 		cri.setPage(page);

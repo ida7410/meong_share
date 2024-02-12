@@ -99,7 +99,7 @@ public class MainBO {
 		int skip = (page - 1) * cri.getPerPageNum();
 		
 		
-		List<Product> productList = productBO.getProductListByOwnerIdOrKeyword(userId, keyword, skip, cri.getPerPageNum());
+		List<Product> productList = productBO.getProductListByOwnerIdOrKeyword(userId, keyword, skip, cri.getPerPageNum(), false);
 		
 		for (Product product : productList) {
 			Card card = new Card();

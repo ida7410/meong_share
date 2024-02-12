@@ -39,8 +39,8 @@ public class ProductBO {
         return insertedProductId;
 	}
 	
-	public int getProductCount(String keyword) {
-		return productMapper.selectProductCount(keyword);
+	public int getProductCount(String keyword, boolean completed) {
+		return productMapper.selectProductCount(keyword, completed);
 	}
 
 	public Product getProductById(int id) {
@@ -48,23 +48,21 @@ public class ProductBO {
 		return product;
 	}
 
-	public List<Product> getProductListByOwnerId(int ownerId) {
-		return productMapper.selectProductListByOwnerId(ownerId);
-	}
+	/*
+	 * public List<Product> getProductListByOwnerId(int ownerId) { return
+	 * productMapper.selectProductListByOwnerId(ownerId); }
+	 */
 	
-	public List<Product> getProductList(String keyword, int skip, int limit) {
-		List<Product> productList = null;
-		if (keyword != null) {
-			productList = productMapper.selectProductListByKeyword(keyword, skip, limit);
-		}
-		else {			
-			productList = productMapper.selectProductList(skip, limit);
-		}
-		return productList;
-	}
+	/*
+	 * public List<Product> getProductList(String keyword, int skip, int limit) {
+	 * List<Product> productList = null; if (keyword != null) { productList =
+	 * productMapper.selectProductListByKeyword(keyword, skip, limit); } else {
+	 * productList = productMapper.selectProductList(skip, limit); } return
+	 * productList; }
+	 */
 	
-	public List<Product> getProductListByOwnerIdOrKeyword(Integer ownerId, String keyword,  int skip, int limit) {
-		return productMapper.selectProductListByOwnerIdOrKeyword(ownerId, keyword, skip, limit);
+	public List<Product> getProductListByOwnerIdOrKeyword(Integer ownerId, String keyword,  int skip, int limit, boolean completed) {
+		return productMapper.selectProductListByOwnerIdOrKeyword(ownerId, keyword, skip, limit, completed);
 	}
 	
 	public List<Product> getLatestThreeProductList() {
@@ -73,7 +71,7 @@ public class ProductBO {
 	}
 	
 	public List<Product> getThreeRandomProductList() {
-		int totalProductCount = productMapper.selectProductCount(null);
+		int totalProductCount = productMapper.selectProductCount(null, false);
 		List<Product> productList = new ArrayList<>();
 		
 		for (int i = 0; i < 3; i++) {
