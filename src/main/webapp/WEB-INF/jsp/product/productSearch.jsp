@@ -3,13 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <div class="d-flex pt-5">
-	<nav class="side-nav navbar col-2 d-none">
-		<ul class="navbar-nav w-100">
-			<li class="nav-item"><a href="" class="nav-link"></a></li>
-		</ul>
-	</nav>
 	
-	<div class="col-2">
+	<div class="col-2 pl-4">
 		<h4 class="font-weight-bold">상품 검색</h4>
 		<form method="GET" action="/search">
 		<div class="input-group mb-5">

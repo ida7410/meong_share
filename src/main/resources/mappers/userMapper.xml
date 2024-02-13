@@ -80,4 +80,19 @@
 			`loginId` = #{loginId}
 			AND `password` = #{password}
 	</select>
+	
+	<update id="updateUser" parameterType="int">
+		UPDATE
+			`user`
+		SET
+			`loginId` = #{loginId}
+			,`password` = #{password}
+			,`nickname` = #{nickname}
+			,`name` = #{name}
+			,`phoneNumber` = #{phoneNumber}
+			,`email` = #{email}
+			,`updatedAt` = NOW()
+		WHERE
+			`id` = #{id}
+	</update>
 </mapper>

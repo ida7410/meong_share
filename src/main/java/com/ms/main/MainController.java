@@ -171,4 +171,10 @@ public class MainController {
 		model.addAttribute("chatCard", cc);
 		return "template/layout";
 	}
+
+	@GetMapping("/my-page")
+	public String myPage(Model model) {
+		model.addAttribute("viewName", "myPage/myPage");
+		return "template/layout";
+	}
 }

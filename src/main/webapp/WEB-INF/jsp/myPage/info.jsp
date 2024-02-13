@@ -1,15 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>
 
-<div class="p-4 d-flex justify-content-center w-100">
-	<div class="col-7">
-		<h2 class="text-center font-weight-bold my-5">회원가입</h2>
-		<jsp:include page="user.jsp" />
-		
-		<button id="sign-up-btn" type="button" class="btn btn-primary form-control mt-4">가입하기</button>
-	</div>
+<div class="col-8">
+	<jsp:include page="../user/user.jsp" />
+	<button id="update-info-btn" type="button" class="btn btn-primary form-control mt-4">가입하기</button>
 </div>
-
 
 <script>
 	$(document).ready(function() {
@@ -129,8 +124,8 @@
 			}
 		});
 		
-		$("#sign-up-btn").on("click", function() {
-			let id = $("#id").val().trim();
+		$("#update-info-btn").on("click", function() {
+			let loginId = $("#id").val().trim();
 			let password = $("#password").val().trim();
 			let passwordCheck = $("#passwordCheck").val().trim();
 			let nickname = $("#nickname").val().trim();
@@ -141,45 +136,32 @@
 			let phoneNumber = phoneNumberFirst + phoneNumberSecond + phoneNumberThird;
 			let email = $("#email").val().trim();
 			
-			if (!id) {
-				alert("아이디를 입력해주세요.");
-				return;
+			if (loginId) {
+				if (duplicateId) {
+					alert("아이디 중복 확인을 실행해주세요.");
+					return;
+				}
+				if (!idChecked) {
+					alert("사용 불가능한 아이디입니다.");
+					return;
+				}
 			}
-			if (duplicateId) {
-				alert("아이디 중복 확인을 실행해주세요.");
-				return;
-			}
-			if (!idChecked) {
-				alert("사용 불가능한 아이디입니다.");
-				return;
-			}
-			if (!password || !passwordCheck) {
-				alert("비밀번호를 입력해주세요.");
-				return;
-			}
-			if (!passwordChecked) {
+			
+			if ((password || passwordCheck) && !passwordChecked) {
 				alert("사용 불가능한 비밀번호입니다.");
 				return;
 			}
-			if (!nickname) {
-				alert("닉네임을 입력해주세요.");
-				return;
-			}
-			if (!name) {
-				alert("이름을 입력해주세요.");
-				return;
-			}
-			if (!phoneNumberFirst || !phoneNumberSecond || !phoneNumberThird) {
+			if ((phoneNumberSecond && !phoneNumberThird) || (!phoneNumberSecond && phoneNumberThird)) {
 				alert("전화번호를 입력해주세요.");
 				return;
 			}
-			if (!email) {
-				alert("이메일을 입력해주세요.");
-				return;
-			}
 			
+			if (!phoneNumberSecond && !phoneNumberThird) {
+				phoneNumber = "";
+			}
+			console.log()
 			let formData = new FormData();
-			formData.append("id", id);
+			formData.append("loginId", loginId);
 			formData.append("password", password);
 			formData.append("nickname", nickname);
 			formData.append("name", name);
@@ -188,7 +170,7 @@
 			
 			$.ajax({
 				type:"post"
-				,url:"/user/signUp"
+				,url:"/user/update"
 				,data:formData
 				, enctype:"multipart/form-data" // 파일 업로드를 위한 필수 설정
 					, processData:false // 파일 업로드를 위한 필수 설정
@@ -196,8 +178,14 @@
 				
 				,success:function(data) {
 					if (data.code == 200) {
-						alert("회원 가입에 성공했습니다! 로그인해주세요.");
-						location.href = "/log-in"
+						alert("회원 정보 수정에 성공했습니다.");
+						location.reload();
+					}
+					else {
+						alert(data.error_message);
+						if (data.code == 300) {
+							location.href = "/log-in"
+						}
 					}
 				}
 				,error:function(request, status, error) {

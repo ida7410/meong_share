@@ -21,6 +21,7 @@ public class WebMvcConfig implements WebMvcConfigurer{
         .addInterceptor(interceptor)
         .addPathPatterns("/add-product")
         .addPathPatterns("/chat")
+        .addPathPatterns("/my-page")
         ;
     }
     

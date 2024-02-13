@@ -33,4 +33,33 @@ public class UserBO {
 		return userMapper.selectUserByLoginIdPassword(loginId, password);
 	}
 	
+	public void updateUser(
+			int id, String loginId, String password, 
+			String nickname, String name,
+			String phoneNumber, String email) {
+		
+		User user = userMapper.selectUserById(id);
+		
+		if (loginId.equals("")) {
+			loginId = user.getLoginId();
+		}
+		if (password.equals("")) {
+			password = user.getPassword();
+		}
+		if (nickname.equals("")) {
+			nickname = user.getNickname();
+		}
+		if (name.equals("")) {
+			name = user.getName();
+		}
+		if (phoneNumber.equals("")) {
+			phoneNumber = user.getPhoneNumber();
+		}
+		if (email.equals("")) {
+			email = user.getEmail();
+		}
+		
+		userMapper.updateUser(id, loginId, password, nickname, name, phoneNumber, email);
+	}
+	
 }

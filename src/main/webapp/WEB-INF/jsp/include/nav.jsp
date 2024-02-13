@@ -6,6 +6,6 @@
 		<li class="nav-item"><a href="/search" class="nav-link py-3">상품검색</a></li>
 		<li class="nav-item"><a href="/add-product" class="nav-link py-3">상품등록</a></li>
 		<li class="nav-item"><a href="#" class="nav-link py-3">병원/약국</a></li>
-		<li class="nav-item"><a href="#" class="nav-link py-3">마이페이지</a></li>
+		<li class="nav-item"><a href="/my-page" class="nav-link py-3">마이페이지</a></li>
 	</ul>
 </div>

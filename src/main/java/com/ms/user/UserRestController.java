@@ -87,4 +87,31 @@ public class UserRestController {
 		return result;
 	}
 	
+	@PostMapping("/update")
+	public Map<String, Object> update(
+			@RequestParam(value = "loginId", required = false) String loginId,
+			@RequestParam(value = "password", required = false) String password,
+			@RequestParam(value = "nickname", required = false) String nickname,
+			@RequestParam(value = "name", required = false) String name,
+			@RequestParam(value = "phoneNumber", required = false) String phoneNumber,
+			@RequestParam(value = "email", required = false) String email,
+			HttpSession session) {
+
+		Map<String, Object> result = new HashMap<>();
+		
+		Integer userId = (Integer)session.getAttribute("userId");
+		if (userId == null) {
+			result.put("code", 300);
+			result.put("error_message", "세션이 만료되었습니다. 로그인해주세요.");
+			return result;
+		}
+		
+		// DB update
+		userBO.updateUser(userId, loginId, password, nickname, name, phoneNumber, email);
+
+		result.put("code", 200);
+		result.put("result", "success");
+		
+		return result;
+	}
 }
