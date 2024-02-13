@@ -171,7 +171,7 @@
 		UPDATE
 			`product`
 		SET
-			`completed` = false
+			`completed` = true
 		WHERE
 			`id` = #{productId}
 	</update>

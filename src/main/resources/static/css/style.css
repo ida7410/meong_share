@@ -51,5 +51,6 @@ h5 {margin:0}
 .chat-list:hover {cursor:pointer;}
 .chat {font-size:17px; border-radius: 20px;}
 #send-btn {font-size:18px;}
+#complete-trade-btn {border-radius:10px;}
 
 /* FOOTER */

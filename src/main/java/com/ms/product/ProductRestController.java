@@ -57,7 +57,7 @@ public class ProductRestController {
 	
 	@PutMapping("/complete/{productId}")
 	public Map<String, Object> complete(
-			@PathVariable("/productId") int productId) {
+			@PathVariable("productId") int productId) {
 
 		Map<String, Object> result = new HashMap<>();
 		

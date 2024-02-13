@@ -60,6 +60,29 @@
 			});
 		});
 		
+		$("#complete-trade-btn").on("click", function() {
+			let productId = ${chatCard.product.id};
+			console.log(productId)
+			
+			$.ajax({
+				type:"put"
+				,url:"/product/complete/" + productId
+				
+				,success:function(data) {
+					if (data.code == 200) {
+						alert("거래를 완료했습니다.");
+						location.reload();
+					}
+					else {
+						alert(data.error_message)
+					}
+				}
+				,error:function(request, status, error) {
+					alert("거래 완료 신청에 실패했습니다. 관리자에게 문의해주세요.")
+				}
+			})
+		})
+		
 		
 		$("#chat-input").on("keydown", function(key) {
 			if (key.keyCode == 13) {
