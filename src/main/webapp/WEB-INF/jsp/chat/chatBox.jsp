@@ -69,14 +69,11 @@
 	</c:if>
 </c:forEach>
 
-<c:if test="${chatCard.product.completed == true}">
+<c:if test="${chatCard.product.completed == true && userId != chatCard.product.ownerId}">
 	<div class="d-flex justify-content-center my-3 mt-4 text-center">
 		<div>
 			상품 거래가 완료되었습니다.<br>
-			거래는 어떠셨나요?
-			<c:if test="${userId == chatCard.product.ownerId}">${chatCard.buyer.nickname}</c:if>
-			<c:if test="${userId != chatCard.product.ownerId}">${chatCard.owner.nickname}</c:if>
-			님을 추천하시겠나요?
+			거래는 어떠셨나요? ${chatCard.buyer.nickname}님을 추천하시겠나요?
 			<br>
 			<div class="mt-2">
 				<a href="/like/create">예</a>
