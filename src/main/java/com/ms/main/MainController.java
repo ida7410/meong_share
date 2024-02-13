@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.ms.chat.chatList.bo.ChatListBO;
 import com.ms.chat.chatList.domain.ChatList;
 import com.ms.chat.chatMessage.bo.ChatMessageBO;
-import com.ms.chat.chatMessage.domain.ChatMessage;
 import com.ms.main.bo.MainBO;
 import com.ms.main.domain.Card;
 import com.ms.main.domain.ChatCard;
@@ -39,9 +38,6 @@ public class MainController {
 	
 	@Autowired
 	private ChatListBO chatListBO;
-	
-	@Autowired
-	private ChatMessageBO chatMessageBO;
 	
 	@GetMapping("/home")
 	public String home(Model model) {
@@ -142,34 +138,14 @@ public class MainController {
 		return "template/layout";
 	}
 	
-	@GetMapping("/log-in")
-	public String logIn(Model model) {
-		model.addAttribute("viewName", "user/logIn");
-		return "template/layout";
-	}
-	
-	@GetMapping("/sign-up")
-	public String signUp(Model model) {
-		model.addAttribute("viewName", "user/signUp");
-		return "template/layout";
-	}
-	
-	@GetMapping("/log-out")
-	public String signOut(HttpSession session) {
-		// session의 내용을 모두 비운다.
-		session.removeAttribute("userId");
-		session.removeAttribute("userLoginId");
-		session.removeAttribute("userName");
-		
-		// redirect to login view
-		return "redirect:/home";
-	}
-	
 	@GetMapping("/chat")
 	public String chatList(HttpSession session) {
 		
 		// DB select (latest chat list)
 		ChatList latestChatList = chatListBO.getLatestChatListByUserId((Integer)session.getAttribute("userId"));
+		if (latestChatList == null) {
+			return "redirect:/home";
+		}
 		
 		return "redirect:chat/" + latestChatList.getId();
 	}

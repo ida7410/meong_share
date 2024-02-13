@@ -20,6 +20,7 @@ public class WebMvcConfig implements WebMvcConfigurer{
         registry
         .addInterceptor(interceptor)
         .addPathPatterns("/add-product")
+        .addPathPatterns("/chat")
         ;
     }
     

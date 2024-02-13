@@ -51,10 +51,35 @@ public class UserRestController {
 		
 		// DB select
 		User user = userBO.getUserByLoginIdPassword(loginId, password);
+		if (user == null) {
+			result.put("code", 300);
+			result.put("error_message", "아이디/비밀번호가 일치하지 않습니다.");
+			return result;
+		}
 		
 		session.setAttribute("userId", user.getId());
 		session.setAttribute("userLoginId", user.getLoginId());
 		session.setAttribute("userName", user.getName());
+		
+		result.put("code", 200);
+		result.put("result", "success");
+		
+		return result;
+	}
+	
+	@PostMapping("/check-duplicated-id")
+	public Map<String, Object> checkDuplicatedId(
+			@RequestParam("id") String id) {
+		
+		Map<String, Object> result = new HashMap<>();
+		
+		User user = userBO.getUserByLoginId(id);
+		if (user == null) {
+			result.put("isDuplicateId", false);
+		}
+		else {
+			result.put("isDuplicateId", true);
+		}
 		
 		result.put("code", 200);
 		result.put("result", "success");

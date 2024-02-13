@@ -47,4 +47,6 @@ public interface ProductMapper {
 	
 	public List<Product> selectLatestThreeProductList();
 	
+	public void updateProductCopmletedByProductId(int productId);
+	
 }

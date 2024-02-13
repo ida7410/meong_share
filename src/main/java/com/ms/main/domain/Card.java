@@ -9,4 +9,6 @@ import lombok.Data;
 public class Card {
 	private Product product;
 	private User user;
+	private int likeCount;
+	private int recommendCount;
 }

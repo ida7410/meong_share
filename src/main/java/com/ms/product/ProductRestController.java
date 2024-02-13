@@ -4,7 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -49,6 +51,21 @@ public class ProductRestController {
 		result.put("code", 200);
 		result.put("result", "success");
 		result.put("insertedProductId", insertedProductId);
+		
+		return result;
+	}
+	
+	@PutMapping("/complete/{productId}")
+	public Map<String, Object> complete(
+			@PathVariable("/productId") int productId) {
+
+		Map<String, Object> result = new HashMap<>();
+		
+		// DB update
+		productBO.updateProductCopmletedByProductId(productId);
+		
+		result.put("code", 200);
+		result.put("result", "success");
 		
 		return result;
 	}

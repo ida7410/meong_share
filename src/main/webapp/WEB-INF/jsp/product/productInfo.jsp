@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <div class="p-5">
 	<div class="d-flex p-4 bg-danger">
@@ -15,13 +16,13 @@
 					<h5>${card.product.price}</h5>
 					<h6 class="d-flex align-items-center">
 						<img id="heart" src="/static/img/empty-heart-icon.png" width="15px">
-						&nbsp; 찜 12개
+						&nbsp; 찜 ${card.likeCount}개
 					</h6>
 				</div>
 				
 				<div class="ml-5">
 					<h5><a href="/user/${card.user.loginId}">${card.user.name}</a></h5>
-					<span>추천 횟수: </span><br>
+					<span>추천 횟수: ${card.recommendCount }</span><br>
 					<span>거래 횟수: </span>
 				</div>
 			</div>
@@ -34,7 +35,9 @@
 				업로드: ${card.product.createdAt}
 			</div>
 			
+			<c:if test="${userId ne card.user.id}">
 			<button type="button" id="start-chat-btn" class="btn btn-primary">문의하기</button>
+			</c:if>
 		</div>
 	</div>
 	
@@ -50,7 +53,7 @@
 			
 			$.ajax({
 				type:"POST"
-				,url:"/chat/create"
+				,url:"/chat/chatList/create"
 				,data:{"productId":productId, "ownerId":ownerId}
 			
 				,success:function(data) {

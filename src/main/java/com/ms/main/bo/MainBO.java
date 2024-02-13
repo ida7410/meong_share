@@ -11,6 +11,7 @@ import com.ms.chat.chatList.bo.ChatListBO;
 import com.ms.chat.chatList.domain.ChatList;
 import com.ms.chat.chatMessage.bo.ChatMessageBO;
 import com.ms.chat.chatMessage.domain.ChatMessage;
+import com.ms.like.bo.LikeBO;
 import com.ms.main.domain.Card;
 import com.ms.main.domain.ChatCard;
 import com.ms.main.domain.ChatListCard;
@@ -32,6 +33,9 @@ public class MainBO {
 	private UserBO userBO;
 	
 	@Autowired
+	private LikeBO likeBO;
+	
+	@Autowired
 	private ChatListBO chatListBO;
 
 	@Autowired
@@ -41,10 +45,14 @@ public class MainBO {
 	public Card getCardByProductId(int productId) {
 		Product product = productBO.getProductById(productId);
 		User user = userBO.getUserById(product.getOwnerId());
+		int likeCount = likeBO.getLikeCountBySubjectIdType(product.getId(), "like");
+		int recommendCount = likeBO.getLikeCountBySubjectIdType(user.getId(), "recommend");
 		
 		Card card = new Card();
 		card.setProduct(product);
 		card.setUser(user);
+		card.setLikeCount(likeCount);
+		card.setRecommendCount(recommendCount);
 		
 		return card;
 	}
@@ -127,7 +135,7 @@ public class MainBO {
 			
 			Product product = productBO.getProductById(cl.getProductId());
 			
-			ChatMessage latestCM = chatMessageBO.getLatestChatMessageByChatListId(chatListId);
+			ChatMessage latestCM = chatMessageBO.getLatestChatMessageByChatListId(cl.getId());
 			
 			clc.setCl(cl);
 			clc.setProduct(product);

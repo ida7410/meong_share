@@ -12,7 +12,7 @@ public class LikeBO {
 	private LikeMapper likeMapper;
 	
 	public void addLike(int subjectId, int userId, String type) {
-		boolean isAlreadyLiked = likeMapper.selectLikeCount(subjectId, userId, type) > 0;
+		boolean isAlreadyLiked = likeMapper.selectLikeCountBySubjectIdUserIdType(subjectId, userId, type) > 0;
 		
 		if (isAlreadyLiked) {
 			likeMapper.deleteLike(subjectId, userId, type);
@@ -22,8 +22,8 @@ public class LikeBO {
 		}
 	}
 	
-	public int getLikeCount(int subjectId, int userId, String type) {
-		return likeMapper.selectLikeCount(subjectId, userId, type);
+	public int getLikeCountBySubjectIdType(int subjectId, String type) {
+		return likeMapper.selectLikeCountBySubjectIdType(subjectId, type);
 	}
 	
 }

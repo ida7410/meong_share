@@ -6,35 +6,38 @@
 		<h2 class="text-center font-weight-bold my-5">회원가입</h2>
 
 		<div class="d-flex mb-3">
-			<h5 class="font-weight-bold col-3">아이디</h5>
-			<input type="text" id="id" class="form-control col-5">
+			<h5 class="font-weight-bold col-3 d-flex align-items-center">아이디</h5>
+			<div class="id-check-group col-5 p-0">
+				<input type="text" id="id" class="form-control">
+				<button type="button" id="check-dup-btn" class="btn btn-info py-1 px-2">중복확인</button>
+			</div>
 			<div id="id-desc" class="small d-flex align-items-center pl-3"></div>
 		</div>
 
 		<div class="d-flex mb-3">
-			<h5 class="font-weight-bold col-3">비밀번호</h5>
+			<h5 class="font-weight-bold col-3 d-flex align-items-center">비밀번호</h5>
 			<input type="password" id="password" class="form-control col-5">
 			<div id="pw-desc" class="small d-flex align-items-center pl-3"></div>
 		</div>
 
 		<div class="d-flex mb-3">
-			<h5 class="font-weight-bold col-3">비밀번호 확인</h5>
+			<h5 class="font-weight-bold col-3 d-flex align-items-center">비밀번호 확인</h5>
 			<input type="password" id="passwordCheck" class="form-control col-5">
 			<div id="pwc-desc" class="small d-flex align-items-center pl-3"></div>
 		</div>
 
 		<div class="d-flex mb-3">
-			<h5 class="font-weight-bold col-3">닉네임</h5>
+			<h5 class="font-weight-bold col-3 d-flex align-items-center">닉네임</h5>
 			<input type="text" id="nickname" class="form-control col-5">
 		</div>
 
 		<div class="d-flex mb-3">
-			<h5 class="font-weight-bold col-3">이름</h5>
+			<h5 class="font-weight-bold col-3 d-flex align-items-center">이름</h5>
 			<input type="text" id="name" class="form-control col-5">
 		</div>
 
 		<div class="d-flex mb-3">
-			<h5 class="font-weight-bold col-3">전화번호</h5>
+			<h5 class="font-weight-bold col-3 d-flex align-items-center">전화번호</h5>
 			<div class="d-flex justify-content-between col-5 p-0 ">
 				<select id="phone-number-first" class="form-control col-3 mr-2">
 					<option selected>010</option>
@@ -48,7 +51,7 @@
 		</div>
 
 		<div class=" d-flex mb-3">
-			<h5 class="font-weight-bold col-3">이메일</h5>
+			<h5 class="font-weight-bold col-3 d-flex align-items-center">이메일</h5>
 			<input type="text" id="email" name="email" class="form-control col-5">
 		</div>
 
@@ -59,11 +62,11 @@
 
 <script>
 	$(document).ready(function() {
-		let duplicateId = false;
+		let duplicateId = true;
 		let idChecked = false;
 		let passwordReg = false;
 		let passwordChecked = false;
-        
+		
 		$("#id").on("input", function() {
 			let id = $(this).val();
 	
@@ -75,20 +78,46 @@
 				$("#id-desc").addClass("text-danger");
 				
 				idChecked = false;
+				return;
 			}
 			
-			if (!duplicatedId) {
+			if (!idChecked) {
 				$("#id-desc").text("아이디 중복 확인을 실행해주세요.");
 				$("#id-desc").addClass("text-danger");
 				
 				idChecked = false;
+				return;
 			}
-			else {
-				$("#id-desc").text("사용 가능한 아이디입니다.");
-				$("#id-desc").addClass("text-success");
+			
+		});
+		
+		$("#check-dup-btn").on("click", function() {
+			let id = $("#id").val().trim();
+			
+			$.ajax({
+				type:"post"
+				,url:"/user/check-duplicated-id"
+				,data:{"id":id}
 				
-				idChecked = true;
-			}
+				,success:function(data) {
+					if (data.code == 200) {
+						duplicateId = data.isDuplicateId;
+						if (!duplicateId){
+							$("#id-desc").text("사용 가능한 아이디입니다.");
+							$("#id-desc").removeClass("text-danger");
+							$("#id-desc").addClass("text-success");
+							
+							idChecked = true;
+						}
+					}
+					else {
+						alert(data.error_message);
+					}
+				}
+				,error:function(request, status, error) {
+					alert("아이디 중복 확인에 실패했습니다. 관리자에게 문의해주세요.")
+				}
+			})
 		});
 		
 		$("#password").on("input", function() {
@@ -97,7 +126,7 @@
 	        
 	        $("#pw-desc").removeClass("text-danger");
 	        $("#pw-desc").removeClass("text-success");
-	        $("#passwordCheck").text("");
+	        $("#passwordCheck").val("");
 			
 	        if (pw.length < 8) {
 	        	$("#pw-desc").text("비밀번호를 8자 이상 입력해주세요.");
@@ -115,10 +144,11 @@
 	        }
 	        
 	        if (!reg.test(pw)) {
-	        	$("#pw-desc").text("비밀번호는 숫자/대문자/소문자/특수문자를 모두 포함해야 합니다.");
+	        	$("#pw-desc").text("비밀번호는 숫자/대문자/소문자/특수문자를 포함해야 합니다.");
 	        	$("#pw-desc").addClass("text-danger");
 	        	
 	        	passwordReg = false;
+	        	return;
 	        } else {
 	        	$("#pw-desc").text("사용 가능한 비밀번호입니다.");
 	        	$("#pw-desc").addClass("text-success");
@@ -164,16 +194,20 @@
 				alert("아이디를 입력해주세요.");
 				return;
 			}
-			if (!duplicatedId) {
+			if (duplicateId) {
 				alert("아이디 중복 확인을 실행해주세요.");
 				return;
 			}
-			if (!idChekced) {
+			if (!idChecked) {
 				alert("사용 불가능한 아이디입니다.");
 				return;
 			}
 			if (!password || !passwordCheck) {
 				alert("비밀번호를 입력해주세요.");
+				return;
+			}
+			if (!passwordChecked) {
+				alert("사용 불가능한 비밀번호입니다.");
 				return;
 			}
 			if (!nickname) {

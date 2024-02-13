@@ -166,4 +166,13 @@
 		ORDER BY `id` DESC
 		LIMIT 3
 	</select>
+	
+	<update id="updateProductCopmletedByProductId" parameterType="int">
+		UPDATE
+			`product`
+		SET
+			`completed` = false
+		WHERE
+			`id` = #{productId}
+	</update>
 </mapper>

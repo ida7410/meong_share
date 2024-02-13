@@ -11,9 +11,13 @@ public interface LikeMapper {
 			@Param("userId") int userId,
 			@Param("type") String type);
 	
-	public int selectLikeCount(
+	public int selectLikeCountBySubjectIdUserIdType(
 			@Param("subjectId") int subjectId,
 			@Param("userId") int userId,
+			@Param("type") String type);
+	
+	public int selectLikeCountBySubjectIdType(
+			@Param("subjectId") int subjectId,
 			@Param("type") String type);
 	
 	public void deleteLike(

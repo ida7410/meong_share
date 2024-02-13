@@ -6,7 +6,7 @@
 	<div class="col-3 chat-list-box bg-primary p-0">
 	<c:forEach items="${chatListCardList}" var="chatListCard">
 		<div class="chat-list d-flex bg-info py-3" data-chat-list-id="${chatListCard.cl.id}">
-			<div class=" col-3">
+			<div class="col-3">
 				<img src="${chatListCard.product.imagePath}" width="100%">
 			</div>
 			<div class="col-9">
@@ -18,47 +18,7 @@
 	</div>
 
 	<div id="chat-box" class="col-9 px-4 pb-4">
-		<div class="bg-primary d-flex justify-content-center text-center py-3">
-			<div class="col-3">
-				<div>
-					<img src="${chatCard.product.imagePath}" width="100%">
-				</div>
-				<h5 class="font-weight-bold mt-3">${chatCard.product.name}</h5>
-				
-				<h5>
-				<c:if test="${userId == chatCard.product.ownerId}">
-					<a href="/user/${chatCard.buyer.loginId}">${chatCard.buyer.nickname}</a>
-				</c:if>
-				<c:if test="${userId != chatCard.product.ownerId}">
-					<a href="/user/${chatCard.owner.loginId}">${chatCard.owner.nickname}</a>
-				</c:if>
-				</h5>
-				
-			</div>
-		</div>
-
-		<div id="chat-area-box" data-chat-list-id="" class="py-4">
-		<c:forEach items="${chatCard.cml}" var="chatMessage">
-			<c:if test="${chatMessage.senderId ne userId}">
-			<div class="chat-area d-flex pb-2">
-				<div class="chat bg-danger p-3 px-4">${chatMessage.message}</div>
-			</div>
-			</c:if>
-			
-			<c:if test="${chatMessage.senderId eq userId}">
-			<div class="chat-area d-flex justify-content-end pb-2">
-				<div class="chat my-chat bg-primary p-3 px-4">${chatMessage.message}</div>
-			</div>
-			</c:if>
-		</c:forEach>
-		</div>
-
-		<div id="chat-input-box" class="input-group input-group-lg">
-			<input type="text" id="chat-input" class="form-control">
-			<div class="input-group-append">
-				<button type="button" id="send-btn" class="btn btn-light">전송</button>
-			</div>
-		</div>
+		<jsp:include page="chatBox.jsp" />
 	</div>
 </div>
 
@@ -71,6 +31,35 @@
 			let getChatListId = $(this).data("chat-list-id");
 			location.href = "/chat/" + getChatListId;
 		})
+		
+		$("#end-trade-btn").on("click", function() {
+			let productId = ${chatCard.product.id};
+			
+			let buyerId = ${chatCard.buyer.id};
+			let ownerId = ${chatCard.owner.id};
+			
+			$.ajax({
+				type:"post"
+				,url:"/chat/chatMessage/send"
+				,data:{"chatListId":chatListId, "message":"거래를 완료하시겠습니까?"}
+				
+				,success:function(data) {
+					if (data.code == 200) {
+						location.reload();
+					}
+					else {
+						alert(data.error_message);
+						if (data.code == 300) {
+							location.href = "/log-in";
+						}
+					}
+				}
+				,error:function(request, status, error) {
+					alert("채팅 전송에 실패했습니다. 관리자에게 문의해주세요.");
+				}
+			});
+		});
+		
 		
 		$("#chat-input").on("keydown", function(key) {
 			if (key.keyCode == 13) {

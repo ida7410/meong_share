@@ -84,6 +84,8 @@ public class ProductBO {
 		return productList;
 	}
 	
-	
+	public void updateProductCopmletedByProductId(int productId) {
+		productMapper.updateProductCopmletedByProductId(productId);
+	}
 	
 }

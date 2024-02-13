@@ -41,12 +41,15 @@ footer {height: 100px;}
 #mv-sign-up-btn {margin-bottom:100px;}
 
 /* sign up */
+h5 {margin:0}
+.id-check-group { position: relative; display: inline-block; width: 50%;}
+#check-dup-btn {font-size:13px; position: absolute; right: 5px; top: 5px;}
 #sign-up-btn {margin-bottom:100px; font-size:17px; height:45px;}
 
 /* chat */
 .chat-list {font-size:20px;}
 .chat-list:hover {cursor:pointer;}
-.chat {font-size:20px; border-radius: 20px;}
+.chat {font-size:17px; border-radius: 20px;}
 #send-btn {font-size:18px;}
 
 /* FOOTER */

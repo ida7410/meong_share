@@ -20,7 +20,7 @@
 		)
 	</insert>
 	
-	<select id="selectLikeCount" parameterType="map" resultType="int">
+	<select id="selectLikeCountBySubjectIdUserIdType" parameterType="map" resultType="int">
 		SELECT
 			COUNT(*)
 		FROM
@@ -28,6 +28,16 @@
 		WHERE
 			`subjectId` = #{subjectId}
 			AND `userId` = #{userId}
+			AND `type` = #{type}
+	</select>
+	
+	<select id="selectLikeCountBySubjectIdType" parameterType="map" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			`like`
+		WHERE
+			`subjectId` = #{subjectId}
 			AND `type` = #{type}
 	</select>
 	
