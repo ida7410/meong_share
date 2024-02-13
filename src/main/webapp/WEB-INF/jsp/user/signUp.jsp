@@ -8,33 +8,32 @@
 		<div class="d-flex mb-3">
 			<h5 class="font-weight-bold col-3">아이디</h5>
 			<input type="text" id="id" class="form-control col-5">
-			<small id="id-desc" class="d-flex align-items-center pl-3">아이디를 4자 이상 입력해주세요.</small>
+			<div id="id-desc" class="small d-flex align-items-center pl-3"></div>
 		</div>
 
-		<div class=" d-flex mb-3">
+		<div class="d-flex mb-3">
 			<h5 class="font-weight-bold col-3">비밀번호</h5>
 			<input type="password" id="password" class="form-control col-5">
-			<small id="pw-desc" class="d-flex align-items-center pl-3">대문자 소문자 특수문자 추가</small>
+			<div id="pw-desc" class="small d-flex align-items-center pl-3"></div>
 		</div>
 
-		<div class=" d-flex mb-3">
+		<div class="d-flex mb-3">
 			<h5 class="font-weight-bold col-3">비밀번호 확인</h5>
 			<input type="password" id="passwordCheck" class="form-control col-5">
-			<small id="pwc-desc" class="d-flex align-items-center pl-3">비밀번호가 일치하지 않습니다.</small>
+			<div id="pwc-desc" class="small d-flex align-items-center pl-3"></div>
 		</div>
 
-		<div class=" d-flex mb-3">
+		<div class="d-flex mb-3">
 			<h5 class="font-weight-bold col-3">닉네임</h5>
 			<input type="text" id="nickname" class="form-control col-5">
-			<small id="pwc-desc" class="d-flex align-items-center pl-3">비밀번호가 일치하지 않습니다.</small>
 		</div>
 
-		<div class=" d-flex mb-3">
+		<div class="d-flex mb-3">
 			<h5 class="font-weight-bold col-3">이름</h5>
 			<input type="text" id="name" class="form-control col-5">
 		</div>
 
-		<div class=" d-flex mb-3">
+		<div class="d-flex mb-3">
 			<h5 class="font-weight-bold col-3">전화번호</h5>
 			<div class="d-flex justify-content-between col-5 p-0 ">
 				<select id="phone-number-first" class="form-control col-3 mr-2">
@@ -60,6 +59,95 @@
 
 <script>
 	$(document).ready(function() {
+		let duplicateId = false;
+		let idChecked = false;
+		let passwordReg = false;
+		let passwordChecked = false;
+        
+		$("#id").on("input", function() {
+			let id = $(this).val();
+	
+	        $("#id-desc").removeClass("text-danger");
+	        $("#id-desc").removeClass("text-success");
+			
+			if (id.length < 4) {
+				$("#id-desc").text("아이디를 4자 이상 입력해주세요.");
+				$("#id-desc").addClass("text-danger");
+				
+				idChecked = false;
+			}
+			
+			if (!duplicatedId) {
+				$("#id-desc").text("아이디 중복 확인을 실행해주세요.");
+				$("#id-desc").addClass("text-danger");
+				
+				idChecked = false;
+			}
+			else {
+				$("#id-desc").text("사용 가능한 아이디입니다.");
+				$("#id-desc").addClass("text-success");
+				
+				idChecked = true;
+			}
+		});
+		
+		$("#password").on("input", function() {
+	        let pw = $("#password").val();
+	        let reg = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
+	        
+	        $("#pw-desc").removeClass("text-danger");
+	        $("#pw-desc").removeClass("text-success");
+	        $("#passwordCheck").text("");
+			
+	        if (pw.length < 8) {
+	        	$("#pw-desc").text("비밀번호를 8자 이상 입력해주세요.");
+	        	$("#pw-desc").addClass("text-danger");
+	        	
+	        	passwordReg = false;
+	        	return;
+	        }
+	        if (pw.search(/\s/) != -1) {
+	        	$("#pw-desc").text("비밀번호는 공백 없이 입력해주세요.");
+	        	$("#pw-desc").addClass("text-danger");
+	        	
+	        	passwordReg = false;
+	            return;
+	        }
+	        
+	        if (!reg.test(pw)) {
+	        	$("#pw-desc").text("비밀번호는 숫자/대문자/소문자/특수문자를 모두 포함해야 합니다.");
+	        	$("#pw-desc").addClass("text-danger");
+	        	
+	        	passwordReg = false;
+	        } else {
+	        	$("#pw-desc").text("사용 가능한 비밀번호입니다.");
+	        	$("#pw-desc").addClass("text-success");
+	        	
+	        	passwordReg = true;
+	        }
+		});
+		
+		$("#passwordCheck").on("input", function() {
+			let pw = $("#password").val();
+			let pwc = $(this).val();
+			
+			$("#pwc-desc").removeClass("text-danger");
+			
+			if (pw != pwc) {
+				$("#pwc-desc").text("비밀번호가 일치하지 않습니다.");
+				$("#pwc-desc").addClass("text-danger");
+				
+				passwordChecked = false;
+				return;
+			}
+			else if (passwordReg){
+				$("#pwc-desc").text("");
+				$("#pwc-desc").removeClass("text-danger");
+				
+				passwordChecked = true;
+			}
+		});
+		
 		$("#sign-up-btn").on("click", function() {
 			let id = $("#id").val().trim();
 			let password = $("#password").val().trim();
@@ -74,6 +162,14 @@
 			
 			if (!id) {
 				alert("아이디를 입력해주세요.");
+				return;
+			}
+			if (!duplicatedId) {
+				alert("아이디 중복 확인을 실행해주세요.");
+				return;
+			}
+			if (!idChekced) {
+				alert("사용 불가능한 아이디입니다.");
 				return;
 			}
 			if (!password || !passwordCheck) {
