@@ -5,7 +5,7 @@
 <h3 class="font-weight-bold mt-4 p-2">가장 최근 올라온 물품</h3>
 <div class="recent-product-box d-flex bg-danger">
 	<c:forEach items="${recentProductList}" var="product">
-	<div class="recent-product d-flex col-4 p-3" data-product-id="${product.id}">
+	<div class="recent-product d-flex col-4 p-3 pointer" data-product-id="${product.id}">
 		<div class="product-img col-3 bg-warning p-0">
 			<img src="${product.imagePath}" alt="" width="100%">
 		</div>

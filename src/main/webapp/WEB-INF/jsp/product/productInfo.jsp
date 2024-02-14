@@ -15,7 +15,7 @@
 					<h6>${card.product.company}</h6>
 					<h5>${card.product.price}</h5>
 					<h6 class="d-flex align-items-center">
-						<img id="heart" src="/static/img/empty-heart-icon.png" width="15px">
+						<img id="heart" src="/static/img/empty-heart-icon.png" width="15px" class="pointer">
 						&nbsp; 찜 ${card.likeCount}개
 					</h6>
 				</div>

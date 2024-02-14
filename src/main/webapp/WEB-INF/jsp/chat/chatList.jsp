@@ -5,7 +5,7 @@
 <div class="d-flex">
 	<div class="col-3 chat-list-box bg-primary p-0">
 	<c:forEach items="${chatListCardList}" var="chatListCard">
-		<div class="chat-list d-flex bg-info py-3" data-chat-list-id="${chatListCard.cl.id}">
+		<div class="chat-list d-flex bg-info py-3 pointer" data-chat-list-id="${chatListCard.cl.id}">
 			<div class="col-3">
 				<img src="${chatListCard.product.imagePath}" width="100%">
 			</div>
@@ -41,7 +41,7 @@
 			$.ajax({
 				type:"post"
 				,url:"/chat/chatMessage/send"
-				,data:{"chatListId":chatListId, "message":"거래를 완료하시겠습니까?"}
+				,data:{"chatListId":chatListId, "message":"거래완료신청"}
 				
 				,success:function(data) {
 					if (data.code == 200) {
@@ -60,7 +60,8 @@
 			});
 		});
 		
-		$("#complete-trade-btn").on("click", function() {
+		$(".complete-trade-btn").on("click", function() {
+			alert("click")
 			let productId = ${chatCard.product.id};
 			console.log(productId)
 			
@@ -83,6 +84,34 @@
 			})
 		})
 		
+		$("#recommend").on("click", function() {
+			let subjectId = ${chatCard.owner.id};
+			
+			$.ajax ({
+				type:"post"
+				,url:"/like"
+				,data:{"subjectId":subjectId, "type":"recommend"}
+				
+				,success:function(data) {
+					if (data.code == 200) {
+						$("#recommend-box").text("상대를 추천했습니다.")
+					}
+					else {
+						alert(data.error_message);
+						if (data.code == 300) {
+							location.href = "/log-in";
+						}
+					}
+				}
+				,error:function(request, status, error) {
+					alert("사용자 추천에 실패했습니다. 관리자에게 문의해주세요.");
+				}
+			})
+		});
+		
+		$("#not-recommend").on("click", function() {
+			
+		})
 		
 		$("#chat-input").on("keydown", function(key) {
 			if (key.keyCode == 13) {

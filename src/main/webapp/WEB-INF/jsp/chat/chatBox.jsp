@@ -19,7 +19,7 @@
 			</c:if>
 		</h6>
 		
-		<c:if test="${userId == chatCard.product.ownerId}">
+		<c:if test="${userId == chatCard.product.ownerId && chatCard.product.completed == false}">
 		<button type="button" id="end-trade-btn" class="btn btn-primary">거래완료</button>
 		</c:if>
 	</div>
@@ -37,7 +37,7 @@
 				<c:if test="${chatCard.product.completed == false}">
 				<div>
 					거래를 완료하시겠습니까?<br>
-					<button type="button" id="complete-trade-btn" class="form-control mt-1  btn btn-primary">거래 완료</button>
+					<button type="button" class="complete-trade-btn form-control mt-1  btn btn-primary">거래 완료</button>
 				</div>
 				</c:if>
 				
@@ -71,14 +71,14 @@
 
 <c:if test="${chatCard.product.completed == true && userId != chatCard.product.ownerId}">
 	<div class="d-flex justify-content-center my-3 mt-4 text-center">
-		<div>
+		<div id="recommend-box">
 			상품 거래가 완료되었습니다.<br>
 			거래는 어떠셨나요? ${chatCard.buyer.nickname}님을 추천하시겠나요?
 			<br>
 			<div class="mt-2">
-				<a href="/like/create">예</a>
+				<span id="recommend" class="pointer">예</span>
 				&nbsp; | &nbsp;
-				<a href="/like/create">아니오</a>
+				<span id="not-recommend" class="pointer">아니오</span>
 			</div>
 		</div>
 	</div>

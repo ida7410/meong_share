@@ -5,6 +5,7 @@ header {height: 100px;}
 #main-nev {min-height:40px;}
 .contents {min-height: 200px;}
 footer {height: 100px;}
+.pointer {cursor:pointer;}
 
 /* HEADER */
 #chat-btn:hover {cursor:pointer;}
@@ -23,19 +24,18 @@ footer {height: 100px;}
 /* search */
 .keywords {font-size:17px; color:black;}
 .recent-search-product-img-box {height:150px;}
-.product:hover {background-color:gray; cursor:pointer;}
+.product:hover {background-color:gray;}
 .product-img-box {height:250px;}
 
 /* add product */
 #create-btn {font-size:17px; height:45px;}
 
 /* product info */
-#product-desc {font-size:17px; white-space: pre-wrap; }
-#heart:hover {cursor:pointer;}
+#product-desc {font-size:17px; white-space: pre-wrap;}
 
 /* suggestion */
-.recent-product:hover {background-color:gray; cursor:pointer;}
-.recommend-product:hover {background-color:gray; cursor:pointer;}
+.recent-product:hover {background-color:gray;}
+.recommend-product:hover {background-color:gray;}
 
 /* log in */
 #mv-sign-up-btn {margin-bottom:100px;}
@@ -48,9 +48,8 @@ h5 {margin:0}
 
 /* chat */
 .chat-list {font-size:20px;}
-.chat-list:hover {cursor:pointer;}
 .chat {font-size:17px; border-radius: 20px;}
+.complete-trade-btn {border-radius:10px;}
 #send-btn {font-size:18px;}
-#complete-trade-btn {border-radius:10px;}
 
 /* FOOTER */
