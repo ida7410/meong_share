@@ -72,12 +72,14 @@ public class ProductBO {
 	
 	public List<Product> getThreeRandomProductList() {
 		int totalProductCount = productMapper.selectProductCount(null, false);
+		List<Product> incompleteproductList = productMapper.selectProductListByCompleted(false);
+		
 		List<Product> productList = new ArrayList<>();
 		
 		for (int i = 0; i < 3; i++) {
-			int randomNumber = (int) (Math.random() * totalProductCount + 1);
+			int randomNumber = (int) (Math.random() * totalProductCount);
 			
-			Product product = productMapper.selectProductById(randomNumber);
+			Product product = incompleteproductList.get(randomNumber);
 			productList.add(product);
 		}
 		

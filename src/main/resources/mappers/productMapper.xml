@@ -37,9 +37,9 @@
 			COUNT(*)
 		FROM
 			`product`
-		<if test="keyword != null">
 		WHERE
 			`completed` = #{completed}
+		<if test="keyword != null">
 			AND (`company` LIKE CONCAT('%', #{keyword}, '%')
 			OR `description` LIKE CONCAT('%', #{keyword}, '%'))
 		</if>
@@ -165,6 +165,24 @@
 			`completed` = false
 		ORDER BY `id` DESC
 		LIMIT 3
+	</select>
+	
+	<select id="selectProductListByCompleted" parameterType="boolean" resultType="com.ms.product.domain.Product">
+		SELECT
+			`id`
+			,`ownerId`
+			,`name`
+			,`company`
+			,`price`
+			,`imagePath`
+			,`description`
+			,`boughtDate`
+			,`completed`
+			,`createdAt`
+		FROM
+			`product`
+		WHERE
+			`completed` = #{completed}
 	</select>
 	
 	<update id="updateProductCopmletedByProductId" parameterType="int">
