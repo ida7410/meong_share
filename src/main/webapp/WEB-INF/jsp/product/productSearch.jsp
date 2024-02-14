@@ -6,19 +6,20 @@
 	
 	<div class="col-2 pl-4">
 		<h4 class="font-weight-bold">상품 검색</h4>
-		<form method="GET" action="/search">
-		<div class="input-group mb-5">
-			<input type="text" id="keyword" name="keyword" class="form-control" value="${keyword}">
-			<div class="input-group-append">
-				<button id="search-btn" type="button" class="btn btn-light">검색</button>
+		<form method="GET" action="/search" id="search-form">
+			<div class="input-group mb-5">
+				<input type="text" id="keyword" name="keyword" class="form-control" value="${keyword}">
+				<div class="input-group-append">
+					<button id="search-btn" type="submit" class="btn btn-light">검색</button>
+				</div>
 			</div>
-		</div>
 		</form>
 		
 		<h4 class="font-weight-bold">최근 검색 목록</h4>
 		<div class="mb-5">
-			<a href="/search?keyword" class="keywords">목줄</a><br>
-			<a href="/search?keyword" class="keywords">목줄</a><br>
+		<c:forEach items="${keywordList}" var="keyword">
+			<a href="/search?keyword=${keyword}" class="keywords">${keyword}</a><br>
+		</c:forEach>
 		</div>
 		
 		<h4 class="font-weight-bold">최근 검색 목록</h4>
@@ -53,11 +54,26 @@
 <script>
 	$(document).ready(function() {
 		
+		const getCookieValue = (name) => (
+			document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)')?.pop() || ''
+		)
+		
 		$(".product").on("click", function() {
 			let productId = $(this).data("product-id");
 			location.href = "/product/" + productId;
 		});
 		
-		
+		$("#search-form").on("submit", function(e) {
+			e.preventDefault();
+			
+			let keyword = $("#keyword").val().trim();
+			
+			$.ajax({
+				data:{"keyword":keyword}
+				,success:function(){
+					alert("k")
+				}
+			})
+		});		
 	})
 </script>

@@ -72,6 +72,10 @@ public class ProductBO {
 	
 	public List<Product> getThreeRandomProductList() {
 		int totalProductCount = productMapper.selectProductCount(null, false);
+		if (totalProductCount == 0) {
+			return null;
+		}
+		
 		List<Product> incompleteproductList = productMapper.selectProductListByCompleted(false);
 		
 		List<Product> productList = new ArrayList<>();

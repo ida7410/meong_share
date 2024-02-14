@@ -1,5 +1,10 @@
 package com.ms.main;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ms.chat.chatList.bo.ChatListBO;
 import com.ms.chat.chatList.domain.ChatList;
-import com.ms.chat.chatMessage.bo.ChatMessageBO;
 import com.ms.main.bo.MainBO;
 import com.ms.main.domain.Card;
 import com.ms.main.domain.ChatCard;
@@ -22,9 +26,14 @@ import com.ms.product.bo.ProductBO;
 import com.ms.product.domain.Product;
 import com.ms.user.bo.UserBO;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
+@Slf4j
 public class MainController {
 	
 	@Autowired
@@ -50,10 +59,13 @@ public class MainController {
 		return "template/layout";
 	}
 	
+	@SuppressWarnings("deprecation")
 	@GetMapping("/search")
 	public String search(
 			@RequestParam(name = "keyword", required = false) String keyword,
 			@RequestParam(value = "page", required = false) Integer page,
+			HttpServletResponse response,
+			HttpServletRequest request,
 			Model model) {
 		
 		if (page == null) {
@@ -75,6 +87,25 @@ public class MainController {
 		// DB select
 		List<Card> cardList = mainBO.getCardByUserLoginIdOrKeyword(null, keyword, (int)page, cri);
 		
+		// cookie - keyword
+		List<String> keywordList = new ArrayList<>();
+		
+		if (keyword != null) {
+			Cookie cookie = new Cookie(URLEncoder.encode(keyword), URLEncoder.encode(keyword));
+			response.addCookie(cookie);
+		}
+		
+		Cookie[] cookies = request.getCookies();
+		List<Cookie> cookieList = new ArrayList<>();
+		if (cookies != null) {
+			cookieList = Arrays.asList(cookies);
+		}
+		for (Cookie c : cookieList) {
+			String keywordCookie = URLDecoder.decode(c.getValue());
+			keywordList.add(keywordCookie);
+		}
+		
+		
 		model.addAttribute("viewName", "product/productSearch");
 		model.addAttribute("keyword", keyword);
 		if (keyword != null) {			
@@ -83,6 +114,7 @@ public class MainController {
 		model.addAttribute("cardList", cardList);
 		model.addAttribute("page", page);
 		model.addAttribute("pm", pm);
+		model.addAttribute("keywordList", keywordList);
 		return "template/layout";
 	}
 	
