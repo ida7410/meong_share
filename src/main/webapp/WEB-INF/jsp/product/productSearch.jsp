@@ -6,7 +6,7 @@
 	
 	<div class="col-2 pl-4">
 		<h4 class="font-weight-bold">상품 검색</h4>
-		<form method="GET" action="/search">
+		<form method="GET" action="/search" id="search-form">
 			<div class="input-group mb-5">
 				<input type="text" id="keyword" name="keyword" class="form-control" value="${keyword}">
 				<div class="input-group-append">
@@ -53,6 +53,10 @@
 
 <script>
 	$(document).ready(function() {
+		
+		$("#search-form").on("submit", function(e) {
+			e.preventDefault();
+		})
 		
 		$(".product").on("click", function() {
 			let productId = $(this).data("product-id");

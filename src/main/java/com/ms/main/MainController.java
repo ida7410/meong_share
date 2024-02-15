@@ -1,10 +1,5 @@
 package com.ms.main;
 
-import java.net.URLDecoder;
-import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ms.chat.chatList.bo.ChatListBO;
 import com.ms.chat.chatList.domain.ChatList;
+import com.ms.common.CookieManager;
 import com.ms.main.bo.MainBO;
 import com.ms.main.domain.Card;
 import com.ms.main.domain.ChatCard;
@@ -35,6 +31,9 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @Slf4j
 public class MainController {
+	
+	@Autowired
+	private CookieManager cookieManager;
 	
 	@Autowired
 	private MainBO mainBO;
@@ -59,7 +58,6 @@ public class MainController {
 		return "template/layout";
 	}
 	
-	@SuppressWarnings("deprecation")
 	@GetMapping("/search")
 	public String search(
 			@RequestParam(name = "keyword", required = false) String keyword,
@@ -68,6 +66,7 @@ public class MainController {
 			HttpServletRequest request,
 			Model model) {
 		
+		log.info(keyword);
 		if (page == null) {
 			page = 1;
 		}
@@ -97,36 +96,8 @@ public class MainController {
 				break;
 			}
 		}
-
-		// keyword,keyword,keyword,...의 형태를 리스트로
-		List<String> keywordList = new ArrayList<>();
 		
-		// 단순 상품 검색 x keyword가 존재하고 리스트에 keyword가 없을 때
-		if (keyword != null && !keywordList.contains(keyword)) {
-			String keywordListString = null;
-			
-			if (keywordCookie != null) { // 존재한다면 value는 keyword,keyword,keyword,...의 형태
-				keywordListString = URLDecoder.decode(keywordCookie.getValue()); // keyword,keyword,keyword,...
-				keywordListString = keywordListString + "," + keyword; // ,keyword 추가
-			}
-			else {
-				keywordListString = keyword; // 없다면 단순 keyword로
-			}
-			
-			// 쿠키 추가 / 업데이트
-			Cookie cookie = new Cookie("keywordList", URLEncoder.encode(keywordListString));
-			cookie.setMaxAge(60);
-			response.addCookie(cookie);
-			
-			// list로 변환
-			if (keywordCookie != null) {
-				String keywordCookieString = URLDecoder.decode(keywordCookie.getValue()); // 존재한다면 value는 keyword,keyword,keyword,...의 형태
-				String[] keywordArray = keywordCookieString.split(","); // array 형태로 변환
-				keywordList = Arrays.asList(keywordArray); // array를 리스트로
-			}
-		}
-		
-		Collections.reverse(keywordList);
+		List<String> keywordList = mainBO.setKeywordList(keywordCookie, response, keyword);
 		
 		model.addAttribute("viewName", "product/productSearch");
 		model.addAttribute("keyword", keyword);

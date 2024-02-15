@@ -1,5 +1,7 @@
 package com.ms.main.bo;
 
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -11,6 +13,7 @@ import com.ms.chat.chatList.bo.ChatListBO;
 import com.ms.chat.chatList.domain.ChatList;
 import com.ms.chat.chatMessage.bo.ChatMessageBO;
 import com.ms.chat.chatMessage.domain.ChatMessage;
+import com.ms.common.CookieManager;
 import com.ms.like.bo.LikeBO;
 import com.ms.main.domain.Card;
 import com.ms.main.domain.ChatCard;
@@ -21,10 +24,14 @@ import com.ms.product.domain.Product;
 import com.ms.user.bo.UserBO;
 import com.ms.user.domain.User;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
+
 @Service
 public class MainBO {
 	
-	private static final int CARD_LIMIT = 8;
+	@Autowired
+	private CookieManager cookieManager;
 	
 	@Autowired
 	private ProductBO productBO;
@@ -95,6 +102,41 @@ public class MainBO {
 	 * return cardList; }
 	 */
 	
+	public List<String> setKeywordList(Cookie keywordCookie, HttpServletResponse response, String keyword) {
+		
+		List<String> keywordList = cookieManager.getListByCookie(keywordCookie);
+		if (keyword == null) {
+			Collections.reverse(keywordList);
+			return keywordList;
+		}
+		
+		// 단순 상품 검색 x keyword가 존재하고 리스트에 keyword가 없을 때
+		String keywordListString = null;
+		if (!keywordList.contains(keyword)) {
+			
+			if (keywordCookie != null) { // 존재한다면 value는 keyword,keyword,keyword,...의 형태
+				keywordListString = URLDecoder.decode(keywordCookie.getValue()); // keyword,keyword,keyword,...
+				keywordListString = keywordListString + "," + keyword; // ,keyword 추가
+			}
+			else {
+				keywordListString = keyword; // 없다면 단순 keyword로
+			}
+			
+		}
+		else {
+			keywordList.remove(keyword);
+		}
+		
+		// 쿠키 추가 / 업데이트
+		Cookie cookie = new Cookie("keywordList", URLEncoder.encode(keywordListString));
+		cookie.setMaxAge(60);
+		response.addCookie(cookie);
+		keywordList.add(keyword);
+		
+		Collections.reverse(keywordList);
+		return keywordList;
+	}
+	
 	
 	public List<Card> getCardByUserLoginIdOrKeyword(String userLoginId, String keyword, int page, Criteria cri) {
 		Integer userId = null;
@@ -146,7 +188,7 @@ public class MainBO {
 		
 		return clcList;
 	}
-	
+
 	public ChatCard getChatCard(int chatListId) {
 		ChatCard cc = new ChatCard();
 		
