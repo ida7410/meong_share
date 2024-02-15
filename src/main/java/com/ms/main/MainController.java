@@ -1,10 +1,10 @@
 package com.ms.main;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,20 +87,6 @@ public class MainController {
 		// DB select
 		List<Card> cardList = mainBO.getCardByUserLoginIdOrKeyword(null, keyword, (int)page, cri);
 		
-		/*
-		 * // cookie - keyword List<String> keywordList = new ArrayList<>();
-		 * 
-		 * if (keyword != null) { Cookie cookie = new Cookie(URLEncoder.encode(keyword),
-		 * URLEncoder.encode(keyword)); cookie.setMaxAge(-1);
-		 * response.addCookie(cookie); }
-		 * 
-		 * Cookie[] cookies = request.getCookies(); List<Cookie> cookieList = new
-		 * ArrayList<>(); if (cookies != null) { cookieList = Arrays.asList(cookies); }
-		 * for (Cookie c : cookieList) { String cVal = c.getValue(); String
-		 * keywordCookie = URLDecoder.decode(cVal); keywordList.add(keywordCookie);
-		 * c.setMaxAge(0); }
-		 */
-		
 		// 모든 쿠키 들고 오기
 		Cookie[] cookies = request.getCookies();
 		Cookie keywordCookie = null; // keywordList의 쿠키 
@@ -114,11 +100,6 @@ public class MainController {
 
 		// keyword,keyword,keyword,...의 형태를 리스트로
 		List<String> keywordList = new ArrayList<>();
-		if (keywordCookie != null) {
-			String keywordCookieString = URLDecoder.decode(keywordCookie.getValue()); // 존재한다면 value는 keyword,keyword,keyword,...의 형태
-			String[] keywordArray = keywordCookieString.split(","); // array 형태로 변환
-			keywordList = Arrays.asList(keywordArray); // array를 리스트로
-		}
 		
 		// 단순 상품 검색 x keyword가 존재하고 리스트에 keyword가 없을 때
 		if (keyword != null && !keywordList.contains(keyword)) {
@@ -136,8 +117,16 @@ public class MainController {
 			Cookie cookie = new Cookie("keywordList", URLEncoder.encode(keywordListString));
 			cookie.setMaxAge(60);
 			response.addCookie(cookie);
+			
+			// list로 변환
+			if (keywordCookie != null) {
+				String keywordCookieString = URLDecoder.decode(keywordCookie.getValue()); // 존재한다면 value는 keyword,keyword,keyword,...의 형태
+				String[] keywordArray = keywordCookieString.split(","); // array 형태로 변환
+				keywordList = Arrays.asList(keywordArray); // array를 리스트로
+			}
 		}
 		
+		Collections.reverse(keywordList);
 		
 		model.addAttribute("viewName", "product/productSearch");
 		model.addAttribute("keyword", keyword);
