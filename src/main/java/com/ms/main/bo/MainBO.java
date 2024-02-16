@@ -50,17 +50,27 @@ public class MainBO {
 	private ChatMessageBO chatMessageBO;
 	
 	
-	public Card getCardByProductId(int productId) {
+	public Card getCardByProductId(Integer userId, int productId) {
 		Product product = productBO.getProductById(productId);
 		User user = userBO.getUserById(product.getOwnerId());
+		
 		int likeCount = likeBO.getLikeCountBySubjectIdType(product.getId());
 		int recommendCount = likeBO.getRecommendCountBySubjectIdType(user.getId());
+		String liked = "empty-";
+		
+		if (userId != null) {
+			Like like = likeBO.getLikeBySubjectIdUserIdType(productId, userId, "like");
+			if (like != null) {
+				liked = "";
+			}
+		}
 		
 		Card card = new Card();
 		card.setProduct(product);
 		card.setUser(user);
 		card.setLikeCount(likeCount);
 		card.setRecommendCount(recommendCount);
+		card.setLiked(liked);
 		
 		return card;
 	}

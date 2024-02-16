@@ -34,9 +34,6 @@ import lombok.extern.slf4j.Slf4j;
 public class MainController {
 	
 	@Autowired
-	private CookieManager cookieManager;
-	
-	@Autowired
 	private MainBO mainBO;
 	
 	@Autowired
@@ -120,9 +117,12 @@ public class MainController {
 			@PathVariable("productId") int productId,
 			HttpServletResponse response,
 			HttpServletRequest request,
+			HttpSession session,
 			Model model) {
 		
-		Card card = mainBO.getCardByProductId(productId);
+		Integer userId = (Integer)session.getAttribute("userId");
+		
+		Card card = mainBO.getCardByProductId(userId, productId);
 		List<Product> recommendProductList = productBO.getThreeRandomProductList();
 		
 		mainBO.setKeywordList(request, response, "productList", productId + "");

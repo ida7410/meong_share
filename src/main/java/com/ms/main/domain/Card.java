@@ -11,4 +11,5 @@ public class Card {
 	private User user;
 	private int likeCount;
 	private int recommendCount;
+	private String liked;
 }
