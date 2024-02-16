@@ -110,21 +110,18 @@ public class MainBO {
 			return keywordList;
 		}
 		
-		// 단순 상품 검색 x keyword가 존재하고 리스트에 keyword가 없을 때
 		String keywordListString = null;
-		if (!keywordList.contains(keyword)) {
-			
-			if (keywordCookie != null) { // 존재한다면 value는 keyword,keyword,keyword,...의 형태
-				keywordListString = URLDecoder.decode(keywordCookie.getValue()); // keyword,keyword,keyword,...
-				keywordListString = keywordListString + "," + keyword; // ,keyword 추가
-			}
-			else {
-				keywordListString = keyword; // 없다면 단순 keyword로
-			}
-			
+		if (keywordList.contains(keyword)) { // keyword가 이미 있었다면 지우기
+			keywordList.remove(keyword);
+		}
+		
+		// 존재한다면 value는 keyword,keyword,keyword,...의 형태
+		if (keywordCookie != null) { 
+			keywordListString = URLDecoder.decode(keywordCookie.getValue()); // keyword,keyword,keyword,...
+			keywordListString = keywordListString + "," + keyword; // ,keyword 추가
 		}
 		else {
-			keywordList.remove(keyword);
+			keywordListString = keyword; // 없다면 단순 keyword로
 		}
 		
 		// 쿠키 추가 / 업데이트
