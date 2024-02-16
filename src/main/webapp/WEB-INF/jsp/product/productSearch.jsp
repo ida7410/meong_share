@@ -22,24 +22,16 @@
 		</c:forEach>
 		</div>
 		
-		<h4 class="font-weight-bold">최근 검색 목록</h4>
+		<h4 class="font-weight-bold">최근 본 상품</h4>
 		<div class="mb-5 col-9 p-0">
+		<c:forEach items="${recentViewProductList}" var="recentViewProduct">
 			<div class="recent-search-product bg-primary p-2">
 				<div class="recent-search-product-img-box w-100 bg-danger mb-2">
+					<img src="${recentViewProduct.imagePath}" width="100%">
 				</div>
-				<h5 class="font-weight-bold">제목</h5>
+				<h5 class="font-weight-bold">${recentViewProduct.name}</h5>
 			</div>
-			<div class="recent-search-product bg-primary p-2">
-				<div class="recent-search-product-img-box w-100 bg-danger mb-2">
-				</div>
-				<h5 class="font-weight-bold">제목</h5>
-			</div>
-			<div class="recent-search-product bg-primary p-2">
-				<div class="recent-search-product-img-box w-100 bg-danger mb-2">
-				</div>
-				<h5 class="font-weight-bold">제목</h5>
-			</div>
-		</div>
+		</c:forEach>
 	</div>
 	
 	<div class="col-10">

@@ -1,6 +1,5 @@
 package com.ms.main.bo;
 
-import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,6 +24,7 @@ import com.ms.user.bo.UserBO;
 import com.ms.user.domain.User;
 
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @Service
@@ -102,9 +102,23 @@ public class MainBO {
 	 * return cardList; }
 	 */
 	
-	public List<String> setKeywordList(Cookie keywordCookie, HttpServletResponse response, String keyword) {
+	public List<Product> getRecentViewProductIdList(HttpServletRequest request, String cookieName) {
+		Cookie cookie = cookieManager.getCookie(request, cookieName);
+		List<String> recentViewProductIdStringList = cookieManager.getListByCookie(cookie);
+		List<Product> recentViewProductList = new ArrayList<>();
+		for (String productIdString : recentViewProductIdStringList) {
+			int productId = Integer.parseInt(productIdString);
+			Product product = productBO.getProductById(productId);
+			recentViewProductList.add(product);
+		}
+		return recentViewProductList;
+	}
+	
+	public List<String> setKeywordList(HttpServletRequest request, HttpServletResponse response, String cookieName, String keyword) {
 		
-		List<String> keywordList = cookieManager.getListByCookie(keywordCookie);
+		Cookie cookie = cookieManager.getCookie(request, cookieName);
+		
+		List<String> keywordList = cookieManager.getListByCookie(cookie);
 		if (keyword == null) {
 			Collections.reverse(keywordList);
 			return keywordList;
@@ -116,19 +130,19 @@ public class MainBO {
 		}
 		
 		// 존재한다면 value는 keyword,keyword,keyword,...의 형태
-		if (keywordCookie != null) { 
-			keywordListString = URLDecoder.decode(keywordCookie.getValue()); // keyword,keyword,keyword,...
-			keywordListString = keywordListString + "," + keyword; // ,keyword 추가
+		if (cookie != null) { 
+			keywordList.add(keyword);
+			keywordListString = String.join(",", keywordList);
 		}
 		else {
 			keywordListString = keyword; // 없다면 단순 keyword로
 		}
 		
 		// 쿠키 추가 / 업데이트
-		Cookie cookie = new Cookie("keywordList", URLEncoder.encode(keywordListString));
-		cookie.setMaxAge(60);
-		response.addCookie(cookie);
-		keywordList.add(keyword);
+		Cookie c = new Cookie(cookieName, URLEncoder.encode(keywordListString));
+		c.setMaxAge(60);
+		c.setPath("/");
+		response.addCookie(c);
 		
 		Collections.reverse(keywordList);
 		return keywordList;

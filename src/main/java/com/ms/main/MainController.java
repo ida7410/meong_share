@@ -86,18 +86,11 @@ public class MainController {
 		// DB select
 		List<Card> cardList = mainBO.getCardByUserLoginIdOrKeyword(null, keyword, (int)page, cri);
 		
-		// 모든 쿠키 들고 오기
-		Cookie[] cookies = request.getCookies();
-		Cookie keywordCookie = null; // keywordList의 쿠키 
-		// keywordList의 쿠키만 가져오기
-		for (Cookie c : cookies) {
-			if (c.getName().equals("keywordList")) {
-				keywordCookie = c; // 존재한다면 value는 keyword,keyword,keyword,...의 형태
-				break;
-			}
-		}
+		// cookie set
+		List<String> keywordList = mainBO.setKeywordList(request, response, "keywordList", keyword);
 		
-		List<String> keywordList = mainBO.setKeywordList(keywordCookie, response, keyword);
+		// get recent view produt
+		List<Product> recentViewProductList = mainBO.getRecentViewProductIdList(request, "productList");
 		
 		model.addAttribute("viewName", "product/productSearch");
 		model.addAttribute("keyword", keyword);
@@ -108,6 +101,7 @@ public class MainController {
 		model.addAttribute("page", page);
 		model.addAttribute("pm", pm);
 		model.addAttribute("keywordList", keywordList);
+		model.addAttribute("recentViewProductList", recentViewProductList);
 		return "template/layout";
 	}
 	
@@ -120,10 +114,14 @@ public class MainController {
 	@GetMapping("/product/{productId}")
 	public String productInfo(
 			@PathVariable("productId") int productId,
+			HttpServletResponse response,
+			HttpServletRequest request,
 			Model model) {
 		
 		Card card = mainBO.getCardByProductId(productId);
 		List<Product> recommendProductList = productBO.getThreeRandomProductList();
+		
+		mainBO.setKeywordList(request, response, "productList", productId + "");
 		
 		model.addAttribute("viewName", "product/productInfo");
 		model.addAttribute("card", card);
