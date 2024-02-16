@@ -16,5 +16,6 @@ public class ChatCard {
 	private Product product;
 	private User buyer;
 	private User owner;
+	private boolean recommended;
 	
 }

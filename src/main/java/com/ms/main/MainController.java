@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.ms.chat.chatList.bo.ChatListBO;
 import com.ms.chat.chatList.domain.ChatList;
 import com.ms.common.CookieManager;
+import com.ms.like.bo.LikeBO;
 import com.ms.main.bo.MainBO;
 import com.ms.main.domain.Card;
 import com.ms.main.domain.ChatCard;
@@ -21,8 +22,8 @@ import com.ms.main.domain.PageMaker;
 import com.ms.product.bo.ProductBO;
 import com.ms.product.domain.Product;
 import com.ms.user.bo.UserBO;
+import com.ms.user.domain.User;
 
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -46,6 +47,9 @@ public class MainController {
 	
 	@Autowired
 	private ChatListBO chatListBO;
+	
+	@Autowired
+	private LikeBO likeBO;
 	
 	@GetMapping("/home")
 	public String home(Model model) {
@@ -139,6 +143,12 @@ public class MainController {
 			page = 1;
 		}
 		
+		User user = userBO.getUserByLoginId(userLoginId);
+
+		int tradeCount = productBO.getProductCount(null, true);
+		int recommendCount = likeBO.getRecommendCountBySubjectIdType(user.getId());
+		String userNickame =user.getNickname();
+
 		int totalCount = productBO.getProductCount(null, false);
 
 		Criteria cri = new Criteria();
@@ -148,9 +158,7 @@ public class MainController {
 		pm.setCri(cri);
 		pm.setTotalCount(totalCount);
 		
-		
 		List<Card> cardList = mainBO.getCardByUserLoginIdOrKeyword(userLoginId, null, (int)page, cri);
-		String userNickame = userBO.getUserByLoginId(userLoginId).getNickname();
 		
 		model.addAttribute("viewName", "user/userInfo");
 		model.addAttribute("cardList", cardList);
@@ -158,6 +166,8 @@ public class MainController {
 		model.addAttribute("page", page);
 		model.addAttribute("pm", pm);
 		model.addAttribute("userNickame", userNickame);
+		model.addAttribute("recommendCount", recommendCount);
+		model.addAttribute("tradeCount", tradeCount);
 		return "template/layout";
 	}
 	

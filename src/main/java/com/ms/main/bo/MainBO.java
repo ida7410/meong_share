@@ -14,6 +14,7 @@ import com.ms.chat.chatMessage.bo.ChatMessageBO;
 import com.ms.chat.chatMessage.domain.ChatMessage;
 import com.ms.common.CookieManager;
 import com.ms.like.bo.LikeBO;
+import com.ms.like.domain.Like;
 import com.ms.main.domain.Card;
 import com.ms.main.domain.ChatCard;
 import com.ms.main.domain.ChatListCard;
@@ -52,8 +53,8 @@ public class MainBO {
 	public Card getCardByProductId(int productId) {
 		Product product = productBO.getProductById(productId);
 		User user = userBO.getUserById(product.getOwnerId());
-		int likeCount = likeBO.getLikeCountBySubjectIdType(product.getId(), "like");
-		int recommendCount = likeBO.getLikeCountBySubjectIdType(user.getId(), "recommend");
+		int likeCount = likeBO.getLikeCountBySubjectIdType(product.getId());
+		int recommendCount = likeBO.getRecommendCountBySubjectIdType(user.getId());
 		
 		Card card = new Card();
 		card.setProduct(product);
@@ -214,11 +215,14 @@ public class MainBO {
 		User owner = userBO.getUserById(cl.getOwnerId());
 		User buyer = userBO.getUserById(cl.getBuyerId());
 		
+		Like like = likeBO.getLikeBySubjectIdUserIdType(owner.getId(), buyer.getId(), product.getId() + "");
+		
 		cc.setChatListId(chatListId);
 		cc.setCml(cml);
 		cc.setProduct(product);
 		cc.setBuyer(buyer);
 		cc.setOwner(owner);
+		cc.setRecommended(like != null);
 		
 		return cc;
 	}

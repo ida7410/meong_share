@@ -5,13 +5,12 @@
 <div class="d-flex">
 	<div class="col-2 bg-primary p-3">
 		<div>
-			<img src="">
 		</div>
 		
 		<h3 class="font-weight-bold">${userNickname}</h3>
 		<div>
-			<h5>거래 횟수: </h5>
-			<h5>추천 횟수: </h5>
+			<h5>거래 횟수: ${tradeCount}</h5>
+			<h5>추천 횟수: ${recommendCount}</h5>
 		</div>
 	</div>
 	

@@ -90,8 +90,8 @@ public class ProductBO {
 		return productList;
 	}
 	
-	public void updateProductCopmletedByProductId(int productId) {
-		productMapper.updateProductCopmletedByProductId(productId);
+	public void updateProductCopmletedByProductId(int productId, int buyerId) {
+		productMapper.updateProductCopmletedByProductId(productId, buyerId);
 	}
 	
 }

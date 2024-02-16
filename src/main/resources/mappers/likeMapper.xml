@@ -20,6 +20,20 @@
 		)
 	</insert>
 	
+	<select id="selectLikeBySubjectIdUserIdType" parameterType="map" resultType="com.ms.like.domain.Like">
+		SELECT
+			`subjectId`
+			,`userId`
+			,`type`
+			,`createdAt`
+		FROM
+			`like`
+		WHERE
+			`subjectId` = #{subjectId}
+			AND `userId` = #{userId}
+			AND `type` = #{type}
+	</select>
+	
 	<select id="selectLikeCountBySubjectIdUserIdType" parameterType="map" resultType="int">
 		SELECT
 			COUNT(*)
@@ -38,7 +52,17 @@
 			`like`
 		WHERE
 			`subjectId` = #{subjectId}
-			AND `type` = #{type}
+			AND `type` = 'like'
+	</select>
+	
+	<select id="selectRecommendCountBySubjectIdType" parameterType="map" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			`like`
+		WHERE
+			`subjectId` = #{subjectId}
+			AND `type` != 'like'
 	</select>
 	
 	<delete id="deleteLike" parameterType="map">
@@ -46,6 +70,5 @@
 		WHERE
 			`subjectId` = #{subjectId}
 			AND `userId` = #{userId}
-			AND `type` = #{type}
 	</delete>
 </mapper>

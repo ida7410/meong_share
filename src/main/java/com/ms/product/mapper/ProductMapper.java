@@ -49,6 +49,8 @@ public interface ProductMapper {
 	
 	public List<Product> selectProductListByCompleted(boolean completed);
 	
-	public void updateProductCopmletedByProductId(int productId);
+	public void updateProductCopmletedByProductId(
+			@Param("productId") int productId, 
+			@Param("buyerId") int buyerId);
 	
 }

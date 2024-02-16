@@ -61,7 +61,6 @@
 		});
 		
 		$(".complete-trade-btn").on("click", function() {
-			alert("click")
 			let productId = ${chatCard.product.id};
 			console.log(productId)
 			
@@ -86,15 +85,16 @@
 		
 		$("#recommend").on("click", function() {
 			let subjectId = ${chatCard.owner.id};
+			let productId = ${chatCard.product.id};
 			
 			$.ajax ({
 				type:"post"
 				,url:"/like"
-				,data:{"subjectId":subjectId, "type":"recommend"}
+				,data:{"subjectId":subjectId, "type":productId}
 				
 				,success:function(data) {
 					if (data.code == 200) {
-						$("#recommend-box").text("상대를 추천했습니다.")
+						location.reload();
 					}
 					else {
 						alert(data.error_message);

@@ -57,12 +57,19 @@ public class ProductRestController {
 	
 	@PutMapping("/complete/{productId}")
 	public Map<String, Object> complete(
-			@PathVariable("productId") int productId) {
+			@PathVariable("productId") int productId,
+			HttpSession session) {
 
 		Map<String, Object> result = new HashMap<>();
+		Integer userId = (Integer)session.getAttribute("userId");
+		if (userId == null) {
+			result.put("code", 300);
+			result.put("error_message", "세션이 만료되었습니다. 다시 로그인해주세요.");
+			return result;
+		}
 		
 		// DB update
-		productBO.updateProductCopmletedByProductId(productId);
+		productBO.updateProductCopmletedByProductId(productId, userId);
 		
 		result.put("code", 200);
 		result.put("result", "success");
