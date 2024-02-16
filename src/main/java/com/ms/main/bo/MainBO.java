@@ -131,6 +131,9 @@ public class MainBO {
 		
 		// 존재한다면 value는 keyword,keyword,keyword,...의 형태
 		if (cookie != null) { 
+			if (keywordList.size() >= 3) {
+				keywordList.remove(0);
+			}
 			keywordList.add(keyword);
 			keywordListString = String.join(",", keywordList);
 		}

@@ -32,6 +32,7 @@
 				<h5 class="font-weight-bold">${recentViewProduct.name}</h5>
 			</div>
 		</c:forEach>
+		</div>
 	</div>
 	
 	<div class="col-10">
