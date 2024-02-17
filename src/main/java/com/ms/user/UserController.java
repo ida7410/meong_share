@@ -26,7 +26,7 @@ public class UserController {
 		// session의 내용을 모두 비운다.
 		session.removeAttribute("userId");
 		session.removeAttribute("userLoginId");
-		session.removeAttribute("userName");
+		session.removeAttribute("userNickame");
 		
 		// redirect to login view
 		return "redirect:/home";

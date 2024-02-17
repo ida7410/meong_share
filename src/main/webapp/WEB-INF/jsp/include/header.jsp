@@ -21,7 +21,7 @@
 			
 			<c:if test="${userId ne null}">
 			<div>
-				<a href="/user/${userLoginId}">${userName}님 환영합니다!</a> / <a href="/log-out">로그아웃</a>
+				<a href="/user/${userLoginId}">${userNickame}님 환영합니다!</a> / <a href="/log-out">로그아웃</a>
 			</div>
 			</c:if>
 		</div>

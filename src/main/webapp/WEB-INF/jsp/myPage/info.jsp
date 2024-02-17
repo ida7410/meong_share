@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
-<div class="col-8">
+<div class="col-8 pl-5">
 	<jsp:include page="../user/user.jsp" />
 	<button id="update-info-btn" type="button" class="btn btn-primary form-control mt-4">가입하기</button>
 </div>

@@ -164,7 +164,7 @@ public class MainBO {
 	}
 	
 	
-	public List<Card> getCardByUserLoginIdOrKeyword(String userLoginId, String keyword, int page, Criteria cri) {
+	public List<Card> getCardByUserLoginIdOrKeyword(String userLoginId, String keyword, int page, Criteria cri, boolean completed) {
 		Integer userId = null;
 		if (userLoginId != null) {
 			userId = userBO.getUserByLoginId(userLoginId).getId();
@@ -175,7 +175,7 @@ public class MainBO {
 		int skip = (page - 1) * cri.getPerPageNum();
 		
 		
-		List<Product> productList = productBO.getProductListByOwnerIdOrKeyword(userId, keyword, skip, cri.getPerPageNum(), false);
+		List<Product> productList = productBO.getProductListByOwnerIdOrKeyword(userId, keyword, skip, cri.getPerPageNum(), completed);
 		
 		for (Product product : productList) {
 			Card card = new Card();

@@ -85,7 +85,7 @@ public class MainController {
 		pm.setTotalCount(totalCount);
 		
 		// DB select
-		List<Card> cardList = mainBO.getCardByUserLoginIdOrKeyword(null, keyword, (int)page, cri);
+		List<Card> cardList = mainBO.getCardByUserLoginIdOrKeyword(null, keyword, (int)page, cri, false);
 		
 		// cookie set
 		List<String> keywordList = mainBO.setKeywordList(request, response, "keywordList", keyword);
@@ -137,6 +137,7 @@ public class MainController {
 	public String userInfo(
 			@PathVariable("userLoginId") String userLoginId,
 			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "completed", required = false) boolean completed,
 			Model model) {
 		
 		if (page == null) {
@@ -147,7 +148,7 @@ public class MainController {
 
 		int tradeCount = productBO.getProductCount(null, true);
 		int recommendCount = likeBO.getRecommendCountBySubjectIdType(user.getId());
-		String userNickame =user.getNickname();
+		String userNickname =user.getNickname();
 
 		int totalCount = productBO.getProductCount(null, false);
 
@@ -158,14 +159,13 @@ public class MainController {
 		pm.setCri(cri);
 		pm.setTotalCount(totalCount);
 		
-		List<Card> cardList = mainBO.getCardByUserLoginIdOrKeyword(userLoginId, null, (int)page, cri);
+		List<Card> cardList = mainBO.getCardByUserLoginIdOrKeyword(userLoginId, null, (int)page, cri, completed);
 		
 		model.addAttribute("viewName", "user/userInfo");
 		model.addAttribute("cardList", cardList);
-		model.addAttribute("keywordParam", "");
 		model.addAttribute("page", page);
 		model.addAttribute("pm", pm);
-		model.addAttribute("userNickame", userNickame);
+		model.addAttribute("userNickname", userNickname);
 		model.addAttribute("recommendCount", recommendCount);
 		model.addAttribute("tradeCount", tradeCount);
 		return "template/layout";
