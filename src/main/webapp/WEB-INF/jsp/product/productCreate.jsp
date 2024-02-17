@@ -9,7 +9,7 @@
 
 			<!-- img -->
 			<div class="col-6">
-				<img src="/static/img/dog1.jpg" id="preview" width="100%" />
+				<div id="preview" class="w-100"></div>
 				<div class="d-flex justify-content-end">
 					<input type="file" id="productImageFile" accept=".png, .jpg, .jpeg, .gif">
 				</div>
@@ -56,6 +56,19 @@
 			showButtonPanel:true
 			,maxDate:0
 		})
+		
+		$("#productImageFile").on("change", function(event) {
+			var reader = new FileReader();
+			
+			reader.onload = function(event){
+				var img = document.createElement("img");
+				img.setAttribute("src", event.target.result);
+				img.setAttribute("width", "100%");
+				document.querySelector("div#preview").appendChild(img);
+			};
+			
+			reader.readAsDataURL(event.target.files[0]);
+		});
 		
 		$("#create-btn").on("click", function() {
 			let fileName = $("#productImageFile").val();
