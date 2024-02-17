@@ -15,7 +15,7 @@
 				
 				<h5>${card.product.price}원</h5>
 				
-				<h7>1일 전</h7>
+				<h7>${card.diffTime} 전</h7>
 				
 				<h6>${card.user.nickname}</h6>
 				<h6>${card.product.description}</h6>

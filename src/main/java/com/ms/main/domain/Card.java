@@ -12,4 +12,5 @@ public class Card {
 	private int likeCount;
 	private int recommendCount;
 	private String liked;
+	private String diffTime;
 }

@@ -3,6 +3,7 @@ package com.ms.main.bo;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -180,9 +181,28 @@ public class MainBO {
 			Card card = new Card();
 			
 			User user = userBO.getUserById(product.getOwnerId());
+
+			Date now = new Date();
+			Date createdAt = product.getCreatedAt();
+			long diffSec = (now.getTime() - createdAt.getTime()) / 1000;
+			long diffMin = diffSec / 60;
+			long diffHrs = diffMin / 60;
+			long diffDay = diffHrs / 24;
+			String diff = diffDay + "일";
+			
+			if (diffMin < 1) {
+				diff = diffSec + "초";
+			}
+			else if (diffHrs < 1) {
+				diff = diffMin + "분";
+			}
+			else if (diffDay < 1) {
+				diff = diffHrs + "시간";
+			}
 			
 			card.setProduct(product);
 			card.setUser(user);
+			card.setDiffTime(diff);
 			
 			cardList.add(card);
 		}

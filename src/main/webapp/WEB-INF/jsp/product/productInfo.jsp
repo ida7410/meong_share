@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <div class="p-5">
 	<div class="d-flex p-4 bg-danger">
@@ -13,11 +14,11 @@
 			<div class="d-flex mb-3">
 				<div>
 					<h6>${card.product.company}</h6>
-					<h5>${card.product.price}</h5>
-					<h6 class="d-flex align-items-center">
+					<h5 class="pb-3">${card.product.price}원</h5>
+					<h5 class="d-flex align-items-center">
 						<img id="heart" src="/static/img/${card.liked}heart-icon.png" width="15px" class="pointer">
 						&nbsp; 찜 ${card.likeCount}개
-					</h6>
+					</h5>
 				</div>
 				
 				<div class="ml-5">
@@ -29,10 +30,13 @@
 			
 			<pre id="product-desc">${card.product.description}</pre>
 			
-			<div>
-				구매일: ${card.product.boughtDate}
+			<div class="pb-4">
+				<fmt:parseDate value="${card.product.boughtDate}" pattern="yyyy-MM-dd" var="boughtDateParse" />
+				<fmt:formatDate value="${boughtDateParse}" pattern="yyyy년 MM월 dd일" var="boughtDate" />
+				구매일: ${boughtDate}
 				<br>
-				업로드: ${card.product.createdAt}
+				<fmt:formatDate value="${card.product.createdAt}" pattern="yyyy년 MM월 dd일" var="createdAt" />
+				업로드: ${createdAt}
 			</div>
 			
 			<c:if test="${userId ne card.user.id}">
