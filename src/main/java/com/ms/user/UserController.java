@@ -4,11 +4,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.ms.aop.TimeTrace;
+
 import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class UserController {
-
+	
+	@TimeTrace
 	@GetMapping("/log-in")
 	public String logIn(Model model) {
 		model.addAttribute("viewName", "user/logIn");

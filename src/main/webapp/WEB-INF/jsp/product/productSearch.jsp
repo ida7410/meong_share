@@ -25,9 +25,9 @@
 		<h4 class="font-weight-bold">최근 본 상품</h4>
 		<div class="mb-5 col-9 p-0">
 		<c:forEach items="${recentViewProductList}" var="recentViewProduct">
-			<div class="recent-search-product bg-primary p-2">
+			<div class="recent-search-product bg-primary p-2 pointer" data-product-id="${recentViewProduct.id}">
 				<div class="recent-search-product-img-box w-100 bg-danger mb-2">
-					<img src="${recentViewProduct.imagePath}" width="100%">
+					<img src="${recentViewProduct.imagePath}" class="product-img" width="100%">
 				</div>
 				<h5 class="font-weight-bold">${recentViewProduct.name}</h5>
 			</div>
@@ -48,5 +48,10 @@
 			let productId = $(this).data("product-id");
 			location.href = "/product/" + productId;
 		});
+		
+		$(".recent-search-product").on("click", function() {
+			let productId = $(this).data("product-id");
+			location.href = "/product/" + productId;
+		})
 	})
 </script>

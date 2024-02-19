@@ -4,8 +4,8 @@
 
 <div class="bg-primary d-flex justify-content-center text-center py-3">
 	<div class="col-2">
-		<div>
-			<img src="${chatCard.product.imagePath}" width="100%">
+		<div class="chat-product-img-box">
+			<img src="${chatCard.product.imagePath}" class="product-img" width="100%">
 		</div>
 		<h5 class="font-weight-bold mt-3 mb-2">${chatCard.product.name}</h5>
 

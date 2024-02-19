@@ -12,7 +12,7 @@
 	<div class="product bg-primary col-3 p-3 pointer" data-product-id="${card.product.id}">
 		<!-- img -->
 		<div class="product-img-box w-100 bg-info mb-3">
-			<img src="${card.product.imagePath}" alt="" width="100%">
+			<img src="${card.product.imagePath}" class="product-img" alt="" width="100%">
 		</div>
 				
 		<!-- title -->

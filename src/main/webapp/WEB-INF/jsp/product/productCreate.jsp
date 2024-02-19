@@ -2,19 +2,21 @@
 	pageEncoding="UTF-8"%>
 
 <div class="p-4 d-flex justify-content-center w-100">
-	<div class="col-8">
+	<div class="col-7">
 		<h2 class="text-center font-weight-bold my-5">상품 등록</h2>
 
 		<div class="d-flex">
 
 			<!-- img -->
 			<div class="col-6">
-				<div id="preview" class="w-100"></div>
+				<div id="preview-box" class="w-100">
+					<img src="" id="preview" class="product-img" width="100%">
+				</div>
 				<div class="d-flex justify-content-end">
 					<input type="file" id="productImageFile" accept=".png, .jpg, .jpeg, .gif">
 				</div>
 			</div>
-
+			
 			<!-- basic info -->
 			<div class="col-6">
 				<h5 class="font-weight-bold">제목</h5>
@@ -61,10 +63,8 @@
 			var reader = new FileReader();
 			
 			reader.onload = function(event){
-				var img = document.createElement("img");
-				img.setAttribute("src", event.target.result);
-				img.setAttribute("width", "100%");
-				document.querySelector("div#preview").appendChild(img);
+				var preview = document.getElementById("preview");
+				preview.setAttribute("src", event.target.result);
 			};
 			
 			reader.readAsDataURL(event.target.files[0]);

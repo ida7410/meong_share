@@ -5,9 +5,9 @@
 <div class="d-flex">
 	<div class="col-3 chat-list-box bg-primary p-0">
 	<c:forEach items="${chatListCardList}" var="chatListCard">
-		<div class="chat-list d-flex bg-info py-3 pointer" data-chat-list-id="${chatListCard.cl.id}">
-			<div class="col-3">
-				<img src="${chatListCard.product.imagePath}" width="100%">
+		<div class="chat-list d-flex bg-info p-3 pointer" data-chat-list-id="${chatListCard.cl.id}">
+			<div class="col-3 chat-list-img-box">
+				<img src="${chatListCard.product.imagePath}" class="product-img" width="100%">
 			</div>
 			<div class="col-9">
 				<h5 class="font-weight-bold">${chatListCard.product.name}</h5>
