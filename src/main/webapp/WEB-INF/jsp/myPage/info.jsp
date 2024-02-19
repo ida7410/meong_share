@@ -2,6 +2,14 @@
     pageEncoding="UTF-8"%>
 
 <div class="col-8 pl-5">
+	<div class="d-flex mb-3">
+		<div id="update-preview-box" class="mr-3">
+			<img src="${userProfileImagePath}" id="preview" class="crop-img" width="100%">
+		</div>
+		<div class="d-flex justify-content-end align-items-end">
+			<input type="file" id="profileImageFile" accept=".png, .jpg, .jpeg, .gif">
+		</div>
+	</div>
 	<jsp:include page="../user/user.jsp" />
 	<button id="update-info-btn" type="button" class="btn btn-primary form-control mt-4">가입하기</button>
 </div>
@@ -12,6 +20,17 @@
 		let idChecked = false;
 		let passwordReg = false;
 		let passwordChecked = false;
+		
+		$("#profileImageFile").on("change", function(event) {
+			var reader = new FileReader();
+			
+			reader.onload = function(event){
+				var preview = document.getElementById("preview");
+				preview.setAttribute("src", event.target.result);
+			};
+			
+			reader.readAsDataURL(event.target.files[0]);
+		});
 		
 		$("#id").on("input", function() {
 			let id = $(this).val();
@@ -135,6 +154,7 @@
 			let phoneNumberThird = $("#phone-number-third").val().trim();
 			let phoneNumber = phoneNumberFirst + phoneNumberSecond + phoneNumberThird;
 			let email = $("#email").val().trim();
+			let fileName = $("#profileImageFile").val();
 			
 			if (loginId) {
 				if (duplicateId) {
@@ -167,6 +187,7 @@
 			formData.append("name", name);
 			formData.append("phoneNumber", phoneNumber);
 			formData.append("email", email);
+			formData.append("profileImageFile", $("#profileImageFile")[0].files[0]);
 			
 			$.ajax({
 				type:"post"

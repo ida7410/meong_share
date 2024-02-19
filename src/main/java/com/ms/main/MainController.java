@@ -148,7 +148,6 @@ public class MainController {
 
 		int tradeCount = productBO.getProductCount(null, true);
 		int recommendCount = likeBO.getRecommendCountBySubjectIdType(user.getId());
-		String userNickname =user.getNickname();
 
 		int totalCount = productBO.getProductCount(null, false);
 
@@ -165,7 +164,7 @@ public class MainController {
 		model.addAttribute("cardList", cardList);
 		model.addAttribute("page", page);
 		model.addAttribute("pm", pm);
-		model.addAttribute("userNickname", userNickname);
+		model.addAttribute("user", user);
 		model.addAttribute("recommendCount", recommendCount);
 		model.addAttribute("tradeCount", tradeCount);
 		return "template/layout";
@@ -206,7 +205,17 @@ public class MainController {
 	}
 
 	@GetMapping("/my-page")
-	public String myPage(Model model) {
+	public String myPage(HttpSession session, Model model) {
+		
+		Integer userId = (Integer)session.getAttribute("userId");
+		if (userId == null) {
+			return "redirect:/log-in";
+		}
+		
+		User user = userBO.getUserById(userId);
+		String userProfileImagePath = user.getProfileImagePath();
+		
+		model.addAttribute("userProfileImagePath", userProfileImagePath);
 		model.addAttribute("viewName", "myPage/myPage");
 		return "template/layout";
 	}

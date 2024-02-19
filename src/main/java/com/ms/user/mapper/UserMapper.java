@@ -31,5 +31,6 @@ public interface UserMapper {
 			@Param("nickname") String nickname,
 			@Param("name") String name,
 			@Param("phoneNumber") String phoneNumber,
-			@Param("email") String email);
+			@Param("email") String email,
+			@Param("profileImagePath") String profileImagePath);
 }

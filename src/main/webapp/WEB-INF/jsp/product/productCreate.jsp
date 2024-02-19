@@ -10,7 +10,7 @@
 			<!-- img -->
 			<div class="col-6">
 				<div id="preview-box" class="w-100">
-					<img src="" id="preview" class="product-img" width="100%">
+					<img src="" id="preview" class="crop-img" width="100%">
 				</div>
 				<div class="d-flex justify-content-end">
 					<input type="file" id="productImageFile" accept=".png, .jpg, .jpeg, .gif">

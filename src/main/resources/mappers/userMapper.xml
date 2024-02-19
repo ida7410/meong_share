@@ -38,6 +38,7 @@
 			,`name`
 			,`phoneNumber`
 			,`email`
+			,`profileImagePath`
 			,`createdAt`
 			,`updatedAt`
 		FROM
@@ -55,6 +56,7 @@
 			,`name`
 			,`phoneNumber`
 			,`email`
+			,`profileImagePath`
 			,`createdAt`
 			,`updatedAt`
 		FROM
@@ -72,6 +74,7 @@
 			,`name`
 			,`phoneNumber`
 			,`email`
+			,`profileImagePath`
 			,`createdAt`
 			,`updatedAt`
 		FROM
@@ -91,8 +94,9 @@
 			,`name` = #{name}
 			,`phoneNumber` = #{phoneNumber}
 			,`email` = #{email}
+			,`profileImagePath` = #{profileImagePath}
 			,`updatedAt` = NOW()
 		WHERE
-			`id` = #{id}
+			`id` = ${id}
 	</update>
 </mapper>

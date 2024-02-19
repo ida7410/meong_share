@@ -2,7 +2,9 @@ package com.ms.user.bo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.ms.common.FileManagerService;
 import com.ms.user.domain.User;
 import com.ms.user.mapper.UserMapper;
 
@@ -11,6 +13,9 @@ public class UserBO {
 	
 	@Autowired
 	private UserMapper userMapper;
+
+    @Autowired
+    private FileManagerService fileManagerService;
 	
 	public void addUser(
 			String id, String password, 
@@ -36,9 +41,11 @@ public class UserBO {
 	public void updateUser(
 			int id, String loginId, String password, 
 			String nickname, String name,
-			String phoneNumber, String email) {
+			String phoneNumber, String email,
+			MultipartFile profileImageFile) {
 		
 		User user = userMapper.selectUserById(id);
+		String profileImagePath = null;
 		
 		if (loginId.equals("")) {
 			loginId = user.getLoginId();
@@ -58,8 +65,14 @@ public class UserBO {
 		if (email.equals("")) {
 			email = user.getEmail();
 		}
+		if (profileImageFile == null) {
+			profileImagePath = user.getProfileImagePath();
+		}
+		else {
+			profileImagePath = fileManagerService.saveFile(loginId, profileImageFile);
+		}
 		
-		userMapper.updateUser(id, loginId, password, nickname, name, phoneNumber, email);
+		userMapper.updateUser(id, loginId, password, nickname, name, phoneNumber, email, profileImagePath);
 	}
 	
 }

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ms.user.bo.UserBO;
 import com.ms.user.domain.User;
@@ -59,7 +60,7 @@ public class UserRestController {
 		
 		session.setAttribute("userId", user.getId());
 		session.setAttribute("userLoginId", user.getLoginId());
-		session.setAttribute("userNickame", user.getNickname());
+		session.setAttribute("userNickname", user.getNickname());
 		
 		result.put("code", 200);
 		result.put("result", "success");
@@ -95,6 +96,7 @@ public class UserRestController {
 			@RequestParam(value = "name", required = false) String name,
 			@RequestParam(value = "phoneNumber", required = false) String phoneNumber,
 			@RequestParam(value = "email", required = false) String email,
+			@RequestParam(value = "profileImageFile", required = false) MultipartFile profileImageFile,
 			HttpSession session) {
 
 		Map<String, Object> result = new HashMap<>();
@@ -107,7 +109,9 @@ public class UserRestController {
 		}
 		
 		// DB update
-		userBO.updateUser(userId, loginId, password, nickname, name, phoneNumber, email);
+		userBO.updateUser(userId, loginId, password, nickname, name, phoneNumber, email, profileImageFile);
+		
+		session.setAttribute("userNickname", nickname);
 
 		result.put("code", 200);
 		result.put("result", "success");

@@ -4,10 +4,16 @@
 
 <div class="d-flex pt-4 pb-5">
 	<div class="col-2 bg-primary p-3">
-		<div>
+		<div class="profile-img-box">
+		<c:if test="${user.profileImagePath ne null}">
+			<img src="${user.profileImagePath}" class="crop-img" width="100%">
+		</c:if>
+		<c:if test="${user.profileImagePath eq null}">
+			<img src="/static/img/empty-profile.jpg" class="crop-img" width="100%">		
+		</c:if>
 		</div>
 		
-		<h3 class="font-weight-bold">${userNickname}</h3>
+		<h3 class="font-weight-bold">${user.nickname}</h3>
 		<div>
 			<h5>거래 횟수: ${tradeCount}</h5>
 			<h5>추천 횟수: ${recommendCount}</h5>

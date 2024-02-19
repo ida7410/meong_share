@@ -6,7 +6,7 @@
 <div class="p-5">
 	<div class="d-flex p-4 bg-danger">
 		<div class="col-4 bg-primary mr-5 product-info-img-box">
-			<img src="${card.product.imagePath}" class="product-img" width="100%">
+			<img src="${card.product.imagePath}" class="crop-img" width="100%">
 		</div>
 		
 		<div>
