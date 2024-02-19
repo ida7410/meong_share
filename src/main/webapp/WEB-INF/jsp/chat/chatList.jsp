@@ -27,6 +27,10 @@
 	$(document).ready(function() {
 		let chatListId = ${chatListId};
 		
+		setInterval(function() {
+			location.reload();
+		}, 3000)
+		
 		$(".chat-list").on("click", function() {
 			let getChatListId = $(this).data("chat-list-id");
 			location.href = "/chat/" + getChatListId;
