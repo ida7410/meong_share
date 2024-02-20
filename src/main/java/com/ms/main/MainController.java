@@ -1,17 +1,22 @@
 package com.ms.main;
 
+import java.net.URI;
+import java.nio.charset.Charset;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.RequestEntity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.ms.chat.chatList.bo.ChatListBO;
 import com.ms.chat.chatList.domain.ChatList;
-import com.ms.common.CookieManager;
 import com.ms.like.bo.LikeBO;
 import com.ms.main.bo.MainBO;
 import com.ms.main.domain.Card;
@@ -117,6 +122,7 @@ public class MainController {
 		model.addAttribute("viewName", "map/map");		
 		return "template/layout";
 	}
+	
 	
 	@GetMapping("/product/{productId}")
 	public String productInfo(

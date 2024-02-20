@@ -1,4 +1,4 @@
-data = {
+VET = {
 "DESCRIPTION" : {"SITEPOSTNO":"소재지우편번호","RGTMBDSNO":"권리주체일련번호","TOTEPNUM":"총인원","UPTAENM":"업태구분명","LASTMODTS":"최종수정일자","CLGENDDT":"휴업종료일자","UPDATEGBN":"데이터갱신구분","RDNWHLADDR":"도로명주소","SITEWHLADDR":"지번주소","Y":"좌표정보(Y)","X":"좌표정보(X)","OPNSFTEAMCODE":"개방자치단체코드","APVPERMYMD":"인허가일자","LINDSEQNO":"축산일련번호","UPDATEDT":"데이터갱신일자","LINDPRCBGBNNM":"축산물가공업구분명","BPLCNM":"사업장명","CLGSTDT":"휴업시작일자","RDNPOSTNO":"도로명우편번호","ROPNYMD":"재개업일자","MGTNO":"관리번호","LINDJOBGBNNM":"축산업무구분명","TRDSTATENM":"영업상태명","SITEAREA":"소재지면적","SITETEL":"전화번호","APVCANCELYMD":"인허가취소일자"},
 "DATA" : [
 {"lastmodts":"2023-03-01 17:19:34","lindjobgbnnm":null,"totepnum":null,"lindseqno":null,"lindprcbgbnnm":null,"bplcnm":"차지우동물병원","clgenddt":"","sitearea":"","clgstdt":"","trdstatenm":"영업/정상","apvcancelymd":"","sitepostno":"","opnsfteamcode":"3150000","sitetel":"02-2235-1533","sitewhladdr":"서울특별시 강서구 등촌동 680 한울빌딩","rdnpostno":"07583","rgtmbdsno":null,"updategbn":"U","updatedt":1669993380000,"apvpermymd":"2020-06-16","uptaenm":"","rdnwhladdr":"서울특별시 강서구 강서로62길 10, 한울빌딩 1층 (등촌동)","y":"451192.093585364","ropnymd":"","mgtno":"315000001020200003","x":"185831.959022199"},
