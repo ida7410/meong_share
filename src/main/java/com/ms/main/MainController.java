@@ -112,6 +112,12 @@ public class MainController {
 		return "template/layout";
 	}
 	
+	@GetMapping("/map")
+	public String map(Model model) {
+		model.addAttribute("viewName", "map/map");		
+		return "template/layout";
+	}
+	
 	@GetMapping("/product/{productId}")
 	public String productInfo(
 			@PathVariable("productId") int productId,
