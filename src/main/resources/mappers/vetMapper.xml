@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="com.ms.main.mapper.VetMapper">
+	<select id="selectCountVetList" resultType="int">
+		SELECT
+			count(*)
+		FROM
+			`vet`
+	</select>
+	
+	<select id="selectVetById" parameterType="int" resultType="com.ms.main.domain.Vet">
+		SELECT
+			`lastmodts`
+			,`id`
+			,`name`
+			,`siteTelNumber`
+			,`approvedDate`
+			,`address`
+			,`y`
+			,`x`
+		FROM
+			`vet`
+		WHERE
+			`id` = #{id}
+	</select>
+
+	<update id="updateVet" parameterType="map">
+		UPDATE
+			`vet`
+		SET
+			`x` = #{x}
+			,`y` = #{y}
+		WHERE
+			`id` = #{id}
+	</update>
+</mapper>
