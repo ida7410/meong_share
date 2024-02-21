@@ -2,11 +2,13 @@ package com.ms.main;
 
 import java.util.List;
 
+import org.locationtech.proj4j.ProjCoordinate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ms.chat.chatList.bo.ChatListBO;
@@ -19,6 +21,7 @@ import com.ms.main.domain.ChatCard;
 import com.ms.main.domain.ChatListCard;
 import com.ms.main.domain.Criteria;
 import com.ms.main.domain.PageMaker;
+import com.ms.main.domain.Vet;
 import com.ms.product.bo.ProductBO;
 import com.ms.product.domain.Product;
 import com.ms.user.bo.UserBO;
@@ -29,8 +32,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
-@Controller
 @Slf4j
+@Controller
 public class MainController {
 	
 	@Autowired
@@ -53,7 +56,7 @@ public class MainController {
 	
 	@GetMapping("/new")
 	public String newmap(Model model) {
-		vetBO.updateVet();
+		// vetBO.updateVet();
 		model.addAttribute("viewName", "map/new");
 		return "template/layout";
 	}

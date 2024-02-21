@@ -10,6 +10,23 @@
 			`vet`
 	</select>
 	
+	<select id="selectVetListByXY" parameterType="map" resultType="com.ms.main.domain.Vet">
+		SELECT
+			`lastmodts`
+			,`id`
+			,`name`
+			,`siteTelNumber`
+			,`approvedDate`
+			,`address`
+			,`y`
+			,`x`
+		FROM
+			`vet`
+		WHERE
+			`x` BETWEEN ${min_x} AND ${max_x}
+			AND `y` BETWEEN ${min_y} AND ${max_y}
+	</select>
+	
 	<select id="selectVetById" parameterType="int" resultType="com.ms.main.domain.Vet">
 		SELECT
 			`lastmodts`

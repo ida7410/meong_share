@@ -1,5 +1,7 @@
 package com.ms.main.mapper;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -9,6 +11,12 @@ import com.ms.main.domain.Vet;
 public interface VetMapper {
 	
 	public int selectCountVetList();
+	
+	public List<Vet> selectVetListByXY(
+			@Param("min_x") double min_x,
+			@Param("max_x") double max_x,
+			@Param("min_y") double min_y,
+			@Param("max_y") double max_y);
 	
 	public Vet selectVetById(int id);
 	

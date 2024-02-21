@@ -8,7 +8,10 @@ import org.locationtech.proj4j.CoordinateTransformFactory;
 import org.locationtech.proj4j.ProjCoordinate;
 import org.springframework.stereotype.Component;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Component
+@Slf4j
 public class TransCoord {
 	public ProjCoordinate transform(String strLon, String strLat) {
 
@@ -17,17 +20,17 @@ public class TransCoord {
 		Double dblLat = Double.parseDouble(strLat);
 
 		CRSFactory factory = new CRSFactory();
-		CoordinateReferenceSystem grs80 = factory.createFromName("EPSG:5179");
-		CoordinateReferenceSystem wgs84 = factory.createFromName("EPSG:4326");
-		BasicCoordinateTransform transformer = new BasicCoordinateTransform(grs80, wgs84);
+		CoordinateReferenceSystem epsg = factory.createFromParameters("EPSG:2097", "+proj=tmerc +lat_0=38 +lon_0=127 +k=1 +x_0=200000 +y_0=500000 +ellps=bessel +units=m +no_defs");
+		CoordinateReferenceSystem wgs84 = factory.createFromParameters("WGS84", "+proj=longlat +datum=WGS84 +no_defs");
+		BasicCoordinateTransform transformer = new BasicCoordinateTransform(epsg, wgs84);
 
 		ProjCoordinate beforeCoord = new ProjCoordinate(dblLon, dblLat);
 		ProjCoordinate afterCoord = new ProjCoordinate();
+		
+		afterCoord = transformer.transform(beforeCoord, afterCoord);
 
-		// 변환된 좌표
-		System.out.println(afterCoord.x + "," + afterCoord.y);
-
-		return transformer.transform(beforeCoord, afterCoord);
+		log.info("$$$$$$$$$$$$$$"+ afterCoord);
+		return afterCoord;
 	}
 	
 	public ProjCoordinate transformtwo(String strLon, String strLat) {
@@ -63,6 +66,6 @@ public class TransCoord {
 		double x = projCoordinate.x;
 		double y = projCoordinate.y;
 		
-		return 
+		return projCoordinate;
 	}
 }
