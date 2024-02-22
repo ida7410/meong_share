@@ -56,7 +56,7 @@ public class MainController {
 	
 	@GetMapping("/new")
 	public String newmap(Model model) {
-		// vetBO.updateVet();
+//		 vetBO.updateVet();
 		model.addAttribute("viewName", "map/new");
 		return "template/layout";
 	}

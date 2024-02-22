@@ -16,7 +16,8 @@ public interface VetMapper {
 			@Param("min_x") double min_x,
 			@Param("max_x") double max_x,
 			@Param("min_y") double min_y,
-			@Param("max_y") double max_y);
+			@Param("max_y") double max_y,
+			@Param("type") String type);
 	
 	public Vet selectVetById(int id);
 	

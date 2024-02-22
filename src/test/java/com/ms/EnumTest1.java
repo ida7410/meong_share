@@ -4,7 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.function.Function;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
 
 public class EnumTest1 {
 

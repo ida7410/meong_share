@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ms.common.TransCoord;
+import com.ms.main.domain.Type;
 import com.ms.main.domain.Vet;
 import com.ms.main.mapper.VetMapper;
 
@@ -20,14 +21,22 @@ public class VetBO {
 	@Autowired
 	private TransCoord transCoord;
 	
-	public List<Vet> getVetList(String min_x, String min_y, String max_x, String max_y) {
+	public List<Vet> getVetList(String min_x, String min_y, String max_x, String max_y, String type) {
 		List<Vet> vetList = new ArrayList<>();
 		double min_x_int = Double.parseDouble(min_x);
 		double min_y_int = Double.parseDouble(min_y);
 		double max_x_int = Double.parseDouble(max_x);
 		double max_y_int = Double.parseDouble(max_y);
 		
-		vetList = vetMapper.selectVetListByXY(min_x_int, max_x_int, min_y_int, max_y_int);
+		Type t = null;
+		if (type.equals("hospital")) {
+			t = Type.Hospital;
+		}
+		else {
+			t = Type.Pharmacy;
+		}
+		
+		vetList = vetMapper.selectVetListByXY(min_x_int, max_x_int, min_y_int, max_y_int, t.getTypeStr());
 		return vetList;
 	}
 	
