@@ -30,17 +30,17 @@ public class MapRestController {
 	@Autowired
 	private VetBO vetBO;
 	
-
 	@PostMapping("/get-vet-list")
 	public List<Vet> getVetList(
 			@RequestParam("min_x") String min_x,
 			@RequestParam("min_y") String min_y,
 			@RequestParam("max_x") String max_x,
-			@RequestParam("max_y") String max_y) {
+			@RequestParam("max_y") String max_y,
+			@RequestParam("type") String type) {
 		
 		log.info(min_x + " / " + min_y);
 		log.info(max_x + " / " + max_y);
-		List<Vet> vetList = vetBO.getVetList(min_x, min_y, max_x, max_y);
+		List<Vet> vetList = vetBO.getVetList(min_x, min_y, max_x, max_y, type);
 		return vetList;
 	}
 	

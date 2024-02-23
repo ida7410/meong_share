@@ -20,11 +20,15 @@
 			,`address`
 			,`y`
 			,`x`
+			,`type`
 		FROM
 			`vet`
 		WHERE
 			`x` BETWEEN ${min_x} AND ${max_x}
 			AND `y` BETWEEN ${min_y} AND ${max_y}
+			<if test="type != null">
+			AND `type` = #{type}
+			</if>
 	</select>
 	
 	<select id="selectVetById" parameterType="int" resultType="com.ms.main.domain.Vet">
@@ -37,6 +41,7 @@
 			,`address`
 			,`y`
 			,`x`
+			,`type`
 		FROM
 			`vet`
 		WHERE

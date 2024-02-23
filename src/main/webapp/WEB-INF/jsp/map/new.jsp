@@ -5,7 +5,11 @@
 
 <div class="d-flex">
 	<div id="list-box" class="list bg-primary col-3 p-0">
-		<h2>병원 목록</h2>
+		<div class="d-flex">
+			<h4 class="type font-weight-bold p-3" data-type="all">전체</h4>
+			<h4 class="type font-weight-bold p-3" data-type="hospital">병원</h4>
+			<h4 class="type font-weight-bold p-3" data-type="pharmacy">약국</h4>
+		</div>
 		<div id="list"></div>
 	</div>
 	
@@ -27,6 +31,7 @@
 		var positions = [];
 		var markers = [];
 		var infowindows = [];
+		var type = "all";
 		
 		if (navigator.geolocation) {
 		    
@@ -41,7 +46,6 @@
 		        
 		        // 마커와 인포윈도우를 표시합니다
 		        map.setCenter(locPosition);  
-		        getVetList();
 		            
 		      });
 		    
@@ -51,37 +55,57 @@
 		        message = 'geolocation을 사용할수 없어요..'
 		        
 		    map.setCenter(locPosition);
-		    getVetList();
 		}
 		
 
 		function getPosition(vet) {
 			position = {"name":vet.name,
 						"address":vet.address,
+						"type":vet.type,
 						"latlng": new kakao.maps.LatLng(vet.y, vet.x)}
-			positions.push(position)
+			positions.push(position);
+			console.log(position);
+		}
+		
+		function removeMarker() {
+		    for ( var i = 0; i < markers.length; i++ ) {
+		        markers[i].setMap(null);
+		    }   
+		    markers = [];
 		}
 		
 		function getMarker(positions) {
-			markers = [];
+			
 			infowindows = [];
+			console.log(markers);
+			removeMarker();
+			console.log(markers);
 			
 			var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"; 
 		    
 			for (var i = 0; i < positions.length; i ++) {
-			    
+			    console.log(positions[i]);
 			    // 마커 이미지의 이미지 크기 입니다
 			    var imageSize = new kakao.maps.Size(24, 35); 
 			    
 			    // 마커 이미지를 생성합니다    
 			    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
+			    if (positions[i].type == "hospital") {
+			    	// 마커를 생성합니다
+				    var marker = new kakao.maps.Marker({
+				        map: map, // 마커를 표시할 지도
+				        position: positions[i].latlng, // 마커를 표시할 위치
+				        image : markerImage // 마커 이미지 
+				    });
+			    }
+			    else {
+			    	// 마커를 생성합니다
+				    var marker = new kakao.maps.Marker({
+				        map: map, // 마커를 표시할 지도
+				        position: positions[i].latlng, // 마커를 표시할 위치
+				    });
+			    }
 			    
-			    // 마커를 생성합니다
-			    var marker = new kakao.maps.Marker({
-			        map: map, // 마커를 표시할 지도
-			        position: positions[i].latlng, // 마커를 표시할 위치
-			        image : markerImage // 마커 이미지 
-			    });
 			    
 			 	// 마커에 표시할 인포윈도우를 생성합니다 
 				var infowindow = new kakao.maps.InfoWindow({
@@ -105,25 +129,30 @@
 				
 				markers.push(marker);
 			}
+			console.log(markers);
 		}
 		
 		function getVetList() {
 			vets = [];
 			positions = [];
+			markers = [];
+			infowindows = [];
 			
 			var bounds = map.getBounds();
-			console.log(bounds);
 			
 			let swLatLng = bounds.getSouthWest();
 			let neLatLng = bounds.getNorthEast();
-			console.log(neLatLng);
+			
+			console.log(type);
+			
 			$.ajax({
 				type:"post"
 				,url:"/get-vet-list"
 				,data:{"min_x":swLatLng.La + ""
 						,"min_y":swLatLng.Ma + ""
 						,"max_x":neLatLng.La + ""
-						,"max_y":neLatLng.Ma + ""}
+						,"max_y":neLatLng.Ma + ""
+						,"type":type}
 				,success:function(data) {
 					$("#list").children().remove();
 					let i;
@@ -148,7 +177,6 @@
 			let vet_id = $(this).data("vet-id");
 			let infowindow = infowindows[vet_id];
 			infowindow.open(map, markers[vet_id]);
-			console.log(vet_id);
 		});
 		
 		// info에 mouseout
@@ -157,6 +185,11 @@
 			let infowindow = infowindows[vet_id];
 			infowindow.close();
 		});
+		
+		$(".type").on("click", function() {
+			type = $(this).data("type");
+			getVetList();
+		})
 		
 		// 드래그가 끝날 때 발생
 		kakao.maps.event.addListener(map, 'dragend', getVetList);

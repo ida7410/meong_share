@@ -15,6 +15,6 @@ public class Vet {
 	private String address;
 	private String y;
 	private String x;
-	private Type type;
+	private String type;
 	
 }

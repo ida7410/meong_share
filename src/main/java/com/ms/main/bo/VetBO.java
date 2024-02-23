@@ -28,15 +28,11 @@ public class VetBO {
 		double max_x_int = Double.parseDouble(max_x);
 		double max_y_int = Double.parseDouble(max_y);
 		
-		Type t = null;
-		if (type.equals("hospital")) {
-			t = Type.Hospital;
-		}
-		else {
-			t = Type.Pharmacy;
+		if (type.equals("all")) {
+			type = null;
 		}
 		
-		vetList = vetMapper.selectVetListByXY(min_x_int, max_x_int, min_y_int, max_y_int, t.getTypeStr());
+		vetList = vetMapper.selectVetListByXY(min_x_int, max_x_int, min_y_int, max_y_int, type);
 		return vetList;
 	}
 	
