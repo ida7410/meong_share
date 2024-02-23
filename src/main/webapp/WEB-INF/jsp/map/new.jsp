@@ -68,17 +68,21 @@
 		}
 		
 		function removeMarker() {
+			console.log(markers);
 		    for ( var i = 0; i < markers.length; i++ ) {
-		        markers[i].setMap(null);
+		    	markers[i].setMap(null);
 		    }   
 		    markers = [];
+		    console.log("removed");
 		}
 		
 		function getMarker(positions) {
 			
 			infowindows = [];
+			console.log("before")
 			console.log(markers);
 			removeMarker();
+			console.log("after")
 			console.log(markers);
 			
 			var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"; 
@@ -135,7 +139,6 @@
 		function getVetList() {
 			vets = [];
 			positions = [];
-			markers = [];
 			infowindows = [];
 			
 			var bounds = map.getBounds();
@@ -167,7 +170,6 @@
 						$("#list").append(info);
 					}
 					getMarker(positions);
-					
 				}
 			})
 		}
