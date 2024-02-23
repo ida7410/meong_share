@@ -23,8 +23,8 @@
 	<div class="col-10">
 		<nav>
 			<ul class="nav">
-				<li class="nav-item"><a href="?completed=false" class="nav-link">전체</a></li>
-				<li class="nav-item"><a href="?completed=true" class="nav-link">거래 완료</a></li>
+				<li class="nav-item"><a id="incompleted" class="nav-link">전체</a></li>
+				<li class="nav-item"><a id="completed" class="nav-link">거래 완료</a></li>
 			</ul>
 		</nav>
 		<jsp:include page="../product/productList.jsp" />
@@ -38,5 +38,11 @@
 			let productId = $(this).data("product-id");
 			location.href = "/product/" + productId;
 		});
+		
+		$("#incompleted").on("click", function() {
+			/* $.ajax({
+				
+			}) */
+		})
 	})
 </script>

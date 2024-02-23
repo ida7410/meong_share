@@ -80,7 +80,6 @@ public class MainController {
 			HttpServletRequest request,
 			Model model) {
 		
-		log.info(keyword);
 		if (page == null) {
 			page = 1;
 		}
