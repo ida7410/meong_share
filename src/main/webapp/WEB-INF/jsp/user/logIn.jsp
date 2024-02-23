@@ -12,6 +12,12 @@
 			<h5 class="font-weight-bold mt-3">PASSWORD</h5>
 			<input type="password" id="password" name="password" class="form-control">
 			
+			<div class="d-flex justify-content-end">
+				<a href="/find-id">아이디</a>
+				&nbsp; / &nbsp;
+				<a href="/find-pw">비밀번호 찾기</a>
+			</div>
+			
 			<button id="log-in-btn" type="submit" class="btn btn-primary form-control mt-4 my-2">로그인</button>
 		</form>
 		
@@ -54,7 +60,7 @@
 					}
 				}
 				,error:function(request, status, error) {
-					alert(data.error_message);
+					alert("로그인에 실패했습니다. 관리자에게 문의해주세요.");
 				}
 			});
 		});

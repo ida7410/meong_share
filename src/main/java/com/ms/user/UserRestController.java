@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -85,6 +86,67 @@ public class UserRestController {
 		result.put("code", 200);
 		result.put("result", "success");
 		
+		return result;
+	}
+	
+	@PostMapping("/findId")
+	public Map<String, Object> findId(
+			@RequestParam("name") String name,
+			@RequestParam("email") String email) {
+		
+		Map<String, Object> result = new HashMap<>();
+		User user = userBO.getUserByNameEmail(name, email);
+		if (user == null) {
+			result.put("code", 300);
+			result.put("message", "사용자를 찾을 수 없습니다.");
+		}
+		else {
+			result.put("code", 200);
+			result.put("loginId", user.getLoginId());
+		}
+		
+		result.put("result", "success");
+		
+		return result;
+	}
+	
+	@PostMapping("/findPw")
+	public Map<String, Object> findPw(
+			@RequestParam("id") String id,
+			@RequestParam("email") String email) {
+		
+		Map<String, Object> result = new HashMap<>();
+		User user = userBO.getUserByNameEmail(id, email);
+		if (user == null) {
+			result.put("code", 300);
+			result.put("message", "사용자를 찾을 수 없습니다.");
+		}
+		else {
+			result.put("code", 200);
+		}
+		
+		result.put("result", "success");
+		
+		return result;
+	}
+	
+	@PostMapping("/updatePw")
+	public Map<String, Object> updatePw(
+			@RequestParam("id") String id,
+			@RequestParam("password") String password,
+			@RequestParam("new-password") String newPassword) {
+		
+		Map<String, Object> result = new HashMap<>();
+		
+		int updatedUserCount = userBO.updateUserPassword(id, password, newPassword);
+		if (updatedUserCount != 1) {
+			result.put("code", 300);
+			result.put("error_message", "아이디 혹은 비밃런호가 일치하지 않습니다.");
+			return result;
+		}
+		
+		result.put("code", 200);
+		result.put("result", "success");
 		return result;
 	}
 	

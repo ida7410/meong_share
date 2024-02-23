@@ -239,4 +239,22 @@ public class MainController {
 		model.addAttribute("viewName", "myPage/myPage");
 		return "template/layout";
 	}
+	
+	@GetMapping("/find-id")
+	public String findIdView(Model model) {
+		model.addAttribute("viewName", "user/findId");
+		return "template/layout";
+	}
+	
+	@GetMapping("/find-pw")
+	public String findPwView(Model model) {
+		model.addAttribute("viewName", "user/findPw");
+		return "template/layout";
+	}
+	
+	@GetMapping("/update-pw")
+	public String updatePwView(Model model) {
+		model.addAttribute("viewName", "user/updatePw");
+		return "template/layout";
+	}
 }

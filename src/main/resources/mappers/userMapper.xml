@@ -84,6 +84,35 @@
 			AND `password` = #{password}
 	</select>
 	
+	<select id="selectUserByNameEmail" parameterType="map" resultType="com.ms.user.domain.User">
+		SELECT
+			`id`
+			,`loginId`
+			,`password`
+			,`nickname`
+			,`name`
+			,`phoneNumber`
+			,`email`
+			,`profileImagePath`
+			,`createdAt`
+			,`updatedAt`
+		FROM
+			`user`
+		WHERE
+			`name` = #{name}
+			AND `email` = #{email}
+	</select>
+	
+	<update id="updateUserPassword" parameterType="map">
+		UPDATE
+			`user`
+		SET
+			`password` = #{newPassword}
+		WHERE
+			`loginId` = #{loginId}
+			AND `password` = #{password}
+	</update>
+	
 	<update id="updateUser" parameterType="int">
 		UPDATE
 			`user`

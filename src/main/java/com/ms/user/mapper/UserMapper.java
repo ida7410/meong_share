@@ -24,6 +24,15 @@ public interface UserMapper {
 			@Param("loginId") String loginId,
 			@Param("password") String password);
 	
+	public User selectUserByNameEmail(
+			@Param("name") String name,
+			@Param("email") String email);
+	
+	public int updateUserPassword(
+			@Param("loginId") String loginId,
+			@Param("password") String password,
+			@Param("newPassword") String newPassword);
+	
 	public void updateUser(
 			@Param("id") int id,
 			@Param("loginId") String loginId,

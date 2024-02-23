@@ -38,6 +38,14 @@ public class UserBO {
 		return userMapper.selectUserByLoginIdPassword(loginId, password);
 	}
 	
+	public User getUserByNameEmail(String name, String email) {
+		return userMapper.selectUserByNameEmail(name, email);
+	}
+	
+	public int updateUserPassword(String loginId, String password, String newPassword) {
+		return userMapper.updateUserPassword(loginId, password, newPassword);
+	}
+	
 	public void updateUser(
 			int id, String loginId, String password, 
 			String nickname, String name,
