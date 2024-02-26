@@ -104,8 +104,9 @@ public class UserRestController {
 			result.put("message", "사용자를 찾을 수 없습니다.");
 		}
 		else {
+			mailBO.mailSend(email, "[MEONG SHAR] 인증번호", "멍셰어 아이디: " + user.getLoginId());
 			result.put("code", 200);
-			result.put("loginId", user.getLoginId());
+			result.put("message", "아이디를 보내드렸습니다. 이메일을 확인해주세요.");
 		}
 		
 		result.put("result", "success");

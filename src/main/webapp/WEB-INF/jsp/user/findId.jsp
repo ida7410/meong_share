@@ -30,8 +30,6 @@
 				return;
 			}
 			
-			console.log(name + email)
-			
 			$.ajax({
 				type:"post"
 				,url:"/user/findId"
@@ -39,7 +37,7 @@
 				
 				,success:function(data) {
 					if (data.code == 200) {
-						alert(data.loginId);
+						alert(data.message);
 						location.href = "/log-in";
 					}
 					else if(data.code == 300) {
