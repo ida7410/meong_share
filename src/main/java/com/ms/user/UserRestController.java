@@ -115,11 +115,11 @@ public class UserRestController {
 	
 	@PostMapping("/findPw")
 	public Map<String, Object> findPw(
-			@RequestParam("name") String name,
+			@RequestParam("id") String id,
 			@RequestParam("email") String email) {
 		
 		Map<String, Object> result = new HashMap<>();
-		User user = userBO.getUserByNameEmail(name, email);
+		User user = userBO.getUserByLoginIdEmail(id, email);
 		if (user == null) {
 			result.put("code", 300);
 			result.put("message", "사용자를 찾을 수 없습니다.");
@@ -128,7 +128,6 @@ public class UserRestController {
 			result.put("code", 200);
 			String randomChar = getRandomChar();
 			result.put("randomChar", randomChar);
-			userBO.updateUserPassword(name, email, randomChar);
 			mailBO.mailSend(email, "[MEONG SHAR] 인증번호", "멍셰어 인증번호: " + randomChar);
 			
 		}
@@ -153,20 +152,17 @@ public class UserRestController {
 		return str;
 	}
 	
-	@PostMapping("/updatePw")
+	@PostMapping("/updateTempPw")
 	public Map<String, Object> updatePw(
-			@RequestParam("id") String id,
-			@RequestParam("password") String password,
-			@RequestParam("new-password") String newPassword) {
+			@RequestParam("id") String id) {
 		
 		Map<String, Object> result = new HashMap<>();
 		
-		int updatedUserCount = userBO.updateUserPassword(id, password, newPassword);
-		if (updatedUserCount != 1) {
-			result.put("code", 300);
-			result.put("error_message", "아이디 혹은 비밃런호가 일치하지 않습니다.");
-			return result;
-		}
+		String tempPassword = getRandomChar();
+		User user = userBO.getUserByLoginId(id);
+		
+		userBO.updateUserPasswordByLoginIdPassword(id, user.getPassword(), tempPassword);
+		mailBO.mailSend(user.getEmail(), "[MEONG SHARE] 임시 비밀번호", "멍셰어 임시비밀번호: " + tempPassword);
 		
 		result.put("code", 200);
 		result.put("result", "success");

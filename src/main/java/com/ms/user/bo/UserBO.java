@@ -38,11 +38,15 @@ public class UserBO {
 		return userMapper.selectUserByLoginIdPassword(loginId, password);
 	}
 	
+	public User getUserByLoginIdEmail(String loginId, String email) {
+		return userMapper.selectUserByLoginIdEmail(loginId, email);
+	}
+	
 	public User getUserByNameEmail(String name, String email) {
 		return userMapper.selectUserByNameEmail(name, email);
 	}
 	
-	public int updateUserPassword(String loginId, String password, String newPassword) {
+	public int updateUserPasswordByLoginIdPassword(String loginId, String password, String newPassword) {
 		return userMapper.updateUserPassword(loginId, password, newPassword);
 	}
 	

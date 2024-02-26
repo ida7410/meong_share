@@ -84,6 +84,25 @@
 			AND `password` = #{password}
 	</select>
 	
+	<select id="selectUserByLoginIdEmail" parameterType="map" resultType="com.ms.user.domain.User">
+		SELECT
+			`id`
+			,`loginId`
+			,`password`
+			,`nickname`
+			,`name`
+			,`phoneNumber`
+			,`email`
+			,`profileImagePath`
+			,`createdAt`
+			,`updatedAt`
+		FROM
+			`user`
+		WHERE
+			`loginId` = #{loginId}
+			AND `email` = #{email}
+	</select>
+	
 	<select id="selectUserByNameEmail" parameterType="map" resultType="com.ms.user.domain.User">
 		SELECT
 			`id`

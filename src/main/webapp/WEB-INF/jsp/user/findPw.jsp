@@ -5,8 +5,8 @@
 	<div id="find-pw-box" class="col-3 pb-5">
 		<h2 class="text-center font-weight-bold mt-5 mb-4">비밀번호 찾기</h2>
 		
-		<h5 class="font-weight-bold">이름</h5>
-		<input type="text" id="name" class="form-control">
+		<h5 class="font-weight-bold">아이디</h5>
+		<input type="text" id="id" class="form-control">
 	
 		<h5 class="font-weight-bold mt-3">이메일</h5>
 		<input type="text" id="email" class="form-control">
@@ -31,13 +31,14 @@
 <script>
 	$(document).ready(function() {
 		var randomChar = "";
+		var id = "";
 		
 		$("#find-pw-btn").on("click", function() {
-			let name = $("#name").val().trim();
+			id = $("#id").val().trim();
 			let email = $("#email").val().trim();
 			
-			if (!name) {
-				alert("이름을 입력해주세요.");
+			if (!id) {
+				alert("아이디를 입력해주세요.");
 				return;
 			}
 			if (!email) {
@@ -45,12 +46,10 @@
 				return;
 			}
 			
-			console.log(name + email)
-			
 			$.ajax({
 				type:"post"
 				,url:"/user/findPw"
-				,data:{"name":name, "email":email}
+				,data:{"id":id, "email":email}
 				
 				,success:function(data) {
 					if (data.code == 200) {
@@ -81,7 +80,18 @@
 				return;
 			}
 			
-			alert("here")
+			$.ajax({
+				type:"post"
+				,url:"/user/updateTempPw"
+				,data:{"id":id}
+				,success:function(data) {
+					if (data.code == 200) {
+						alert("임시 비밀번호가 발급되었습니다. 다시 로그인 후 비밀번호를 업데이트해주세요.");
+						location.href = "/log-in";
+					}
+				}
+			})
+			
 		})
 		
 	})
