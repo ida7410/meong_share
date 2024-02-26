@@ -10,9 +10,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ms.mail.bo.MailBO;
+import com.ms.user.bo.UserBO;
 
 @RestController
-public class MailController {
+public class MailRestController {
 	
 	@Autowired
 	private MailBO mailBO;
@@ -22,6 +23,7 @@ public class MailController {
 			@RequestParam("address") String address,
 			@RequestParam("title") String title,
 			@RequestParam("content") String content) {
+		
 		mailBO.mailSend(address, title, content);
 		Map<String, Object> result = new HashMap<>();
 		result.put("code", 200);
