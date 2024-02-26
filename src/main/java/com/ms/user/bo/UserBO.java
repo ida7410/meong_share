@@ -51,7 +51,7 @@ public class UserBO {
 	}
 	
 	public void updateUser(
-			int id, String loginId, String password, 
+			int id, String loginId, 
 			String nickname, String name,
 			String phoneNumber, String email,
 			MultipartFile profileImageFile) {
@@ -61,9 +61,6 @@ public class UserBO {
 		
 		if (loginId.equals("")) {
 			loginId = user.getLoginId();
-		}
-		if (password.equals("")) {
-			password = user.getPassword();
 		}
 		if (nickname.equals("")) {
 			nickname = user.getNickname();
@@ -84,7 +81,7 @@ public class UserBO {
 			profileImagePath = fileManagerService.saveFile(loginId, profileImageFile);
 		}
 		
-		userMapper.updateUser(id, loginId, password, nickname, name, phoneNumber, email, profileImagePath);
+		userMapper.updateUser(id, loginId, nickname, name, phoneNumber, email, profileImagePath);
 	}
 	
 }

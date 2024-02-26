@@ -137,7 +137,6 @@
 			`user`
 		SET
 			`loginId` = #{loginId}
-			,`password` = #{password}
 			,`nickname` = #{nickname}
 			,`name` = #{name}
 			,`phoneNumber` = #{phoneNumber}

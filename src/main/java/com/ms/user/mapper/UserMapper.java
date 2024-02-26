@@ -40,7 +40,6 @@ public interface UserMapper {
 	public void updateUser(
 			@Param("id") int id,
 			@Param("loginId") String loginId,
-			@Param("password") String password,
 			@Param("nickname") String nickname,
 			@Param("name") String name,
 			@Param("phoneNumber") String phoneNumber,

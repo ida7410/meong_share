@@ -16,10 +16,11 @@
 
 <script>
 	$(document).ready(function() {
+		$("#pw-box").addClass("d-none");
+		$("#pw-check-box").addClass("d-none");
+		
 		let duplicateId = true;
 		let idChecked = false;
-		let passwordReg = false;
-		let passwordChecked = false;
 		
 		$("#profileImageFile").on("change", function(event) {
 			var reader = new FileReader();
@@ -85,68 +86,8 @@
 			})
 		});
 		
-		$("#password").on("input", function() {
-	        let pw = $("#password").val();
-	        let reg = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
-	        
-	        $("#pw-desc").removeClass("text-danger");
-	        $("#pw-desc").removeClass("text-success");
-	        $("#passwordCheck").val("");
-			
-	        if (pw.length < 8) {
-	        	$("#pw-desc").text("비밀번호를 8자 이상 입력해주세요.");
-	        	$("#pw-desc").addClass("text-danger");
-	        	
-	        	passwordReg = false;
-	        	return;
-	        }
-	        if (pw.search(/\s/) != -1) {
-	        	$("#pw-desc").text("비밀번호는 공백 없이 입력해주세요.");
-	        	$("#pw-desc").addClass("text-danger");
-	        	
-	        	passwordReg = false;
-	            return;
-	        }
-	        
-	        if (!reg.test(pw)) {
-	        	$("#pw-desc").text("비밀번호는 숫자/대문자/소문자/특수문자를 포함해야 합니다.");
-	        	$("#pw-desc").addClass("text-danger");
-	        	
-	        	passwordReg = false;
-	        	return;
-	        } else {
-	        	$("#pw-desc").text("사용 가능한 비밀번호입니다.");
-	        	$("#pw-desc").addClass("text-success");
-	        	
-	        	passwordReg = true;
-	        }
-		});
-		
-		$("#passwordCheck").on("input", function() {
-			let pw = $("#password").val();
-			let pwc = $(this).val();
-			
-			$("#pwc-desc").removeClass("text-danger");
-			
-			if (pw != pwc) {
-				$("#pwc-desc").text("비밀번호가 일치하지 않습니다.");
-				$("#pwc-desc").addClass("text-danger");
-				
-				passwordChecked = false;
-				return;
-			}
-			else if (passwordReg){
-				$("#pwc-desc").text("");
-				$("#pwc-desc").removeClass("text-danger");
-				
-				passwordChecked = true;
-			}
-		});
-		
 		$("#update-info-btn").on("click", function() {
 			let loginId = $("#id").val().trim();
-			let password = $("#password").val().trim();
-			let passwordCheck = $("#passwordCheck").val().trim();
 			let nickname = $("#nickname").val().trim();
 			let name = $("#name").val().trim();
 			let phoneNumberFirst = $("#phone-number-first > option:selected").val();
@@ -166,11 +107,6 @@
 					return;
 				}
 			}
-			
-			if ((password || passwordCheck) && !passwordChecked) {
-				alert("사용 불가능한 비밀번호입니다.");
-				return;
-			}
 			if ((phoneNumberSecond && !phoneNumberThird) || (!phoneNumberSecond && phoneNumberThird)) {
 				alert("전화번호를 입력해주세요.");
 				return;
@@ -179,7 +115,7 @@
 			if (!phoneNumberSecond && !phoneNumberThird) {
 				phoneNumber = "";
 			}
-			console.log()
+			
 			let formData = new FormData();
 			formData.append("loginId", loginId);
 			formData.append("password", password);

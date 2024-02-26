@@ -154,7 +154,7 @@ public class UserRestController {
 	}
 	
 	@PostMapping("/updateTempPw")
-	public Map<String, Object> updatePw(
+	public Map<String, Object> updateTempPw(
 			@RequestParam("id") String id) {
 		
 		Map<String, Object> result = new HashMap<>();
@@ -169,11 +169,39 @@ public class UserRestController {
 		result.put("result", "success");
 		return result;
 	}
+
+	@PostMapping("/update-pw")
+	public Map<String, Object> updatePw(
+			@RequestParam("password") String password,
+			@RequestParam("newPassword") String newPassword,
+			HttpSession session) {
+		
+		Map<String, Object> result = new HashMap<>();
+		
+		String id = (String)session.getAttribute("userLoginId");
+		if (id == null) {
+			result.put("code", 300);
+			result.put("error_message", "세션이 만료되었습니다. 다시 로그인해주세요.");
+			return result;
+		}
+		
+		User user = userBO.getUserByLoginId(id);
+		if (user == null) {
+			result.put("code", 400);
+			result.put("error_message", "비밀번호가 일치하지 않습니다.");
+			return result;
+		}
+		
+		userBO.updateUserPasswordByLoginIdPassword(id, password, newPassword);
+		
+		result.put("code", 200);
+		result.put("result", "success");
+		return result;
+	}
 	
 	@PostMapping("/update")
 	public Map<String, Object> update(
 			@RequestParam(value = "loginId", required = false) String loginId,
-			@RequestParam(value = "password", required = false) String password,
 			@RequestParam(value = "nickname", required = false) String nickname,
 			@RequestParam(value = "name", required = false) String name,
 			@RequestParam(value = "phoneNumber", required = false) String phoneNumber,
@@ -191,7 +219,7 @@ public class UserRestController {
 		}
 		
 		// DB update
-		userBO.updateUser(userId, loginId, password, nickname, name, phoneNumber, email, profileImageFile);
+		userBO.updateUser(userId, loginId, nickname, name, phoneNumber, email, profileImageFile);
 		
 		session.setAttribute("userNickname", nickname);
 
