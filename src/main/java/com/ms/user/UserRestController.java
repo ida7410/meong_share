@@ -7,10 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ms.mail.bo.MailBO;
 import com.ms.user.bo.UserBO;
 import com.ms.user.domain.User;
 
@@ -22,6 +22,9 @@ public class UserRestController {
 	
 	@Autowired
 	private UserBO userBO;
+	
+	@Autowired
+	private MailBO mailBO;
 	
 	@PostMapping("/signUp")
 	public Map<String, Object> signUp(
@@ -112,22 +115,42 @@ public class UserRestController {
 	
 	@PostMapping("/findPw")
 	public Map<String, Object> findPw(
-			@RequestParam("id") String id,
+			@RequestParam("name") String name,
 			@RequestParam("email") String email) {
 		
 		Map<String, Object> result = new HashMap<>();
-		User user = userBO.getUserByNameEmail(id, email);
+		User user = userBO.getUserByNameEmail(name, email);
 		if (user == null) {
 			result.put("code", 300);
 			result.put("message", "사용자를 찾을 수 없습니다.");
 		}
 		else {
 			result.put("code", 200);
+			String randomChar = getRandomChar();
+			result.put("randomChar", randomChar);
+			userBO.updateUserPassword(name, email, randomChar);
+			mailBO.mailSend(email, "[MEONG SHAR] 인증번호", "멍셰어 인증번호: " + randomChar);
+			
 		}
 		
 		result.put("result", "success");
 		
 		return result;
+	}
+	
+	public String getRandomChar() {
+		char[] charSet = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
+				'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
+
+		String str = "";
+
+		// 문자 배열 길이의 값을 랜덤으로 10개를 뽑아 구문을 작성함
+		int idx = 0;
+		for (int i = 0; i < 10; i++) {
+			idx = (int) (charSet.length * Math.random());
+			str += charSet[idx];
+		}
+		return str;
 	}
 	
 	@PostMapping("/updatePw")
