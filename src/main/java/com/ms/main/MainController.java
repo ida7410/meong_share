@@ -54,6 +54,12 @@ public class MainController {
 	@Autowired
 	private VetBO vetBO;
 	
+	@GetMapping("/mailtemp")
+	public String mailtemp(Model model) {
+		model.addAttribute("viewName", "test/mailtemp");
+		return "template/layout";
+	}
+	
 	@GetMapping("/new")
 	public String newmap(Model model) {
 //		 vetBO.updateVet();

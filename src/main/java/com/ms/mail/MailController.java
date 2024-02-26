@@ -1,22 +1,31 @@
 package com.ms.mail;
 
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.ms.mail.bo.MailBO;
-import com.ms.mail.domain.Mail;
 
-@Controller
+@RestController
 public class MailController {
 	
 	@Autowired
 	private MailBO mailBO;
 	
 	@PostMapping("/mail")
-	public void execMail(Mail mail) {
-		mailBO.mailSend(mail);
+	public Map<String, Object> execMail(
+			@RequestParam("address") String address,
+			@RequestParam("title") String title,
+			@RequestParam("content") String content) {
+		mailBO.mailSend(address, title, content);
+		Map<String, Object> result = new HashMap<>();
+		result.put("code", 200);
+		return result;
 	}
 	
 }
