@@ -6,9 +6,9 @@
 	
 	<div class="d-flex">
 		<div class="col-2 p-0">
-			<div id="info">내 정보 수정</div>
-			<div id="update-pw">비밀번호 변경</div>
-			<div id="recent-trade">최근 거래 목록</div>
+			<div id="info" class="pointer">내 정보 수정</div>
+			<div id="update-pw" class="pointer">비밀번호 변경</div>
+			<div id="recent-trade" class="pointer">최근 거래 목록</div>
 		</div>
 		
 		<section id="my-page-content" class="col-10 pb-5">

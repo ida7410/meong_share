@@ -3,13 +3,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <h3 class="font-weight-bold mt-4 p-2">이건 어떠세요?</h3>
-<div class="recommend-product-box d-flex bg-dark">
+<div class="recommend-product-box d-flex">
 	<c:forEach items="${recommendProductList}" var="product">
 	<div class="recommend-product d-flex col-4 p-3 pointer" data-product-id="${product.id}">
-		<div class="recommend-product-img-box col-3 bg-warning p-0">
+		<div class="recommend-product-img-box col-3 p-0">
 			<img src="${product.imagePath}" class="crop-img" alt="" width="100%">
 		</div>
-		<div class="product-desc col-9 bg-info pt-2">
+		<div class="product-desc col-9 pt-2">
 			<h5 class="font-weight-bold">${product.name}</h5>
 			<h6>${product.description}</h6>
 		</div>

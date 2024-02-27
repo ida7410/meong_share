@@ -3,9 +3,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <div class="d-flex">
-	<div class="col-3 chat-list-box bg-primary p-0">
+	<div class="col-3 chat-list-box p-0">
 	<c:forEach items="${chatListCardList}" var="chatListCard">
-		<div class="chat-list d-flex bg-info p-3 pointer" data-chat-list-id="${chatListCard.cl.id}">
+		<div class="chat-list d-flex p-3 pointer" data-chat-list-id="${chatListCard.cl.id}">
 			<div class="col-3 chat-list-img-box">
 				<img src="${chatListCard.product.imagePath}" class="crop-img" width="100%">
 			</div>

@@ -9,9 +9,9 @@
 <c:if test="${not empty cardList}">
 <div class="d-flex flex-wrap">
 <c:forEach items="${cardList}" var="card">
-	<div class="product bg-primary col-3 p-3 pointer" data-product-id="${card.product.id}">
+	<div class="product col-3 p-3 pointer" data-product-id="${card.product.id}">
 		<!-- img -->
-		<div class="product-img-box w-100 bg-info mb-3">
+		<div class="product-img-box w-100 mb-3">
 			<img src="${card.product.imagePath}" class="crop-img" alt="" width="100%">
 		</div>
 				

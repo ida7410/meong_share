@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<div class="bg-primary d-flex justify-content-center text-center py-3">
+<div class="d-flex justify-content-center text-center py-3">
 	<div class="col-2">
 		<div class="chat-product-img-box">
 			<img src="${chatCard.product.imagePath}" class="crop-img" width="100%">
@@ -24,6 +24,8 @@
 		</c:if>
 	</div>
 </div>
+
+<hr>
 
 <div id="chat-area-box" data-chat-list-id="" class="py-4">
 <c:forEach items="${chatCard.cml}" var="chatMessage">

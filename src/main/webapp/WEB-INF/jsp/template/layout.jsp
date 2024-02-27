@@ -15,21 +15,22 @@
 <!-- my stylesheet -->
 <link rel="stylesheet" href="/static/css/style.css">
 </head>
+
 <body>
-	<div id="wrap" class="container bg-secondary col-10">
-		<header class="bg-info">
+	<div id="wrap" class="container col-10">
+		<header>
 			<jsp:include page="../include/header.jsp" />
 		</header>
 
-		<nav id="main-nev" class="bg-success">
+		<nav id="main-nev">
 			<jsp:include page="../include/nav.jsp" />
 		</nav>
 
-		<section class="contents bg-warning">
+		<section class="contents">
 			<jsp:include page="../${viewName}.jsp" />
 		</section>
 
-		<footer class="bg-danger d-flex align-items-center pl-3">
+		<footer class="d-flex align-items-center pl-3">
 			<jsp:include page="../include/footer.jsp" />
 		</footer>
 	</div>

@@ -6,9 +6,9 @@
 <div class="d-flex">
 	<div id="list-box" class="list bg-primary col-3 p-0">
 		<div class="d-flex">
-			<h4 class="type font-weight-bold p-3" data-type="all">전체</h4>
-			<h4 class="type font-weight-bold p-3" data-type="hospital">병원</h4>
-			<h4 class="type font-weight-bold p-3" data-type="pharmacy">약국</h4>
+			<h4 class="type font-weight-bold p-3 pointer" data-type="all">전체</h4>
+			<h4 class="type font-weight-bold p-3 pointer" data-type="hospital">병원</h4>
+			<h4 class="type font-weight-bold p-3 pointer" data-type="pharmacy">약국</h4>
 		</div>
 		<div id="list"></div>
 	</div>
