@@ -4,7 +4,7 @@
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7721e3cb346c5be67ed5ff4096c78f53&libraries=services,clusterer,drawing"></script>
 
 <div class="d-flex">
-	<div id="list-box" class="list bg-primary col-3 p-0">
+	<div id="list-box" class="list col-3 p-0">
 		<div class="d-flex">
 			<h4 class="type font-weight-bold p-3 pointer" data-type="all">전체</h4>
 			<h4 class="type font-weight-bold p-3 pointer" data-type="hospital">병원</h4>
