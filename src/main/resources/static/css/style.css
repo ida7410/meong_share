@@ -75,8 +75,10 @@ h5 {margin:0}
 .chat-list {font-size:20px;}
 .chat {font-size:17px; border-radius: 20px;}
 .complete-trade-btn {border-radius:10px;}
-.chat-list-img-box {position: relative; height:100px;}
+.chat-list-img-box {position: relative; height:60px;}
 .chat-product-img-box {position: relative; height:150px;}
+.received-chat {background-color:#EAEAEA;}
+.my-chat {background-color:#F3E8DC; max-width:400px;}
 #send-btn {font-size:18px;}
 
 /* map */

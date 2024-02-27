@@ -1,17 +1,26 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <div class="d-flex">
 	<div class="col-3 chat-list-box p-0 border-right">
 	<c:forEach items="${chatListCardList}" var="chatListCard">
 		<div class="chat-list d-flex p-3 pointer bg-hover" data-chat-list-id="${chatListCard.cl.id}">
-			<div class="col-3 chat-list-img-box">
+			<div class="col-2 chat-list-img-box">
 				<img src="${chatListCard.product.imagePath}" class="crop-img" width="100%">
 			</div>
 			<div class="col-9">
 				<h5 class="font-weight-bold">${chatListCard.product.name}</h5>
-				<h6>${chatListCard.latestCM.message}</h6>
+				<h6>
+				<c:if test="${fn:length(chatListCard.latestCM.message) > 28}">
+					${fn:substring(chatListCard.latestCM.message, 0, 28)}...
+				</c:if>
+				
+				<c:if test="${fn:length(chatListCard.latestCM.message) <= 28}">
+					${chatListCard.latestCM.message}
+				</c:if>
+				</h6>
 			</div>
 		</div>
 	</c:forEach>
