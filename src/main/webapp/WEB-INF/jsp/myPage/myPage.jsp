@@ -7,6 +7,7 @@
 	<div class="d-flex">
 		<div class="col-2 p-0">
 			<div id="info">내 정보 수정</div>
+			<div id="update-pw">비밀번호 변경</div>
 			<div id="recent-trade">최근 거래 목록</div>
 		</div>
 		
@@ -21,6 +22,15 @@
 		$("#info").on("click", function() {
 			$.ajax({
 				url:"/my-page/info"
+				,success:function(data) {
+					$("#my-page-content").html(data);
+				}
+			});
+		});
+		
+		$("#update-pw").on("click", function() {
+			$.ajax({
+				url:"/my-page/update-pw"
 				,success:function(data) {
 					$("#my-page-content").html(data);
 				}

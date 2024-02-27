@@ -257,9 +257,4 @@ public class MainController {
 		return "template/layout";
 	}
 	
-	@GetMapping("/update-pw")
-	public String updatePwView(Model model) {
-		model.addAttribute("viewName", "myPage/updatePw");
-		return "template/layout";
-	}
 }

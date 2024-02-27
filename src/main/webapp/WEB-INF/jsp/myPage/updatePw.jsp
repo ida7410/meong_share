@@ -107,14 +107,11 @@
 				type:"post"
 				,url:"/user/update-pw"
 				,data:{"password":og_password, "newPassword":password}
-				, enctype:"multipart/form-data" // 파일 업로드를 위한 필수 설정
-					, processData:false // 파일 업로드를 위한 필수 설정
-					, contentType:false //
 				
 				,success:function(data) {
 					if (data.code == 200) {
 						alert("비밀번호를 수정했습니다. 다시 로그인해주세요.");
-						location.href = "/user/log-out"
+						location.href = "/log-out"
 					}
 					else {
 						alert(data.error_message);
