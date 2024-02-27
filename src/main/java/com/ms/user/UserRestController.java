@@ -185,7 +185,7 @@ public class UserRestController {
 			return result;
 		}
 		
-		User user = userBO.getUserByLoginId(id);
+		User user = userBO.getUserByLoginIdPassword(id, password);
 		if (user == null) {
 			result.put("code", 400);
 			result.put("error_message", "비밀번호가 일치하지 않습니다.");
