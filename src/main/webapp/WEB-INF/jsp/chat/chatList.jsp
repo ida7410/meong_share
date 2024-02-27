@@ -27,7 +27,7 @@
 	</div>
 
 	<div id="chat-box" class="col-9 px-4 pb-4 border-bottom">
-		<div class="d-flex justify-content-center text-center py-3">
+		<div class="d-flex justify-content-center text-center py-3 border-bottom">
 			<div class="col-2">
 				<div class="chat-product-img-box">
 					<img src="${chatCard.product.imagePath}" class="crop-img" width="100%">
@@ -55,7 +55,12 @@
 		</div>
 		
 		<div id="chat-input-box" class="input-group input-group-lg">
+		<c:if test="${chatCard.product.completed == false}">
 			<input type="text" id="chat-input" class="form-control">
+		</c:if>
+		<c:if test="${chatCard.product.completed == true}">
+			<input type="text" id="chat-input" class="form-control" placeholder="거래가 완료되어 채팅이 불가능합니다." disabled>
+		</c:if>
 			<div class="input-group-append">
 				<button type="button" id="send-btn" class="btn btn-light">전송</button>
 			</div>
