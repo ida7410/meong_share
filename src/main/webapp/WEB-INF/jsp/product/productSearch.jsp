@@ -25,7 +25,7 @@
 		<h4 class="font-weight-bold">최근 본 상품</h4>
 		<div class="mb-5 col-9 p-0">
 		<c:forEach items="${recentViewProductList}" var="recentViewProduct">
-			<div class="recent-search-product bg-primary p-2 pointer" data-product-id="${recentViewProduct.id}">
+			<div class="recent-search-product p-2 pointer bg-hover" data-product-id="${recentViewProduct.id}">
 				<div class="recent-search-product-img-box w-100 bg-danger mb-2">
 					<img src="${recentViewProduct.imagePath}" class="crop-img" width="100%">
 				</div>

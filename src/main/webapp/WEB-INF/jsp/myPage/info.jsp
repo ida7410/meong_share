@@ -11,7 +11,7 @@
 		</div>
 	</div>
 	<jsp:include page="../user/user.jsp" />
-	<button id="update-info-btn" type="button" class="btn btn-primary form-control mt-4">가입하기</button>
+	<button id="update-info-btn" type="button" class="btn btn-primary form-control mt-4">저장</button>
 </div>
 
 <script>

@@ -6,13 +6,16 @@ header {height: 100px;}
 .contents {min-height: 200px;}
 footer {height: 100px;}
 .pointer {cursor:pointer;}
+.bg-hover:hover {background-color: #E5E5E5;}
 
 /* HEADER */
+.logo {color: black;}
+.logo:hover {color: black; text-decoration:none;}
 #chat-btn:hover {cursor:pointer;}
 
 /* MAIN NAV */
-.nav-link:hover {background-color: wheat; color: black;}
-.nav-link {color: black; font-weight: bold; font-size: 17px;}
+.main-nav-link {color: black; font-weight: normal; font-size: 18px; background-color: #F5F1ED}
+.main-nav-link:hover {background-color: #E3DCD5; color: black; font-weight: bold;}
 
 /* SECTION */
 
@@ -24,7 +27,7 @@ footer {height: 100px;}
 /* search */
 .keywords {font-size:17px; color:black;}
 .recent-search-product-img-box {height:150px;}
-.product:hover {background-color:gray;}
+.product:hover {background-color: #E5E5E5;}
 .recommend-product-img-box, .recent-product-img-box {position: relative; height:118px; width:118px;}
 .recent-search-product-img-box {position: relative; height:150px; width:150px;}
 .product-img-box {position: relative; height:250px;}
@@ -49,13 +52,15 @@ footer {height: 100px;}
 
 /* user info */
 .profile-img-box {position:relative; height:230px;}
+.user-info-nav-link {color:black; font-size:17px;}
+.user-info-nav-link:hover {color:black; font-size:17px; font-weight:bold;}
 
 /* my page user info update */
 #update-preview-box {position:relative; height:300px; width:300px;}
 
 /* suggestion */
-.recent-product:hover {background-color:gray;}
-.recommend-product:hover {background-color:gray;}
+.recent-product:hover {background-color: #E5E5E5;}
+.recommend-product:hover {background-color: #E5E5E5;}
 
 /* log in */
 #mv-sign-up-btn {margin-bottom:100px;}
@@ -79,3 +84,4 @@ h5 {margin:0}
 #list {height:650px; position: relative; overflow: auto;}
 
 /* FOOTER */
+footer {background-color:#F5F1ED;}

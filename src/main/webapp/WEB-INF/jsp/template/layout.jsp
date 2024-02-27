@@ -26,7 +26,7 @@
 			<jsp:include page="../include/nav.jsp" />
 		</nav>
 
-		<section class="contents">
+		<section class="contents pb-3">
 			<jsp:include page="../${viewName}.jsp" />
 		</section>
 

@@ -23,8 +23,8 @@
 	<div class="col-10">
 		<nav>
 			<ul class="nav">
-				<li class="nav-item pointer"><a id="incompleted" class="nav-link">전체</a></li>
-				<li class="nav-item pointer"><a id="completed" class="nav-link">거래 완료</a></li>
+				<li class="nav-item pointer"><a id="incompleted" class="nav-link user-info-nav-link">전체</a></li>
+				<li class="nav-item pointer"><a id="completed" class="nav-link user-info-nav-link">거래 완료</a></li>
 			</ul>
 		</nav>
 		<jsp:include page="../product/productList.jsp" />

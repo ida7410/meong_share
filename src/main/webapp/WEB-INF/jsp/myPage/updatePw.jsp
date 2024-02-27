@@ -5,7 +5,6 @@
 	<div id="pw-box" class="d-flex mb-3">
 		<h5 class="font-weight-bold col-3 d-flex align-items-center">현재 비밀번호</h5>
 		<input type="password" id="og-password" class="form-control col-5">
-		<div id="pw-desc" class="small d-flex align-items-center pl-3"></div>
 	</div>
 	
 	<div id="pw-box" class="d-flex mb-3">
@@ -20,7 +19,7 @@
 		<div id="pwc-desc" class="small d-flex align-items-center pl-3"></div>
 	</div>
 	
-	<button id="update-pw-btn" type="button" class="btn btn-primary form-control mt-4">가입하기</button>
+	<button id="update-pw-btn" type="button" class="btn btn-primary form-control mt-4">비밀번호 변경</button>
 </div>
 
 

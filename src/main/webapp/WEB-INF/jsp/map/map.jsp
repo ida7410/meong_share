@@ -5,16 +5,16 @@
 
 <div class="d-flex">
 	<div id="list-box" class="list col-3 p-0">
-		<div class="d-flex">
-			<h4 class="type font-weight-bold p-3 pointer" data-type="all">전체</h4>
-			<h4 class="type font-weight-bold p-3 pointer" data-type="hospital">병원</h4>
-			<h4 class="type font-weight-bold p-3 pointer" data-type="pharmacy">약국</h4>
+		<div class="d-flex justify-content-around border-bottom">
+			<h4 class="type font-weight-bold p-3 m-0 w-100 text-center pointer bg-hover" data-type="all">전체</h4>
+			<h4 class="type font-weight-bold p-3 m-0 w-100 text-center pointer bg-hover" data-type="hospital">병원</h4>
+			<h4 class="type font-weight-bold p-3 m-0 w-100 text-center pointer bg-hover" data-type="pharmacy">약국</h4>
 		</div>
 		<div id="list"></div>
 	</div>
 	
 	<div class="p-3 col-9">
-		<div id="map" class="w-100"></div>	
+		<div id="map" class="w-100 h-100"></div>	
 	</div>
 </div>
 
