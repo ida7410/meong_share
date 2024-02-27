@@ -23,11 +23,13 @@
 	<div class="col-10">
 		<nav>
 			<ul class="nav">
-				<li class="nav-item pointer"><a id="incompleted" class="nav-link user-info-nav-link">전체</a></li>
-				<li class="nav-item pointer"><a id="completed" class="nav-link user-info-nav-link">거래 완료</a></li>
+				<li class="nav-item pointer"><a id="incompleted" data-user-login-id="${user.loginId}" class="nav-link user-info-nav-link">전체</a></li>
+				<li class="nav-item pointer"><a id="completed" data-user-login-id="${user.loginId}" class="nav-link user-info-nav-link">거래 완료</a></li>
 			</ul>
 		</nav>
-		<jsp:include page="../product/productList.jsp" />
+		<div class="user-product-box">
+			<jsp:include page="../product/productList.jsp" />
+		</div>
 	</div>
 </div>
 
@@ -40,9 +42,27 @@
 		});
 		
 		$("#incompleted").on("click", function() {
-			/* $.ajax({
-				
-			}) */
+			let userLoginId = $(this).data("user-login-id");
+			console.log(userLoginId);
+			$.ajax({
+				data:{"userLoginId":userLoginId, "completed":false}
+				,url:"/user-product-list"
+				,success:function(data) {
+					$(".product-list-box").html(data);
+				}
+			})
+		})
+		
+		$("#completed").on("click", function() {
+			let userLoginId = $(this).data("user-login-id");
+			console.log(userLoginId);
+			$.ajax({
+				data:{"userLoginId":userLoginId, "completed":true}
+				,url:"/user-product-list"
+				,success:function(data) {
+					$(".product-list-box").html(data);
+				}
+			})
 		})
 	})
 </script>

@@ -162,9 +162,45 @@ public class MainController {
 	public String userInfo(
 			@PathVariable("userLoginId") String userLoginId,
 			@RequestParam(value = "page", required = false) Integer page,
-			@RequestParam(value = "completed", required = false) boolean completed,
 			Model model) {
 		
+		if (page == null) {
+			page = 1;
+		}
+		
+		User user = userBO.getUserByLoginId(userLoginId);
+
+		int tradeCount = productBO.getProductCount(null, true);
+		int recommendCount = likeBO.getRecommendCountBySubjectIdType(user.getId());
+
+		int totalCount = productBO.getProductCount(null, false);
+
+		Criteria cri = new Criteria();
+		cri.setPage(page);
+		
+		PageMaker pm = new PageMaker();
+		pm.setCri(cri);
+		pm.setTotalCount(totalCount);
+		
+		List<Card> cardList = mainBO.getCardByUserLoginIdOrKeyword(userLoginId, null, (int)page, cri, false);
+		
+		model.addAttribute("viewName", "user/userInfo");
+		model.addAttribute("cardList", cardList);
+		model.addAttribute("page", page);
+		model.addAttribute("pm", pm);
+		model.addAttribute("user", user);
+		model.addAttribute("recommendCount", recommendCount);
+		model.addAttribute("tradeCount", tradeCount);
+		return "template/layout";
+	}
+	
+	@GetMapping("/user-product-list")
+	public String userProductList(
+			@RequestParam("userLoginId") String userLoginId,
+			@RequestParam(value = "page", required = false) Integer page, 
+			@RequestParam(value = "completed", required = false) boolean completed,
+			Model model) {
+
 		if (page == null) {
 			page = 1;
 		}
@@ -189,10 +225,10 @@ public class MainController {
 		model.addAttribute("cardList", cardList);
 		model.addAttribute("page", page);
 		model.addAttribute("pm", pm);
-		model.addAttribute("user", user);
 		model.addAttribute("recommendCount", recommendCount);
 		model.addAttribute("tradeCount", tradeCount);
-		return "template/layout";
+		
+		return "product/productList";
 	}
 	
 	@GetMapping("/chat")
