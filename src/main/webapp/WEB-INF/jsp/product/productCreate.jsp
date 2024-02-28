@@ -114,6 +114,7 @@
 			formData.append("price", price);
 			formData.append("boughtDate", boughtDate);
 			formData.append("description", description);
+			console.log(formData);
 			
 			$.ajax({
 				type:"post"

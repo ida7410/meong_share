@@ -20,16 +20,8 @@
 		</div>
 	</div>
 	
-	<div class="col-10">
-		<nav>
-			<ul class="nav">
-				<li class="nav-item pointer"><a id="incompleted" data-user-login-id="${user.loginId}" class="nav-link user-info-nav-link">전체</a></li>
-				<li class="nav-item pointer"><a id="completed" data-user-login-id="${user.loginId}" class="nav-link user-info-nav-link">거래 완료</a></li>
-			</ul>
-		</nav>
-		<div class="user-product-box">
-			<jsp:include page="../product/productList.jsp" />
-		</div>
+	<div id="user-proudct-list-large-box" class="col-10">
+		<jsp:include page="./userProductList.jsp" />
 	</div>
 </div>
 
@@ -39,17 +31,12 @@
 		let userLoginId = $("#completed").data("user-login-id");
 		console.log(userLoginId);
 		
-		$(".product").on("click", function() {
-			let productId = $(this).data("product-id");
-			location.href = "/product/" + productId;
-		});
-		
 		$("#incompleted").on("click", function() {
 			$.ajax({
 				data:{"userLoginId":userLoginId, "completed":false}
 				,url:"/user-product-list"
 				,success:function(data) {
-					$(".user-product-box").load(location.href + ".product-list-box");
+					$("#user-proudct-list-large-box").html(data);
 				}
 			})
 		})
@@ -59,7 +46,7 @@
 				data:{"userLoginId":userLoginId, "completed":true}
 				,url:"/user-product-list"
 				,success:function(data) {
-					$(".product-list-box").html(data);
+					$("#user-proudct-list-large-box").html(data);
 				}
 			})
 		})

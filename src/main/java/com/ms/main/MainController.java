@@ -167,7 +167,7 @@ public class MainController {
 		
 		User user = userBO.getUserByLoginId(userLoginId);
 
-		int tradeCount = productBO.getProductListByOwnerIdOrKeyword(user.getId(), null, 0, null, false).size();
+		int tradeCount = productBO.getProductListByOwnerIdOrKeyword(user.getId(), null, 0, null, true).size();
 		int recommendCount = likeBO.getRecommendCountBySubjectIdType(user.getId());
 
 		int totalCount = productBO.getProductCount(null, false);
@@ -204,9 +204,6 @@ public class MainController {
 		
 		User user = userBO.getUserByLoginId(userLoginId);
 
-		int tradeCount = productBO.getProductListByOwnerIdOrKeyword(user.getId(), null, 0, null, false).size();
-		int recommendCount = likeBO.getRecommendCountBySubjectIdType(user.getId());
-
 		int totalCount = productBO.getProductCount(null, false);
 
 		Criteria cri = new Criteria();
@@ -218,14 +215,11 @@ public class MainController {
 		
 		List<Card> cardList = mainBO.getCardByUserLoginIdOrKeyword(userLoginId, null, (int)page, cri, completed);
 		
-		model.addAttribute("viewName", "user/userInfo");
 		model.addAttribute("cardList", cardList);
 		model.addAttribute("page", page);
 		model.addAttribute("pm", pm);
-		model.addAttribute("recommendCount", recommendCount);
-		model.addAttribute("tradeCount", tradeCount);
-		
-		return "product/productList";
+		model.addAttribute("user", user);
+		return "user/userProductList";
 	}
 	
 	@GetMapping("/chat")

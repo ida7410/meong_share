@@ -259,7 +259,7 @@
 			$.ajax({
 				type:"POST"
 				,url:"/chat/chatMessage/send"
-				,data:{"chatListId":chatListId, "type":"message"}
+				,data:{"chatListId":chatListId, "message":message, "type":"message"}
 			
 				,success:function(data) {
 					if (data.code == 200) {
