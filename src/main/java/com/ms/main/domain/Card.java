@@ -11,6 +11,7 @@ public class Card {
 	private User user;
 	private int likeCount;
 	private int recommendCount;
+	private int tradeCount;
 	private String liked;
 	private String diffTime;
 }

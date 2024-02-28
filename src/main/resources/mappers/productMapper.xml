@@ -69,8 +69,10 @@
 			AND (`company` LIKE CONCAT('%', #{keyword}, '%')
 			OR `description` LIKE CONCAT('%', #{keyword}, '%'))
 		</if>
+		<if test="limit != null">
 		LIMIT
 			#{skip}, #{limit}
+		</if>
 	</select>
 	
 	<select id="selectProductById" resultType="com.ms.product.domain.Product">

@@ -4,7 +4,7 @@
 
 <div class="product-list-box">
 	<c:if test="${empty cardList}">
-	<div class="display-4 text-secondary pt-4 pl-3 pb-5 mb-5">올린 상품이 없습니다.</div>
+	<div class="display-4 text-secondary pt-4 pl-3 pb-5 mb-5">올라온 상품이 없습니다.</div>
 	</c:if>
 	
 	<c:if test="${not empty cardList}">

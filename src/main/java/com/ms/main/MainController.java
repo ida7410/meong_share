@@ -133,7 +133,6 @@ public class MainController {
 		return "template/layout";
 	}
 	
-	
 	@GetMapping("/product/{productId}")
 	public String productInfo(
 			@PathVariable("productId") int productId,
@@ -159,6 +158,7 @@ public class MainController {
 	public String userInfo(
 			@PathVariable("userLoginId") String userLoginId,
 			@RequestParam(value = "page", required = false) Integer page,
+            @RequestParam(value = "completed", required = false) boolean completed,
 			Model model) {
 		
 		if (page == null) {
@@ -167,7 +167,7 @@ public class MainController {
 		
 		User user = userBO.getUserByLoginId(userLoginId);
 
-		int tradeCount = productBO.getProductCount(null, true);
+		int tradeCount = productBO.getProductListByOwnerIdOrKeyword(user.getId(), null, 0, null, false).size();
 		int recommendCount = likeBO.getRecommendCountBySubjectIdType(user.getId());
 
 		int totalCount = productBO.getProductCount(null, false);
@@ -179,7 +179,7 @@ public class MainController {
 		pm.setCri(cri);
 		pm.setTotalCount(totalCount);
 		
-		List<Card> cardList = mainBO.getCardByUserLoginIdOrKeyword(userLoginId, null, (int)page, cri, false);
+		List<Card> cardList = mainBO.getCardByUserLoginIdOrKeyword(userLoginId, null, (int)page, cri, completed);
 		
 		model.addAttribute("viewName", "user/userInfo");
 		model.addAttribute("cardList", cardList);
@@ -204,7 +204,7 @@ public class MainController {
 		
 		User user = userBO.getUserByLoginId(userLoginId);
 
-		int tradeCount = productBO.getProductCount(null, true);
+		int tradeCount = productBO.getProductListByOwnerIdOrKeyword(user.getId(), null, 0, null, false).size();
 		int recommendCount = likeBO.getRecommendCountBySubjectIdType(user.getId());
 
 		int totalCount = productBO.getProductCount(null, false);

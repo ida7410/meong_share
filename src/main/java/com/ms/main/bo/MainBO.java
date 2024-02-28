@@ -57,6 +57,7 @@ public class MainBO {
 		
 		int likeCount = likeBO.getLikeCountBySubjectIdType(product.getId());
 		int recommendCount = likeBO.getRecommendCountBySubjectIdType(user.getId());
+		int tradeCount = productBO.getProductListByOwnerIdOrKeyword(userId, null, 0, null, false).size();
 		String liked = "empty-";
 		
 		if (userId != null) {
@@ -71,52 +72,17 @@ public class MainBO {
 		card.setUser(user);
 		card.setLikeCount(likeCount);
 		card.setRecommendCount(recommendCount);
+		card.setTradeCount(tradeCount);
 		card.setLiked(liked);
 		
 		return card;
 	}
 	
-	/*
-	 * public List<Card> getCardByUserLoginId(String userLoginId, int page, int
-	 * prevProductId) { List<Card> cardList = new ArrayList<>();
-	 * 
-	 * User user = userBO.getUserByLoginId(userLoginId); int userId = user.getId();
-	 * List<Product> userProductList = productBO.getProductListByOwnerId(userId);
-	 * 
-	 * for (Product product : userProductList) { Card card = new Card();
-	 * 
-	 * card.setProduct(product); card.setUser(user);
-	 * 
-	 * cardList.add(card); }
-	 * 
-	 * Collections.reverse(cardList);
-	 * 
-	 * return cardList; }
-	 * 
-	 * public List<Card> getCardByKeyword(String keyword, int page, Criteria cri) {
-	 * List<Card> cardList = new ArrayList<>();
-	 * 
-	 * int skip = (page - 1) * cri.getPerPageNum();
-	 * 
-	 * List<Product> productList = productBO.getProductList(keyword, skip,
-	 * cri.getPerPageNum());
-	 * 
-	 * for (Product product : productList) { Card card = new Card();
-	 * 
-	 * User user = userBO.getUserById(product.getOwnerId());
-	 * 
-	 * card.setProduct(product); card.setUser(user);
-	 * 
-	 * cardList.add(card); }
-	 * 
-	 * Collections.reverse(cardList);
-	 * 
-	 * return cardList; }
-	 */
-	
 	public List<Product> getRecentViewProductIdList(HttpServletRequest request, String cookieName) {
 		Cookie cookie = cookieManager.getCookie(request, cookieName);
+		
 		List<String> recentViewProductIdStringList = cookieManager.getListByCookie(cookie);
+		
 		List<Product> recentViewProductList = new ArrayList<>();
 		for (String productIdString : recentViewProductIdStringList) {
 			int productId = Integer.parseInt(productIdString);

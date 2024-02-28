@@ -107,9 +107,9 @@
 			$("#send-btn").prop("disabled", true);
 		}
 		
-		/* setInterval(function() {
+		setInterval(function() {
 			$("#chat-area-div").load(location.href + " #chat-area-box");
-		}, 3000) */
+		}, 3000)
 		
 		$(".chat-list").on("click", function() {
 			let getChatListId = $(this).data("chat-list-id");

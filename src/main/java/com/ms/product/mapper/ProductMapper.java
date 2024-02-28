@@ -42,7 +42,7 @@ public interface ProductMapper {
 			@Param("ownerId") Integer ownerId,
 			@Param("keyword") String keyword,
 			@Param("skip") int skip, 
-			@Param("limit") int limit,
+			@Param("limit") Integer limit,
 			@Param("completed") boolean completed);
 	
 	public List<Product> selectLatestThreeProductList();

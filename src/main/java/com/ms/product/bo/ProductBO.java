@@ -47,21 +47,8 @@ public class ProductBO {
 		Product product = productMapper.selectProductById(id);
 		return product;
 	}
-
-	/*
-	 * public List<Product> getProductListByOwnerId(int ownerId) { return
-	 * productMapper.selectProductListByOwnerId(ownerId); }
-	 */
 	
-	/*
-	 * public List<Product> getProductList(String keyword, int skip, int limit) {
-	 * List<Product> productList = null; if (keyword != null) { productList =
-	 * productMapper.selectProductListByKeyword(keyword, skip, limit); } else {
-	 * productList = productMapper.selectProductList(skip, limit); } return
-	 * productList; }
-	 */
-	
-	public List<Product> getProductListByOwnerIdOrKeyword(Integer ownerId, String keyword,  int skip, int limit, boolean completed) {
+	public List<Product> getProductListByOwnerIdOrKeyword(Integer ownerId, String keyword,  int skip, Integer limit, boolean completed) {
 		return productMapper.selectProductListByOwnerIdOrKeyword(ownerId, keyword, skip, limit, completed);
 	}
 	

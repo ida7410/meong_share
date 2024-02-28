@@ -36,26 +36,25 @@
 
 <script>
 	$(document).ready(function() {
+		let userLoginId = $("#completed").data("user-login-id");
+		console.log(userLoginId);
+		
 		$(".product").on("click", function() {
 			let productId = $(this).data("product-id");
 			location.href = "/product/" + productId;
 		});
 		
 		$("#incompleted").on("click", function() {
-			let userLoginId = $(this).data("user-login-id");
-			console.log(userLoginId);
 			$.ajax({
 				data:{"userLoginId":userLoginId, "completed":false}
 				,url:"/user-product-list"
 				,success:function(data) {
-					$(".product-list-box").html(data);
+					$(".user-product-box").load(location.href + ".product-list-box");
 				}
 			})
 		})
 		
 		$("#completed").on("click", function() {
-			let userLoginId = $(this).data("user-login-id");
-			console.log(userLoginId);
 			$.ajax({
 				data:{"userLoginId":userLoginId, "completed":true}
 				,url:"/user-product-list"
