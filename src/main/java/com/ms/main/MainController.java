@@ -51,9 +51,6 @@ public class MainController {
 	@Autowired
 	private LikeBO likeBO;
 	
-	@Autowired
-	private VetBO vetBO;
-	
 	@GetMapping("/mailtemp")
 	public String mailtemp(Model model) {
 		model.addAttribute("viewName", "test/mailtemp");

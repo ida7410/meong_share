@@ -13,6 +13,12 @@
 			<div class="col-9">
 				<h5 class="font-weight-bold">${chatListCard.product.name}</h5>
 				<h6>
+				<c:if test="${chatListCard.latestCM.type == 'image'}">
+					사진
+				</c:if>
+				<c:if test="${chatListCard.latestCM.type == 'endTradeRequest'}">
+					거래 완료 신청
+				</c:if>
 				<c:if test="${fn:length(chatListCard.latestCM.message) > 28}">
 					${fn:substring(chatListCard.latestCM.message, 0, 28)}...
 				</c:if>
@@ -26,7 +32,7 @@
 	</c:forEach>
 	</div>
 
-	<div id="chat-box" class="col-9 px-4 pb-4 border-bottom">
+	<div id="chat-box" class="col-9 px-4 pb-4">
 		<div class="d-flex justify-content-center text-center py-3 border-bottom">
 			<div class="col-2">
 				<div class="chat-product-img-box">
@@ -54,7 +60,7 @@
 			<jsp:include page="chatBox.jsp" />
 		</div>
 		
-		<div id="chat-input-box" class="input-group input-group-lg">
+		<div id="chat-input-box" class="input-group input-group-lg pt-3">
 			<div id="chat-input-prepend" class="input-group-prepend">
 				<button type="button" id="chat-image-btn" class="btn">
 					<img src="/static/img/image.jpg" width="100%">
@@ -89,6 +95,8 @@
 
 <script>
 	$(document).ready(function() {
+		$('#chat-area-div').scrollTop($('#chat-area-div')[0].scrollHeight);
+		
 		let chatListId = ${chatListId};
 		let completed = ${chatCard.product.completed}
 		
@@ -117,7 +125,7 @@
 			$.ajax({
 				type:"post"
 				,url:"/chat/chatMessage/send"
-				,data:{"chatListId":chatListId, "message":"거래완료신청"}
+				,data:{"chatListId":chatListId, "message":"거래완료신청", "type":"endTradeRequest"}
 				
 				,success:function(data) {
 					if (data.code == 200) {
@@ -251,7 +259,7 @@
 			$.ajax({
 				type:"POST"
 				,url:"/chat/chatMessage/send"
-				,data:{"chatListId":chatListId, "message":message, "type":"message"}
+				,data:{"chatListId":chatListId, "type":"message"}
 			
 				,success:function(data) {
 					if (data.code == 200) {

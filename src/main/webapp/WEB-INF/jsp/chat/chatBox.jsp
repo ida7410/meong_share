@@ -9,14 +9,14 @@
 	<div class="chat-area d-flex pb-2">
 		<div class="chat received-chat p-2 px-3 d-flex align-items-center">
 		<c:if test="${chatMessage.type == 'image'}">
-			<img src="${chatMessage.imagePath}" width="50%">
+			<img src="${chatMessage.imagePath}" width="100%">
 		</c:if>
 		
-		<c:if test="${chatMessage.message != '거래완료신청'}">
+		<c:if test="${chatMessage.type == 'message'}">
 			${chatMessage.message}
 		</c:if>
 		
-		<c:if test="${chatMessage.message == '거래완료신청'}">
+		<c:if test="${chatMessage.type == 'endTradeRequest'}">
 			<c:if test="${chatCard.product.completed == false}">
 			<div>
 				거래를 완료하시겠습니까?<br>
@@ -39,14 +39,11 @@
 			<img src="${chatMessage.imagePath}" width="100%">
 		</c:if>
 		
-		<c:if test="${chatMessage.message != '거래완료신청'}">
+		<c:if test="${chatMessage.type == 'message'}">
 			${chatMessage.message}
 		</c:if>
 		
-		<c:if test="${chatMessage.message != '거래완료신청'}">
-			${chatMessage.message}
-		</c:if>
-		<c:if test="${chatMessage.message == '거래완료신청'}">
+		<c:if test="${chatMessage.type == 'endTradeRequest'}">
 			<c:if test="${chatCard.product.completed == false}">
 			거래 완료를 요청했습니다.
 			</c:if>

@@ -79,6 +79,7 @@ h5 {margin:0}
 .chat-product-img-box {position: relative; height:150px;}
 .received-chat {background-color:#EAEAEA;}
 .my-chat {background-color:#F3E8DC; max-width:400px;}
+.received-chat {max-width:400px;}
 #chat-input-prepend {width:50px;}
 #send-btn {font-size:18px;}
 #chat-area-div {max-height:800px; overflow-y:auto;}

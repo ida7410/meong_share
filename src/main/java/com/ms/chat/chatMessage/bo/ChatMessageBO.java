@@ -30,8 +30,11 @@ public class ChatMessageBO {
 			String imagePath = fileManagerService.saveFile(userLoginId, file);
 			chatMessageMapper.insertChatMessageImage(chatListId, userId, imagePath, type);
 		}
-		else {
+		else if (type.equals("message")) {
 			chatMessageMapper.insertChatMessage(chatListId, userId, message, type);
+		}
+		else {
+			chatMessageMapper.insertChatMessage(chatListId, userId, "", type);
 		}
 		
 		ChatList cl = chatListBO.getChatListById(chatListId);
