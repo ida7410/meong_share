@@ -35,10 +35,14 @@
 	<div id="chat-box" class="col-9 px-4 pb-4">
 		<div class="d-flex justify-content-center text-center py-3 border-bottom">
 			<div class="col-2">
-				<div class="chat-product-img-box">
+				<div class="chat-product-img-box pointer">
 					<img src="${chatCard.product.imagePath}" class="crop-img" width="100%">
 				</div>
-				<h5 class="font-weight-bold mt-3 mb-2">${chatCard.product.name}</h5>
+				<h5 class="font-weight-bold mt-3 mb-2 pointer">
+					<a href="/product/${chatCard.product.id}">
+						${chatCard.product.name}
+					</a>
+				</h5>
 		
 				<h6 class="mb-2">
 					<c:if test="${userId == chatCard.product.ownerId}">
@@ -109,7 +113,11 @@
 		
 		setInterval(function() {
 			$("#chat-area-div").load(location.href + " #chat-area-box");
-		}, 3000)
+		}, 3000);
+		
+		$(".chat-product-img-box").on("click", function() {
+			location.href = "/product/" + ${chatCard.product.id}
+		})
 		
 		$(".chat-list").on("click", function() {
 			let getChatListId = $(this).data("chat-list-id");
