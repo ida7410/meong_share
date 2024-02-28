@@ -10,5 +10,7 @@ public class ChatMessage {
 	private int chatListId;
 	private int senderId;
 	private String message;
+	private String imagePath;
+	private String type;
 	private Date createdAt;
 }

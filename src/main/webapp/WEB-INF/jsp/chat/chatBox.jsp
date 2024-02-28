@@ -8,6 +8,10 @@
 	<c:if test="${chatMessage.senderId ne userId}">
 	<div class="chat-area d-flex pb-2">
 		<div class="chat received-chat p-2 px-3 d-flex align-items-center">
+		<c:if test="${chatMessage.type == 'image'}">
+			<img src="${chatMessage.imagePath}" width="50%">
+		</c:if>
+		
 		<c:if test="${chatMessage.message != '거래완료신청'}">
 			${chatMessage.message}
 		</c:if>
@@ -31,6 +35,14 @@
 	<c:if test="${chatMessage.senderId eq userId}">
 	<div class="chat-area d-flex justify-content-end pb-2">
 		<div class="chat my-chat p-2 px-3 d-flex align-items-center">
+		<c:if test="${chatMessage.type == 'image'}">
+			<img src="${chatMessage.imagePath}" width="100%">
+		</c:if>
+		
+		<c:if test="${chatMessage.message != '거래완료신청'}">
+			${chatMessage.message}
+		</c:if>
+		
 		<c:if test="${chatMessage.message != '거래완료신청'}">
 			${chatMessage.message}
 		</c:if>

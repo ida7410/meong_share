@@ -9,6 +9,7 @@
 			`chatListId`
 			,`senderId`
 			,`message`
+			,`type`
 			,`createdAt`
 		)
 		VALUES
@@ -16,6 +17,26 @@
 			#{chatListId}
 			,#{senderId}
 			,#{message}
+			,#{type}
+			,NOW()
+		)
+	</insert>
+	
+	<insert id="insertChatMessageImage" parameterType="map">
+		INSERT INTO `chat_message` 
+		(
+			`chatListId`
+			,`senderId`
+			,`imagePath`
+			,`type`
+			,`createdAt`
+		)
+		VALUES
+		(
+			#{chatListId}
+			,#{senderId}
+			,#{imagePath}
+			,#{type}
 			,NOW()
 		)
 	</insert>
@@ -26,6 +47,8 @@
 			,`chatListId`
 			,`senderId`
 			,`message`
+			,`imagePath`
+			,`type`
 			,`createdAt`
 		FROM
 			`chat_message`
@@ -41,6 +64,8 @@
 			,`chatListId`
 			,`senderId`
 			,`message`
+			,`imagePath`
+			,`type`
 			,`createdAt`
 		FROM
 			`chat_message`

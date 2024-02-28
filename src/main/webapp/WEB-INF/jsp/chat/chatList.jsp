@@ -55,14 +55,32 @@
 		</div>
 		
 		<div id="chat-input-box" class="input-group input-group-lg">
-		<c:if test="${chatCard.product.completed == false}">
+			<div id="chat-input-prepend" class="input-group-prepend">
+				<button type="button" id="chat-image-btn" class="btn">
+					<img src="/static/img/image.jpg" width="100%">
+				</button>
+				<input type="file" id="chat-image" class="d-none" accept=".jpg, .jpeg, .gif, .png">
+			</div>
 			<input type="text" id="chat-input" class="form-control">
-		</c:if>
-		<c:if test="${chatCard.product.completed == true}">
-			<input type="text" id="chat-input" class="form-control" placeholder="거래가 완료되어 채팅이 불가능합니다." disabled>
-		</c:if>
 			<div class="input-group-append">
 				<button type="button" id="send-btn" class="btn btn-light">전송</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-sm modal-dialog-centered">
+		<div class="modal-content text-center">
+			<div id="preview-box" class="w-100">
+				<img src="" id="preview" class="crop-img" width="100%">
+			</div>
+			<div class="border-bottom py-3">
+				<div id="chat-image-send-btn" class="pointer">전송</div>			
+			</div>
+			<div class="py-3">
+				<div data-dismiss="modal" class="pointer">취소</div>			
 			</div>
 		</div>
 	</div>
@@ -72,10 +90,18 @@
 <script>
 	$(document).ready(function() {
 		let chatListId = ${chatListId};
+		let completed = ${chatCard.product.completed}
 		
-		setInterval(function() {
+		if (completed) {
+			$("#chat-input").attr("placeholder", "거래가 완료되어 채팅이 불가능합니다.");
+			$("#chat-input").attr("disabled", true);
+			$("#chat-image-send-btn").prop("disabled", true);
+			$("#send-btn").prop("disabled", true);
+		}
+		
+		/* setInterval(function() {
 			$("#chat-area-div").load(location.href + " #chat-area-box");
-		}, 3000)
+		}, 3000) */
 		
 		$(".chat-list").on("click", function() {
 			let getChatListId = $(this).data("chat-list-id");
@@ -163,6 +189,56 @@
 			
 		})
 		
+		$("#chat-image-btn").on("click", function() {
+			$("#chat-image").click();
+		})
+		
+		$("#chat-image").on("change", function(event) {
+			var reader = new FileReader();
+			
+			reader.onload = function(event){
+				$("#modal #preview").attr("src", event.target.result);
+			};
+			
+			reader.readAsDataURL(event.target.files[0]);
+			
+			$("#modal").modal("show");
+		});
+		
+		$("#chat-image-send-btn").on("click", function() {
+			console.log("here")
+			let fileName = $("#chat-image").val();
+			if (!fileName) {
+				return;
+			}
+			
+			let formData = new FormData();
+			formData.append("chatImageFile", $("#chat-image")[0].files[0]);
+			formData.append("chatListId", chatListId);
+			formData.append("type", "image");
+			
+			$.ajax({
+				type:"post"
+				,url:"/chat/chatMessage/send"
+				,data:formData
+				,enctype:"multipart/form-data"
+				,processData:false
+				,contentType:false
+				
+				,success:function(data) {
+					if (data.code == 200) {
+						location.reload();
+					}
+					else {
+						alert(data.error_message);
+						if (data.code == 300) {
+							location.href = "/log-in";
+						}
+					}
+				}
+			});
+		})
+		
 		$("#chat-input").on("keydown", function(key) {
 			if (key.keyCode == 13) {
 				$("#send-btn").click();
@@ -175,7 +251,7 @@
 			$.ajax({
 				type:"POST"
 				,url:"/chat/chatMessage/send"
-				,data:{"chatListId":chatListId, "message":message}
+				,data:{"chatListId":chatListId, "message":message, "type":"message"}
 			
 				,success:function(data) {
 					if (data.code == 200) {

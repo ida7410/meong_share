@@ -13,7 +13,14 @@ public interface ChatMessageMapper {
 	public void insertChatMessage(
 			@Param("chatListId") int chatListId,
 			@Param("senderId") int senderId,
-			@Param("message") String message);
+			@Param("message") String message,
+			@Param("type") String type);
+	
+	public void insertChatMessageImage(
+			@Param("chatListId") int chatListId,
+			@Param("senderId") int senderId,
+			@Param("imagePath") String imagePath,
+			@Param("type") String type);
 	
 	public ChatMessage selectLatestChatMessageByChatListId(int chatListId);
 	
