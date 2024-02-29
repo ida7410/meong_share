@@ -35,7 +35,6 @@
 		
 		if (navigator.geolocation) {
 		    
-			// GeoLocation을 이용해서 접속 위치를 얻어옵니다
 			navigator.geolocation.getCurrentPosition(function(position) {
 		        console.log("here")
 				var lat = position.coords.latitude, // 위도

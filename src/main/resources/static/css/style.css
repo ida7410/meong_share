@@ -18,12 +18,12 @@ footer {height: 100px;}
     margin: auto;
 }
 a {color:#3E3E3E;}
-a:hover {color:black;}
+a:hover {color:black; font-weight:bold;}
 a, a:hover {text-decoration:none;}
 
 /* HEADER */
 .logo {color: black;}
-.logo:hover {color: black; text-decoration:none;}
+.logo:hover {color: black; text-decoration:none; font-weight:normal;}
 #chat-btn:hover {cursor:pointer;}
 
 /* MAIN NAV */

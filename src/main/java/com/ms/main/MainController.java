@@ -223,12 +223,13 @@ public class MainController {
 	}
 	
 	@GetMapping("/chat")
-	public String chatList(HttpSession session) {
+	public String chatList(Model model, HttpSession session) {
 		
 		// DB select (latest chat list)
 		ChatList latestChatList = chatListBO.getLatestChatListByUserId((Integer)session.getAttribute("userId"));
 		if (latestChatList == null) {
-			return "redirect:/home";
+			model.addAttribute("viewName", "chat/chatList");
+			return "template/layout";
 		}
 		
 		return "redirect:chat/" + latestChatList.getId();

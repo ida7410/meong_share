@@ -33,6 +33,7 @@
 	</div>
 
 	<div id="chat-box" class="col-9 px-4 pb-4">
+	<c:if test="${not empty chatListCardList}">
 		<div class="d-flex justify-content-center text-center py-3 border-bottom">
 			<div class="col-2">
 				<div class="chat-product-img-box pointer">
@@ -76,6 +77,11 @@
 				<button type="button" id="send-btn" class="btn btn-light">전송</button>
 			</div>
 		</div>
+	</c:if>
+	
+	<c:if test="${empty chatListCardList}">
+	<h2 class="text-center py-5 text-secondary">채팅이 없습니다.</h2>
+	</c:if>
 	</div>
 </div>
 
