@@ -7,6 +7,19 @@ header {height: 100px;}
 footer {height: 100px;}
 .pointer {cursor:pointer;}
 .bg-hover:hover {background-color: #E5E5E5;}
+.crop-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translate(50, 50);
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    margin: auto;
+}
+a {color:#3E3E3E;}
+a:hover {color:black;}
+a, a:hover {text-decoration:none;}
 
 /* HEADER */
 .logo {color: black;}
@@ -31,16 +44,7 @@ footer {height: 100px;}
 .recommend-product-img-box, .recent-product-img-box {position: relative; height:118px; width:118px;}
 .recent-search-product-img-box {position: relative; height:150px; width:150px;}
 .product-img-box {position: relative; height:250px;}
-.crop-img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    transform: translate(50, 50);
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    margin: auto;
-}
+
 
 /* add product */
 #create-btn {font-size:17px; height:45px;}

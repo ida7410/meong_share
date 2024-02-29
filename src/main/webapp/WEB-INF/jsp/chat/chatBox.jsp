@@ -1,13 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <div id="chat-area-box" data-chat-list-id="" class="pt-4 pb-2">
 <c:forEach items="${chatCard.cml}" var="chatMessage">
 	<c:if test="${chatMessage.senderId ne userId}">
-	<div class="chat-area d-flex pb-2">
-		<div class="chat received-chat p-2 px-3 d-flex align-items-center">
+	<div class="chat-area d-flex align-items-end pb-2">
+		<div class="chat received-chat p-2 px-3 mr-2 d-flex align-items-center">
 		<c:if test="${chatMessage.type == 'image'}">
 			<img src="${chatMessage.imagePath}" width="100%">
 		</c:if>
@@ -29,12 +29,16 @@
 			</c:if>
 		</c:if>
 		</div>
+		<fmt:formatDate value="${chatMessage.createdAt}" pattern="HH:mm" var="createdAt" />
+		${createdAt}
 	</div>
 	</c:if>
 
 	<c:if test="${chatMessage.senderId eq userId}">
-	<div class="chat-area d-flex justify-content-end pb-2 pr-3">
-		<div class="chat my-chat p-2 px-3 d-flex align-items-center">
+	<div class="chat-area d-flex align-items-end justify-content-end pb-2 pr-3">
+		<fmt:formatDate value="${chatMessage.createdAt}" pattern="HH:mm" var="createdAt" />
+		${createdAt}
+		<div class="chat my-chat p-2 px-3 ml-2 d-flex align-items-center">
 		<c:if test="${chatMessage.type == 'image'}">
 			<img src="${chatMessage.imagePath}" width="100%">
 		</c:if>
