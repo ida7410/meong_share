@@ -17,6 +17,8 @@
 		let idChecked = false;
 		let passwordReg = false;
 		let passwordChecked = false;
+		let emailChecked = false;
+		let emailCode = "";
 		
 		$("#id").on("input", function() {
 			let id = $(this).val();
@@ -128,6 +130,57 @@
 				passwordChecked = true;
 			}
 		});
+		
+		$("#send-code-btn").on("click", function() {
+			let email = $("#email").val().trim();
+			if (!email) {
+				alert("이메일을 입력해주세요.");
+				return;
+			}
+			console.log(email)
+			
+			$.ajax({
+				type:"post"
+				,url:"/user/check-email-code"
+				,data:{"email":email}
+				,success:function(data) {
+					if (data.code == 200) {
+						$("#email-desc").text("인증번호가 발송되었습니다.");
+						$("#email-check").prop("disabled", false);
+						$("#email-check-btn").prop("disabled", false);
+						emailCode = data.randomChar;
+					}
+				}
+				,error:function(request, status, error) {
+					alert("이메일 인증번호 전송에 실패했습니다.");
+				}
+			})
+		})
+		
+		$("#email-check").on("input", function() {
+			$("#email-check-desc").removeClass("text-danger");
+	        $("#email-check-desc").removeClass("text-success");
+	        $("#email-check-desc").text("");
+	        emailChecked = false;
+		})
+		
+		$("#email-check-btn").on("click", function() {
+			let code = $("#email-check").val();
+			
+			$("#email-check-desc").removeClass("text-danger");
+	        $("#email-check-desc").removeClass("text-success");
+	        
+			if (code != emailCode) {
+				$("#email-check-desc").addClass("text-danger");
+				$("#email-check-desc").text("인증번호가 일치하지 않습니다.");
+				return;
+			}
+			
+			$("#email-check-desc").addClass("text-success");
+			$("#email-check-desc").text("이메일 인증을 완료했습니다.");
+			
+			emailChecked = true;
+		})
 		
 		$("#sign-up-btn").on("click", function() {
 			let id = $("#id").val().trim();

@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ms.chat.chatList.bo.ChatListBO;
 import com.ms.chat.chatList.domain.ChatList;
+import com.ms.mail.bo.MailBO;
+import com.ms.user.bo.UserBO;
+import com.ms.user.domain.User;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -20,6 +23,12 @@ public class ChatListRestController {
 	
 	@Autowired
 	private ChatListBO chatListBO;
+	
+	@Autowired
+	private MailBO mailBO;
+	
+	@Autowired
+	private UserBO userBO;
 	
 	@PostMapping("/create")
 	public Map<String, Object> createChat(
@@ -42,6 +51,8 @@ public class ChatListRestController {
 		// if no chat exists DB insert
 		if (cl == null) {
 			int chatListId = chatListBO.addChatList(productId, ownerId, userId);
+			User user = userBO.getUserById(ownerId);
+			mailBO.mailSend(user.getEmail(), "[MEONG SHAR] 문의 알림", "멍셰어 알림: 올리신 상품에 대한 문의가 있습니다! 지금 로그인해서 확인해보세요!");
 			result.put("chatListId", chatListId);
 		}
 		else {

@@ -3,9 +3,9 @@
 
 <div class="d-flex mb-3">
 	<h5 class="font-weight-bold col-3 d-flex align-items-center">아이디</h5>
-	<div class="id-check-group col-5 p-0">
+	<div class="inside-group col-5 p-0">
 		<input type="text" id="id" class="form-control">
-		<button type="button" id="check-dup-btn" class="btn btn-info py-1 px-2">중복확인</button>
+		<button type="button" id="check-dup-btn" class="inside-btn btn btn-info py-1 px-2">중복확인</button>
 	</div>
 	<div id="id-desc" class="small d-flex align-items-center pl-3"></div>
 </div>
@@ -45,7 +45,21 @@
 	</div>
 </div>
 
-<div class=" d-flex mb-3">
+<div class="d-flex mb-3">
 	<h5 class="font-weight-bold col-3 d-flex align-items-center">이메일</h5>
-	<input type="text" id="email" name="email" class="form-control col-5">
+	<div class="inside-group col-5 p-0">
+		<input type="text" id="email" name="email" class="form-control">
+		<button type="button" id="send-code-btn" class="inside-btn btn btn-info py-1 px-2">인증하기</button>
+	</div>
+	<div id="email-desc" class="small d-flex align-items-center pl-3"></div>
 </div>
+
+<div class="d-flex mb-3">
+	<h5 class="font-weight-bold col-3 d-flex align-items-center">이메일 인증번호</h5>
+	<div class="inside-group col-5 p-0">
+		<input type="text" id="email-check" name="email-check" class="form-control" disabled>
+		<button type="button" id="email-check-btn" class="inside-btn btn btn-info py-1 px-2" disabled>확인</button>
+	</div>
+	<div id="email-check-desc" class="small d-flex align-items-center pl-3"></div>
+</div>
+

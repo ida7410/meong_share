@@ -104,7 +104,7 @@ public class UserRestController {
 			result.put("message", "사용자를 찾을 수 없습니다.");
 		}
 		else {
-			mailBO.mailSend(email, "[MEONG SHAR] 인증번호", "멍셰어 아이디: " + user.getLoginId());
+			mailBO.mailSend(email, "[MEONG SHAR] 아이디 찾기", "멍셰어 아이디: " + user.getLoginId());
 			result.put("code", 200);
 			result.put("message", "아이디를 보내드렸습니다. 이메일을 확인해주세요.");
 		}
@@ -129,12 +129,25 @@ public class UserRestController {
 			result.put("code", 200);
 			String randomChar = getRandomChar();
 			result.put("randomChar", randomChar);
-			mailBO.mailSend(email, "[MEONG SHAR] 인증번호", "멍셰어 인증번호: " + randomChar);
+			mailBO.mailSend(email, "[MEONG SHAR] 비밀번호 찾기 - 인증번호", "멍셰어 비밀번호 찾기 - 인증번호: " + randomChar);
 			
 		}
 		
 		result.put("result", "success");
 		
+		return result;
+	}
+	
+	@PostMapping("/check-email-code")
+	public Map<String, Object> checkEmailCode(
+			@RequestParam("email") String email) {
+		Map<String, Object> result = new HashMap<>();
+		
+		String randomChar = getRandomChar();
+		mailBO.mailSend(email, "[MEONG SHAR] 이메일 인증번호", "멍셰어 이메일 인증번호: " + randomChar);
+		
+		result.put("code", 200);
+		result.put("randomChar", randomChar);
 		return result;
 	}
 	
