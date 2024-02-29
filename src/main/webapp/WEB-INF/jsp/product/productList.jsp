@@ -64,6 +64,9 @@
 		else {
 			$("#next-btn").removeClass("disabled");
 		}
-		
+		$(".product").on("click", function() {
+			let productId = $(this).data("product-id");
+			location.href = "/product/" + productId;
+		});
 	});
 </script>

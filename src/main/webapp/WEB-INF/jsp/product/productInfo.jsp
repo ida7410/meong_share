@@ -51,6 +51,11 @@
 
 <script>
 	$(document).ready(function() {
+		let completed = ${card.product.completed}
+		if (completed) {
+			$("#start-chat-btn").prop("disabled", true);
+		}
+		
 		$("#start-chat-btn").on("click", function() {
 			let productId = ${card.product.id};
 			let ownerId = ${card.user.id};
@@ -79,7 +84,11 @@
 		
 		$("#heart").on("click", function() {
 			let productId = ${card.product.id};
-			console.log(productId);
+			
+			if (completed) {
+				alert("이미 상품 거래가 완료되었습니다.");
+				return;
+			}
 			
 			$.ajax({
 				type:"post"
