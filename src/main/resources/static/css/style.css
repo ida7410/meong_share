@@ -7,6 +7,7 @@ header {height: 100px;}
 footer {height: 100px;}
 .pointer {cursor:pointer;}
 .bg-hover:hover {background-color: #E5E5E5;}
+.product-img-box {position: relative; height:250px;}
 .crop-img {
     position: absolute;
     top: 0;
@@ -33,7 +34,7 @@ a, a:hover {text-decoration:none;}
 /* SECTION */
 
 /* main page */
-.banner {height: 500px;}
+.banner-box {height: 500px; position:relative;}
 .recent-product-box {height: 150px;}
 .recommend-product-box {height: 150px;}
 
@@ -43,7 +44,6 @@ a, a:hover {text-decoration:none;}
 .product:hover {background-color: #E5E5E5;}
 .recommend-product-img-box, .recent-product-img-box {position: relative; height:118px; width:118px;}
 .recent-search-product-img-box {position: relative; height:150px; width:150px;}
-.product-img-box {position: relative; height:250px;}
 
 
 /* add product */
