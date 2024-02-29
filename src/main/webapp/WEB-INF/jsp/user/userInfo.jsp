@@ -25,30 +25,3 @@
 	</div>
 </div>
 
-
-<script>
-	$(document).ready(function() {
-		let userLoginId = $("#completed").data("user-login-id");
-		console.log(userLoginId);
-		
-		$("#incompleted").on("click", function() {
-			$.ajax({
-				data:{"userLoginId":userLoginId, "completed":false}
-				,url:"/user-product-list"
-				,success:function(data) {
-					$("#user-proudct-list-large-box").html(data);
-				}
-			})
-		})
-		
-		$("#completed").on("click", function() {
-			$.ajax({
-				data:{"userLoginId":userLoginId, "completed":true}
-				,url:"/user-product-list"
-				,success:function(data) {
-					$("#user-proudct-list-large-box").html(data);
-				}
-			})
-		})
-	})
-</script>

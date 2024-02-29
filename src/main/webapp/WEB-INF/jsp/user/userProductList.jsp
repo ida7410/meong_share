@@ -13,6 +13,30 @@
 
 <script>
 	$(document).ready(function() {
+		let userLoginId = $("#completed").data("user-login-id");
+		console.log(userLoginId);
+		
+		$("#incompleted").on("click", function() {
+			console.log("here")
+			$.ajax({
+				data:{"userLoginId":userLoginId, "completed":false}
+				,url:"/user-product-list"
+				,success:function(data) {
+					$("#user-proudct-list-large-box").html(data);
+				}
+			})
+		})
+		
+		$("#completed").on("click", function() {
+			$.ajax({
+				data:{"userLoginId":userLoginId, "completed":true}
+				,url:"/user-product-list"
+				,success:function(data) {
+					$("#user-proudct-list-large-box").html(data);
+				}
+			})
+		})
+		
 		$(".product").on("click", function() {
 			let productId = $(this).data("product-id");
 			location.href = "/product/" + productId;
