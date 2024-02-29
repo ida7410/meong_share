@@ -35,6 +35,7 @@
 
 		<div class="my-4">
 			<textarea id="description" class="form-control" rows="7"></textarea>
+			<div id="desc" class="d-flex justify-content-end">512</div>
 		</div>
 		
 		<button id="create-btn" type="button" class="btn btn-primary form-control mt-2 mb-5">등록하기</button>
@@ -70,6 +71,19 @@
 			reader.readAsDataURL(event.target.files[0]);
 		});
 		
+		$("#description").on("input", function() {
+			let desc = $(this).val();
+			let descLen = desc.length;
+			
+			$("#desc").removeClass("text-danger");
+			
+			if (descLen < 50 || descLen > 512) {
+				$("#desc").addClass("text-danger");
+			}
+			
+			$("#desc").text(512 - descLen)
+		})
+		
 		$("#create-btn").on("click", function() {
 			let fileName = $("#productImageFile").val();
 			let name = $("#name").val().trim();
@@ -104,6 +118,14 @@
 			}
 			if (!description) {
 				alert("설명을 입력해주세요.");
+				return;
+			}
+			if (description.length < 50) {
+				alert("설명은 50자 이상이어야 합니다.");
+				return;
+			}
+			if (description.length > 512) {
+				alert("설명은 512자 이내여야 합니다.");
 				return;
 			}
 			
