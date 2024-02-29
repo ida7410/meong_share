@@ -9,13 +9,13 @@
 
 <c:if test="${not empty recentTradeProductList}">
 <c:forEach items="${recentTradeProductList}" var="product">
-<div class="d-flex p-3 pointer bg-primary" data-product-id="${product.id}">
-	<div class="product-img col-3 bg-danger p-0">
+<div class="recent-trade-product d-flex p-3 pointer bg-hover" data-product-id="${product.id}">
+	<div class="product-img col-2 bg-danger p-0">
 		<img src="${product.imagePath}" alt="" width="100%">
 	</div>
-	<div class="product-desc col-9 bg-success pt-2">
-		<h5 class="font-weight-bold">${product.name}</h5>
-		<h6>
+	<div class="product-desc col-10 pt-2">
+		<h4 class="font-weight-bold">${product.name}</h4>
+		<h5>
 		<c:if test="${fn:length(product.description) > 50}">
 			${fn:substring(product.description, 0, 50)}...
 		</c:if>
@@ -23,17 +23,7 @@
 		<c:if test="${fn:length(product.description) <= 50}">
 			${product.description}
 		</c:if>
-		</h6>
-	</div>
-</div>
-<div class="recent-trade-product d-flex p-3 pointer bg-primary" data-product-id="${product.id}">
-	<div class="product-img col-3 bg-danger p-0">
-		<img src="${product.imagePath}" alt="" width="100%">
-	</div>
-	<div class="product-desc col-9 bg-success pt-2">
-		<h5 class="font-weight-bold">${product.name}</h5>
-		<h6>${product.price}원</h6>
-		<h6>${product.description}</h6>
+		</h5>
 	</div>
 </div>
 </c:forEach>
@@ -44,8 +34,7 @@
 	$(document).ready(function() {
 		$(".recent-trade-product").on("click", function() {
 			let productId = $(this).data("product-id");
-			
-			
+			location.href = "/product/" + productId;
 		})
 	})
 </script>
