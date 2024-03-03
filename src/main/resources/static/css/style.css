@@ -34,7 +34,9 @@ a, a:hover {text-decoration:none;}
 /* SECTION */
 
 /* main page */
-.banner-box {height: 500px; position:relative;}
+.banner-box {height: 500px; position:relative; overflow:hidden; margin:0 auto;}
+#banner-list {height: 500px; width:3420px; position:absolute;}
+#banner-list li {float:left;}
 .recent-product-box {height: 150px;}
 .recommend-product-box {height: 150px;}
 
