@@ -24,6 +24,12 @@ public class MyPageController {
 	@Autowired
 	private UserBO userBO;
 	
+	/***
+	 * Info in MyPage
+	 * @param model
+	 * @param session
+	 * @return
+	 */
 	@GetMapping("/info")
 	public String info(Model model, HttpSession session) {
 		Integer userId = (Integer)session.getAttribute("userId");
@@ -37,11 +43,13 @@ public class MyPageController {
 		return "myPage/info";
 	}
 
+	// Update password view
 	@GetMapping("/update-pw")
 	public String updatePwView() {
 		return "myPage/updatePw";
 	}
 	
+	// Check recent trade the user made view
 	@GetMapping("/recent-trade")
 	public String recentTrade(Model model, HttpSession session) {
 		Integer userId = (Integer)session.getAttribute("userId");

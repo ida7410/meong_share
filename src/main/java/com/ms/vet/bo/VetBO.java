@@ -1,4 +1,4 @@
-package com.ms.main.bo;
+package com.ms.vet.bo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,9 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ms.common.TransCoord;
-import com.ms.main.domain.Type;
-import com.ms.main.domain.Vet;
-import com.ms.main.mapper.VetMapper;
+import com.ms.vet.domain.Vet;
+import com.ms.vet.mapper.VetMapper;
 
 @Service
 public class VetBO {

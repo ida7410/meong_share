@@ -1,7 +1,7 @@
 package com.ms.main.domain;
 
-import com.ms.chat.chatList.domain.ChatList;
-import com.ms.chat.chatMessage.domain.ChatMessage;
+import com.ms.chat.domain.ChatList;
+import com.ms.chat.domain.ChatMessage;
 import com.ms.product.domain.Product;
 
 import lombok.Data;

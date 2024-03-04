@@ -1,4 +1,4 @@
-package com.ms.chat.chatMessage.domain;
+package com.ms.chat.domain;
 
 import java.util.Date;
 

@@ -1,4 +1,4 @@
-package com.ms.main.domain;
+package com.ms.vet.domain;
 
 import java.util.Date;
 

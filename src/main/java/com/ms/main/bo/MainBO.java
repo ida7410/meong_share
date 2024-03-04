@@ -9,10 +9,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ms.chat.chatList.bo.ChatListBO;
-import com.ms.chat.chatList.domain.ChatList;
-import com.ms.chat.chatMessage.bo.ChatMessageBO;
-import com.ms.chat.chatMessage.domain.ChatMessage;
+import com.ms.chat.bo.ChatListBO;
+import com.ms.chat.bo.ChatMessageBO;
+import com.ms.chat.domain.ChatList;
+import com.ms.chat.domain.ChatMessage;
 import com.ms.common.CookieManager;
 import com.ms.like.bo.LikeBO;
 import com.ms.like.domain.Like;

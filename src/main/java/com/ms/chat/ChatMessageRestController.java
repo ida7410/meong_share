@@ -1,4 +1,4 @@
-package com.ms.chat.chatMessage;
+package com.ms.chat;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.ms.chat.chatMessage.bo.ChatMessageBO;
+import com.ms.chat.bo.ChatMessageBO;
 import com.ms.user.bo.UserBO;
 import com.ms.user.domain.User;
 
@@ -26,6 +26,17 @@ public class ChatMessageRestController {
 	@Autowired
 	private UserBO userBO;
 	
+	// ------- CREATE -------
+	
+	/***
+	 * Create chat message
+	 * @param chatListId
+	 * @param message
+	 * @param chatImageFile
+	 * @param type
+	 * @param session
+	 * @return
+	 */
 	@PostMapping("/send")
 	public Map<String, Object> sendChatMessage(
 			@RequestParam("chatListId") int chatListId,
@@ -36,6 +47,7 @@ public class ChatMessageRestController {
 		
 		Map<String, Object> result = new HashMap<>();
 		
+		// check login status
 		Integer userId = (Integer) session.getAttribute("userId");
 		if (userId == null) {
 			result.put("code", 300);
@@ -44,7 +56,7 @@ public class ChatMessageRestController {
 		
 		User user = userBO.getUserById(userId);
 		
-		// DB insert
+		// create chat message
 		chatMessageBO.addChatMessage(chatListId, userId, message, user.getLoginId(), chatImageFile, type);
 		
 		result.put("code", 200);

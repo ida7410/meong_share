@@ -1,11 +1,11 @@
-package com.ms.main.mapper;
+package com.ms.vet.mapper;
 
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import com.ms.main.domain.Vet;
+import com.ms.vet.domain.Vet;
 
 @Mapper
 public interface VetMapper {
