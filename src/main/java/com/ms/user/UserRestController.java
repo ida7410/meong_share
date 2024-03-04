@@ -1,5 +1,6 @@
 package com.ms.user;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,11 +11,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ms.common.Sha256;
 import com.ms.mail.bo.MailBO;
 import com.ms.user.bo.UserBO;
 import com.ms.user.domain.User;
 
 import jakarta.servlet.http.HttpSession;
+import lombok.extern.slf4j.Slf4j;
 
 @RequestMapping("/user")
 @RestController
@@ -25,6 +28,9 @@ public class UserRestController {
 	
 	@Autowired
 	private MailBO mailBO;
+	
+	@Autowired
+	private Sha256 sha256;
 	
 	/***
 	 * Sign up = add user
@@ -47,11 +53,20 @@ public class UserRestController {
 		
 		Map<String, Object> result = new HashMap<>();
 		
-		// DB insert
-		userBO.addUser(id, password, nickname, name, phoneNumber, email);
-		
-		result.put("code", 200);
-		result.put("result", "success");
+		try {
+			// encrypt 3 times
+			String encrypted = sha256.encrypt(sha256.encrypt(sha256.encrypt(password)));
+
+			// DB insert
+			userBO.addUser(id, encrypted, nickname, name, phoneNumber, email);
+			
+			result.put("code", 200);
+			result.put("result", "success");
+			
+		} catch (NoSuchAlgorithmException e) {
+			result.put("code", 400);
+			result.put("error_message", "비밀번호 저장에 실패했습니다.");
+		}
 		
 		return result;
 	}
@@ -73,19 +88,29 @@ public class UserRestController {
 		
 		// find user matching login id and password
 		User user = userBO.getUserByLoginId(loginId);
-		if (password.equals(user.getPassword())) { // if not
-			result.put("code", 300);
-			result.put("error_message", "아이디/비밀번호가 일치하지 않습니다.");
-			return result;
+		try {
+			// encrypt given password
+			String encrypted = sha256.encrypt(sha256.encrypt(sha256.encrypt(password)));
+			
+			// check encrypted pw equals db user pw
+			if (!encrypted.equals(user.getPassword())) { // if not
+				result.put("code", 300);
+				result.put("error_message", "아이디/비밀번호가 일치하지 않습니다.");
+				return result;
+			}
+			
+			// set session
+			session.setAttribute("userId", user.getId());
+			session.setAttribute("userLoginId", user.getLoginId());
+			session.setAttribute("userNickname", user.getNickname());
+			
+			result.put("code", 200);
+			result.put("result", "success");
+			
+		} catch (NoSuchAlgorithmException e) {
+			result.put("code", 400);
+			result.put("error_message", "비밀번호 확인에 실패했습니다.");
 		}
-		
-		// set session
-		session.setAttribute("userId", user.getId());
-		session.setAttribute("userLoginId", user.getLoginId());
-		session.setAttribute("userNickname", user.getNickname());
-		
-		result.put("code", 200);
-		result.put("result", "success");
 		
 		return result;
 	}
@@ -242,23 +267,30 @@ public class UserRestController {
 		
 		Map<String, Object> result = new HashMap<>();
 		
-		// create temp password
-		String tempPassword = getRandomChar();
-		
-		// get user by login id
-		User user = userBO.getUserByLoginId(id);
-		
-		// update temporary password by login id and password
-		userBO.updateUserPasswordByLoginIdPassword(id, user.getPassword(), tempPassword);
-		
-		// send mail with temporary password
-		mailBO.mailSend(user.getEmail(), 
+		try {
+			
+			// create temp password
+			String tempPassword = getRandomChar();
+			String encrypted = sha256.encrypt(sha256.encrypt(sha256.encrypt(tempPassword)));
+			
+			// get user by login id
+			User user = userBO.getUserByLoginId(id);
+			
+			// update temporary password by login id and password
+			userBO.updateUserPasswordByLoginIdPassword(id, user.getPassword(), encrypted);
+			
+			// send mail with temporary password
+			mailBO.mailSend(user.getEmail(), 
 					"[MEONG SHARE] 임시 비밀번호", 
 					"멍셰어 임시비밀번호: " + tempPassword);
-		
-		result.put("code", 200);
-		result.put("result", "success");
-		
+			
+			result.put("code", 200);
+			result.put("result", "success");
+			
+		} catch (NoSuchAlgorithmException e) {
+			result.put("code", 400);
+			result.put("error_message", "임시 비밀번호 저장에 실패했습니다.");
+		}
 		return result;
 	}
 	
@@ -287,17 +319,29 @@ public class UserRestController {
 		
 		// find user to check password
 		User user = userBO.getUserByLoginId(id);
-		if (password.equals(user.getPassword())) {
+		try {
+			
+			// encrypt given password
+			String encrypted = sha256.encrypt(sha256.encrypt(sha256.encrypt(password)));
+
+			// check encrypted pw equals db user pw
+			if (!encrypted.equals(user.getPassword())) { // if not
+				result.put("code", 300);
+				result.put("error_message", "아이디/비밀번호가 일치하지 않습니다.");
+				return result;
+			}
+
+			// update password
+			String newEncrypted = sha256.encrypt(sha256.encrypt(sha256.encrypt(newPassword)));
+			userBO.updateUserPasswordByLoginIdPassword(id, encrypted, newEncrypted);
+
+			result.put("code", 200);
+			result.put("result", "success");
+
+		} catch (NoSuchAlgorithmException e) {
 			result.put("code", 400);
-			result.put("error_message", "비밀번호가 일치하지 않습니다.");
-			return result;
+			result.put("error_message", "비밀번호 확인에 실패했습니다.");
 		}
-		
-		// update password
-		userBO.updateUserPasswordByLoginIdPassword(id, password, newPassword);
-		
-		result.put("code", 200);
-		result.put("result", "success");
 		
 		return result;
 	}

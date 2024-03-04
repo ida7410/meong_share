@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.ms.chat.domain.ChatList;
 
+
 @Mapper
 public interface ChatListMapper {
 	

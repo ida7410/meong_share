@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.ms.chat.chatList.mapper.ChatListMapper">
-	<insert id="insertChatList" parameterType="com.ms.chat.chatList.domain.ChatList">
+<mapper namespace="com.ms.chat.mapper.ChatListMapper">
+	<insert id="insertChatList" parameterType="com.ms.chat.domain.ChatList">
 		<selectKey keyProperty="id" resultType="int">
        		SELECT LAST_INSERT_ID()
    		</selectKey>
@@ -25,7 +25,7 @@
    		)
 	</insert>
 	
-	<select id="selectChatListByProductIdOwnderIdBuyerId" parameterType="map" resultType="com.ms.chat.chatList.domain.ChatList">
+	<select id="selectChatListByProductIdOwnderIdBuyerId" parameterType="map" resultType="com.ms.chat.domain.ChatList">
 		SELECT
 			`id`
 			,`productId`
@@ -41,7 +41,7 @@
 			AND `buyerId` = #{buyerId}
 	</select>
 	
-	<select id="selectChatListById" parameterType="int" resultType="com.ms.chat.chatList.domain.ChatList">
+	<select id="selectChatListById" parameterType="int" resultType="com.ms.chat.domain.ChatList">
 		SELECT
 			`id`
 			,`productId`
@@ -55,7 +55,7 @@
 			`id` = #{id}
 	</select>
 	
-	<select id="selectChatListListBySenderIdOrBuyerId" parameterType="int" resultType="com.ms.chat.chatList.domain.ChatList">
+	<select id="selectChatListListBySenderIdOrBuyerId" parameterType="int" resultType="com.ms.chat.domain.ChatList">
 		SELECT
 			`id`
 			,`productId`
@@ -71,7 +71,7 @@
 		ORDER BY `updatedAt` DESC
 	</select>
 	
-	<select id="selectLatestChatListBySenderIdOrBuyerId" parameterType="int" resultType="com.ms.chat.chatList.domain.ChatList">
+	<select id="selectLatestChatListBySenderIdOrBuyerId" parameterType="int" resultType="com.ms.chat.domain.ChatList">
 		SELECT
 			`id`
 			,`productId`

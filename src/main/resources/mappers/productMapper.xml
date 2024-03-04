@@ -32,7 +32,7 @@
 		)
 	</insert>
 	
-	<select id="selectProductCount" parameterType="map" resultType="int">
+	<select id="selectProductCountByKeywordCompleted" parameterType="map" resultType="int">
 		SELECT
 			COUNT(*)
 		FROM

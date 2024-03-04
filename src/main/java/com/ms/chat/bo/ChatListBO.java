@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.ms.chat.domain.ChatList;
 import com.ms.chat.mapper.ChatListMapper;
 
+
 @Service
 public class ChatListBO {
 	
