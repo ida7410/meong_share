@@ -18,8 +18,15 @@ public class MailRestController {
 	@Autowired
 	private MailBO mailBO;
 	
+	/***
+	 * Send Mail
+	 * @param address
+	 * @param title
+	 * @param content
+	 * @return
+	 */
 	@PostMapping("/mail")
-	public Map<String, Object> execMail(
+	public Map<String, Object> sendMail(
 			@RequestParam("address") String address,
 			@RequestParam("title") String title,
 			@RequestParam("content") String content) {

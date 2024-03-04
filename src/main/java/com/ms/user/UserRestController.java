@@ -26,6 +26,16 @@ public class UserRestController {
 	@Autowired
 	private MailBO mailBO;
 	
+	/***
+	 * Sign up = add user
+	 * @param id
+	 * @param password
+	 * @param nickname
+	 * @param name
+	 * @param phoneNumber
+	 * @param email
+	 * @return
+	 */
 	@PostMapping("/signUp")
 	public Map<String, Object> signUp(
 			@RequestParam("id") String id,
@@ -46,6 +56,13 @@ public class UserRestController {
 		return result;
 	}
 	
+	/***
+	 * Login
+	 * @param loginId
+	 * @param password
+	 * @param session
+	 * @return
+	 */
 	@PostMapping("/logIn")
 	public Map<String, Object> logIn(
 			@RequestParam("id") String loginId,
@@ -54,14 +71,15 @@ public class UserRestController {
 		
 		Map<String, Object> result = new HashMap<>();
 		
-		// DB select
-		User user = userBO.getUserByLoginIdPassword(loginId, password);
-		if (user == null) {
+		// find user matching login id and password
+		User user = userBO.getUserByLoginId(loginId);
+		if (password.equals(user.getPassword())) { // if not
 			result.put("code", 300);
 			result.put("error_message", "아이디/비밀번호가 일치하지 않습니다.");
 			return result;
 		}
 		
+		// set session
 		session.setAttribute("userId", user.getId());
 		session.setAttribute("userLoginId", user.getLoginId());
 		session.setAttribute("userNickname", user.getNickname());
@@ -72,17 +90,23 @@ public class UserRestController {
 		return result;
 	}
 	
+	/***
+	 * Check if id is duplicated
+	 * @param id
+	 * @return
+	 */
 	@PostMapping("/check-duplicated-id")
 	public Map<String, Object> checkDuplicatedId(
 			@RequestParam("id") String id) {
 		
 		Map<String, Object> result = new HashMap<>();
 		
+		// get user by login id
 		User user = userBO.getUserByLoginId(id);
-		if (user == null) {
+		if (user == null) { // if user x exist
 			result.put("isDuplicateId", false);
 		}
-		else {
+		else { // if user exists
 			result.put("isDuplicateId", true);
 		}
 		
@@ -91,20 +115,57 @@ public class UserRestController {
 		
 		return result;
 	}
+
+	/***
+	 * Check email
+	 * @param email
+	 * @return
+	 */
+	@PostMapping("/check-email-code")
+	public Map<String, Object> checkEmailCode(
+			@RequestParam("email") String email) {
+		
+		Map<String, Object> result = new HashMap<>();
+		
+		// create code
+		String randomChar = getRandomChar();
+		
+		// send email including code
+		mailBO.mailSend(email, 
+					"[MEONG SHAR] 이메일 인증번호", 
+					"멍셰어 이메일 인증번호: " + randomChar);
+		
+		result.put("code", 200);
+		result.put("randomChar", randomChar);
+		return result;
+	}
 	
+	/***
+	 * Find id
+	 * @param name
+	 * @param email
+	 * @return
+	 */
 	@PostMapping("/findId")
 	public Map<String, Object> findId(
 			@RequestParam("name") String name,
 			@RequestParam("email") String email) {
 		
 		Map<String, Object> result = new HashMap<>();
+		
+		// find user by name and email
 		User user = userBO.getUserByNameEmail(name, email);
-		if (user == null) {
+		if (user == null) { // if user x exist
 			result.put("code", 300);
 			result.put("message", "사용자를 찾을 수 없습니다.");
 		}
-		else {
-			mailBO.mailSend(email, "[MEONG SHAR] 아이디 찾기", "멍셰어 아이디: " + user.getLoginId());
+		else { // if exists
+			
+			// send email including id
+			mailBO.mailSend(email, 
+						"[MEONG SHAR] 아이디 찾기", 
+						"멍셰어 아이디: " + user.getLoginId());
+			
 			result.put("code", 200);
 			result.put("message", "아이디를 보내드렸습니다. 이메일을 확인해주세요.");
 		}
@@ -114,23 +175,37 @@ public class UserRestController {
 		return result;
 	}
 	
+	/***
+	 * Find password
+	 * @param id
+	 * @param email
+	 * @return
+	 */
 	@PostMapping("/findPw")
 	public Map<String, Object> findPw(
 			@RequestParam("id") String id,
 			@RequestParam("email") String email) {
 		
 		Map<String, Object> result = new HashMap<>();
+		
+		// find user by login id and email
 		User user = userBO.getUserByLoginIdEmail(id, email);
-		if (user == null) {
+		if (user == null) { // if user x exist
 			result.put("code", 300);
 			result.put("message", "사용자를 찾을 수 없습니다.");
 		}
-		else {
-			result.put("code", 200);
-			String randomChar = getRandomChar();
-			result.put("randomChar", randomChar);
-			mailBO.mailSend(email, "[MEONG SHAR] 비밀번호 찾기 - 인증번호", "멍셰어 비밀번호 찾기 - 인증번호: " + randomChar);
+		else { // if exists
 			
+			// create code
+			String randomChar = getRandomChar();
+			
+			// send email with code
+			mailBO.mailSend(email, 
+						"[MEONG SHAR] 비밀번호 찾기 - 인증번호", 
+						"멍셰어 비밀번호 찾기 - 인증번호: " + randomChar);
+			
+			result.put("code", 200);
+			result.put("randomChar", randomChar);
 		}
 		
 		result.put("result", "success");
@@ -138,19 +213,7 @@ public class UserRestController {
 		return result;
 	}
 	
-	@PostMapping("/check-email-code")
-	public Map<String, Object> checkEmailCode(
-			@RequestParam("email") String email) {
-		Map<String, Object> result = new HashMap<>();
-		
-		String randomChar = getRandomChar();
-		mailBO.mailSend(email, "[MEONG SHAR] 이메일 인증번호", "멍셰어 이메일 인증번호: " + randomChar);
-		
-		result.put("code", 200);
-		result.put("randomChar", randomChar);
-		return result;
-	}
-	
+	// Create random string
 	public String getRandomChar() {
 		char[] charSet = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
 				'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
@@ -168,23 +231,44 @@ public class UserRestController {
 		return str;
 	}
 	
+	/***
+	 * Create a temporary password and update it
+	 * @param id
+	 * @return
+	 */
 	@PostMapping("/updateTempPw")
 	public Map<String, Object> updateTempPw(
 			@RequestParam("id") String id) {
 		
 		Map<String, Object> result = new HashMap<>();
 		
+		// create temp password
 		String tempPassword = getRandomChar();
+		
+		// get user by login id
 		User user = userBO.getUserByLoginId(id);
 		
+		// update temporary password by login id and password
 		userBO.updateUserPasswordByLoginIdPassword(id, user.getPassword(), tempPassword);
-		mailBO.mailSend(user.getEmail(), "[MEONG SHARE] 임시 비밀번호", "멍셰어 임시비밀번호: " + tempPassword);
+		
+		// send mail with temporary password
+		mailBO.mailSend(user.getEmail(), 
+					"[MEONG SHARE] 임시 비밀번호", 
+					"멍셰어 임시비밀번호: " + tempPassword);
 		
 		result.put("code", 200);
 		result.put("result", "success");
+		
 		return result;
 	}
-
+	
+	/***
+	 * Update password
+	 * @param password
+	 * @param newPassword
+	 * @param session
+	 * @return
+	 */
 	@PostMapping("/update-pw")
 	public Map<String, Object> updatePw(
 			@RequestParam("password") String password,
@@ -193,6 +277,7 @@ public class UserRestController {
 		
 		Map<String, Object> result = new HashMap<>();
 		
+		// check login status
 		String id = (String)session.getAttribute("userLoginId");
 		if (id == null) {
 			result.put("code", 300);
@@ -200,20 +285,34 @@ public class UserRestController {
 			return result;
 		}
 		
-		User user = userBO.getUserByLoginIdPassword(id, password);
-		if (user == null) {
+		// find user to check password
+		User user = userBO.getUserByLoginId(id);
+		if (password.equals(user.getPassword())) {
 			result.put("code", 400);
 			result.put("error_message", "비밀번호가 일치하지 않습니다.");
 			return result;
 		}
 		
+		// update password
 		userBO.updateUserPasswordByLoginIdPassword(id, password, newPassword);
 		
 		result.put("code", 200);
 		result.put("result", "success");
+		
 		return result;
 	}
 	
+	/***
+	 * Update user info
+	 * @param loginId
+	 * @param nickname
+	 * @param name
+	 * @param phoneNumber
+	 * @param email
+	 * @param profileImageFile
+	 * @param session
+	 * @return
+	 */
 	@PostMapping("/update")
 	public Map<String, Object> update(
 			@RequestParam(value = "loginId", required = false) String loginId,
@@ -226,6 +325,7 @@ public class UserRestController {
 
 		Map<String, Object> result = new HashMap<>();
 		
+		// check login status
 		Integer userId = (Integer)session.getAttribute("userId");
 		if (userId == null) {
 			result.put("code", 300);

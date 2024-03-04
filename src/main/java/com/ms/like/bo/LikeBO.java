@@ -12,27 +12,49 @@ public class LikeBO {
 	@Autowired
 	private LikeMapper likeMapper;
 	
+	// ------- CREATE & DELETE -------
+	
+	/***
+	 * Like Toggle
+	 * @param subjectId
+	 * @param userId
+	 * @param type
+	 */
 	public void addLike(int subjectId, int userId, String type) {
+		
+		// check if like already exists
 		boolean isAlreadyLiked = likeMapper.selectLikeCountBySubjectIdUserIdType(subjectId, userId, type) > 0;
 		
-		if (isAlreadyLiked) {
+		if (isAlreadyLiked) { // if yes delete it
 			likeMapper.deleteLike(subjectId, userId);
 		}
-		else {
+		else { // if not delete it
 			likeMapper.insertLike(subjectId, userId, type);
 		}
 	}
 	
+
+	// ------- READ -------
+	
+	/***
+	 * Get like by subject id, user id, and type
+	 * @param subjectId
+	 * @param userId
+	 * @param type
+	 * @return
+	 */
 	public Like getLikeBySubjectIdUserIdType(int subjectId, int userId, String type) {
 		Like like = likeMapper.selectLikeBySubjectIdUserIdType(subjectId, userId, type);
 		return like;
 	}
 	
-	public int getLikeCountBySubjectIdType(int subjectId) {
-		return likeMapper.selectLikeCountBySubjectIdType(subjectId);
+	/***
+	 * Get the number of like where subject id and type match
+	 * @param subjectId
+	 * @return
+	 */
+	public int getLikeCountBySubjectIdType(int subjectId, String type) {
+		return likeMapper.selectLikeCountBySubjectIdType(subjectId, type);
 	}
 	
-	public int getRecommendCountBySubjectIdType(int subjectId) {
-		return likeMapper.selectRecommendCountBySubjectIdType(subjectId);
-	}
 }

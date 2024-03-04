@@ -11,19 +11,34 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 public class UserController {
 	
-	@TimeTrace
+	/***
+	 * Log in view
+	 * @param model
+	 * @return
+	 */
+//	@TimeTrace
 	@GetMapping("/log-in")
 	public String logIn(Model model) {
 		model.addAttribute("viewName", "user/logIn");
 		return "template/layout";
 	}
 	
+	/***
+	 * Sign up view
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/sign-up")
 	public String signUp(Model model) {
 		model.addAttribute("viewName", "user/signUp");
 		return "template/layout";
 	}
 	
+	/***
+	 * Log out
+	 * @param session
+	 * @return
+	 */
 	@GetMapping("/log-out")
 	public String signOut(HttpSession session) {
 		// session의 내용을 모두 비운다.
@@ -32,7 +47,7 @@ public class UserController {
 		session.removeAttribute("userNickame");
 		
 		// redirect to login view
-		return "redirect:/home";
+		return "redirect:/log-in";
 	}
 	
 }

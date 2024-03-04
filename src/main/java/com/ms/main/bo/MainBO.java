@@ -55,8 +55,8 @@ public class MainBO {
 		Product product = productBO.getProductById(productId);
 		User user = userBO.getUserById(product.getOwnerId());
 		
-		int likeCount = likeBO.getLikeCountBySubjectIdType(product.getId());
-		int recommendCount = likeBO.getRecommendCountBySubjectIdType(user.getId());
+		int likeCount = likeBO.getLikeCountBySubjectIdType(product.getId(), "like");
+		int recommendCount = likeBO.getLikeCountBySubjectIdType(user.getId(), "recommend");
 		int tradeCount = productBO.getProductListByOwnerIdOrKeyword(userId, null, 0, null, true).size();
 		String liked = "empty-";
 		

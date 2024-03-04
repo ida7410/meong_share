@@ -102,7 +102,7 @@ public class MainController {
 		}
 		
 		// total number of products
-		int totalCount = productBO.getProductCount(keyword, false);
+		int totalCount = productBO.getProductCountByKeywordCompleted(keyword, false);
 		
 		Criteria cri = new Criteria();
 		cri.setPage(page);
@@ -215,10 +215,10 @@ public class MainController {
 		
 		// get the total number founded user has traded & recommended
 		int tradeCount = productBO.getProductListByOwnerIdOrKeyword(user.getId(), null, 0, null, true).size();
-		int recommendCount = likeBO.getRecommendCountBySubjectIdType(user.getId());
+		int recommendCount = likeBO.getLikeCountBySubjectIdType(user.getId(), "recommend");
 		
 		// get total number of incompleted products
-		int totalCount = productBO.getProductCount(null, false);
+		int totalCount = productBO.getProductCountByKeywordCompleted(null, false);
 
 		Criteria cri = new Criteria();
 		cri.setPage(page);
@@ -261,7 +261,7 @@ public class MainController {
 		
 		User user = userBO.getUserByLoginId(userLoginId);
 
-		int totalCount = productBO.getProductCount(null, false);
+		int totalCount = productBO.getProductCountByKeywordCompleted(null, false);
 
 		Criteria cri = new Criteria();
 		cri.setPage(page);

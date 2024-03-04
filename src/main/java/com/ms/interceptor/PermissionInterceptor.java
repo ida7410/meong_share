@@ -35,6 +35,7 @@ public class PermissionInterceptor implements HandlerInterceptor {
             HttpServletResponse response,
             Object Handler, ModelAndView mav) {
         
+    	// post handler
     }
     
     @Override
@@ -42,6 +43,7 @@ public class PermissionInterceptor implements HandlerInterceptor {
             HttpServletResponse resposne,
             Object Handler, Exception ex) {
         
+    	// after handler
     }
     
 }

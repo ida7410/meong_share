@@ -17,6 +17,17 @@ public class UserBO {
     @Autowired
     private FileManagerService fileManagerService;
 	
+    // ------- CREATE ------- 
+    
+    /***
+     * Add user
+     * @param id
+     * @param password
+     * @param nickname
+     * @param name
+     * @param phoneNumber
+     * @param email
+     */
 	public void addUser(
 			String id, String password, 
 			String nickname, String name,
@@ -25,31 +36,72 @@ public class UserBO {
 		userMapper.insertUser(id, password, nickname, name, phoneNumber, email);
 	}
 	
+	
+	// ------- READ ------- 
+	
+	/***
+	 * Get user by primary id
+	 * @param id
+	 * @return
+	 */
 	public User getUserById(int id) {
 		return userMapper.selectUserById(id);
 	}
 	
+	/***
+	 * Get user by login id
+	 * @param loginId
+	 * @return
+	 */
 	public User getUserByLoginId(String loginId) {
 		User user = userMapper.selectUesrByLoginId(loginId);
 		return user;
 	}
 	
-	public User getUserByLoginIdPassword(String loginId, String password) {
-		return userMapper.selectUserByLoginIdPassword(loginId, password);
-	}
-	
+	/***
+	 * Get user by login id and email
+	 * @param loginId
+	 * @param email
+	 * @return
+	 */
 	public User getUserByLoginIdEmail(String loginId, String email) {
 		return userMapper.selectUserByLoginIdEmail(loginId, email);
 	}
 	
+	/***
+	 * Get user by name and email
+	 * @param name
+	 * @param email
+	 * @return
+	 */
 	public User getUserByNameEmail(String name, String email) {
 		return userMapper.selectUserByNameEmail(name, email);
 	}
 	
+	
+	// ------- UPDATE ------- 
+	
+	/***
+	 * Update user password by login id and password
+	 * @param loginId
+	 * @param password
+	 * @param newPassword
+	 * @return
+	 */
 	public int updateUserPasswordByLoginIdPassword(String loginId, String password, String newPassword) {
 		return userMapper.updateUserPassword(loginId, password, newPassword);
 	}
 	
+	/***
+	 * Update user
+	 * @param id
+	 * @param loginId
+	 * @param nickname
+	 * @param name
+	 * @param phoneNumber
+	 * @param email
+	 * @param profileImageFile
+	 */
 	public void updateUser(
 			int id, String loginId, 
 			String nickname, String name,
@@ -59,6 +111,7 @@ public class UserBO {
 		User user = userMapper.selectUserById(id);
 		String profileImagePath = null;
 		
+		// if given is empty set as og value
 		if (loginId.equals("")) {
 			loginId = user.getLoginId();
 		}
@@ -81,6 +134,7 @@ public class UserBO {
 			profileImagePath = fileManagerService.saveFile(loginId, profileImageFile);
 		}
 		
+		// update user
 		userMapper.updateUser(id, loginId, nickname, name, phoneNumber, email, profileImagePath);
 	}
 	

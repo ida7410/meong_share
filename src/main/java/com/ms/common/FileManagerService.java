@@ -17,13 +17,15 @@ public class FileManagerService {
     public static final String FILE_UPLOAD_PATH = "D:\\hyeonbeen\\6_spring project\\MEONGSHARE\\ms_workspace/images/";
     
     public String saveFile(String loginId, MultipartFile file) {
-        // create directory
+        // directory name: {loginId}_{current time in milli sec}
         String directoryName = loginId + "_" + System.currentTimeMillis();
         
+        // file path: ...MEONGSHARE\\ms_workspace/images/{loginId}_{current time in milli sec}
         String filePath = FILE_UPLOAD_PATH + directoryName;
         
+        // create directory
         File directory = new File(filePath);
-        if (!directory.mkdir()) {
+        if (!directory.mkdir()) { // if failed
             return null;
         }
         
