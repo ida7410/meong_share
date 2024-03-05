@@ -12,7 +12,7 @@
 		</div>
 		<div class="product-desc col-9 pt-2">
 			<h5 class="font-weight-bold">${product.name}</h5>
-			<h6>
+			<h6 class="text-break">
 			<c:if test="${fn:length(product.description) > 50}">
 				${fn:substring(product.description, 0, 50)}...
 			</c:if>

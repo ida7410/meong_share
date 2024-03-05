@@ -3,8 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <div class="d-flex h-100">
-	<div class="d-flex col-3 align-items-end">
-		<img src="/static/img/chat-icon.jpg" id="chat-btn" width="10%">
+	<div class="d-flex col-3 align-items-end pb-2">
+		<img src="/static/img/chat-icon.png" id="chat-btn" width="8%">
 	</div>
 	<div class="d-flex col-6 align-items-end justify-content-center">
 		<div class="display-4">

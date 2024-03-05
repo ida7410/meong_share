@@ -66,14 +66,14 @@
 		</div>
 		
 		<div id="chat-input-box" class="input-group input-group-lg pt-3">
-			<div id="chat-input-prepend" class="input-group-prepend">
+			<div id="chat-input-prepend" class="input-group-prepend border border-right-0 rounded-left">
 				<button type="button" id="chat-image-btn" class="btn">
-					<img src="/static/img/image.jpg" width="100%">
+					<img src="/static/img/image.png" width="100%">
 				</button>
 				<input type="file" id="chat-image" class="d-none" accept=".jpg, .jpeg, .gif, .png">
 			</div>
-			<input type="text" id="chat-input" class="form-control">
-			<div class="input-group-append">
+			<input type="text" id="chat-input" class="form-control border-left-0">
+			<div class="input-group-append border rounded-right">
 				<button type="button" id="send-btn" class="btn btn-light">전송</button>
 			</div>
 		</div>

@@ -9,7 +9,7 @@
 			<img src="${user.profileImagePath}" class="crop-img" width="100%">
 		</c:if>
 		<c:if test="${user.profileImagePath eq null}">
-			<img src="/static/img/empty-profile.jpg" class="crop-img" width="100%">		
+			<img src="/static/img/empty-profile.png" width="100%">		
 		</c:if>
 		</div>
 		

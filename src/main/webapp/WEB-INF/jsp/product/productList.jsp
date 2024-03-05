@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <div class="product-list-box">
 	<c:if test="${empty cardList}">
@@ -24,12 +25,20 @@
 			<h7>${card.diffTime} 전</h7>
 			
 			<h6>${card.user.nickname}</h6>
-			<h6>${card.product.description}</h6>
+			<h6 class="text-break">
+			<c:if test="${fn:length(card.product.description) > 50}">
+				${fn:substring(card.product.description, 0, 50)}...
+			</c:if>
+					
+			<c:if test="${fn:length(card.product.description) <= 50}">
+				${card.product.description}
+			</c:if>
+			</h6>
 		</div>
 	</c:forEach>
 	</div>
 	
-	<nav aria-label="Page navigation example">
+	<nav aria-label="Page navigation">
 		<ul class="pagination justify-content-center">
 			<li id="prev-btn" class="page-item">
 				<a class="page-link" href="?${keywordParam}page=${pm.startPage-1}">Previous</a>
