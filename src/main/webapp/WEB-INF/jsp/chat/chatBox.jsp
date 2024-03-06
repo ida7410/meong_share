@@ -71,9 +71,7 @@
 				거래는 어떠셨나요? ${chatCard.owner.nickname}님을 추천하시겠나요?
 				<br>
 				<div class="mt-2">
-					<span id="recommend" class="pointer">예</span>
-					&nbsp; | &nbsp;
-					<span id="not-recommend" class="pointer">아니오</span>
+					<button type="button" id="recommend" class="btn btn-primary">추천하기</button>
 				</div>
 				</c:if>
 				

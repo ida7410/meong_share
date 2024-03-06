@@ -17,7 +17,6 @@ import com.ms.user.bo.UserBO;
 import com.ms.user.domain.User;
 
 import jakarta.servlet.http.HttpSession;
-import lombok.extern.slf4j.Slf4j;
 
 @RequestMapping("/user")
 @RestController
