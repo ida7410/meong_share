@@ -58,6 +58,15 @@ public class MainController {
 	}
 	
 	/***
+	 * If path is empty redirect to home
+	 * @return
+	 */
+	@GetMapping("")
+	public String empty() {
+		return "redirect:/home";
+	}
+	
+	/***
 	 * Main view (home)
 	 * @param model
 	 * @return
