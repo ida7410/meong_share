@@ -20,6 +20,7 @@ public class UserController {
 	@GetMapping("/log-in")
 	public String logIn(Model model) {
 		model.addAttribute("viewName", "user/logIn");
+		model.addAttribute("title", "로그인 / ");
 		return "template/layout";
 	}
 	
@@ -31,6 +32,7 @@ public class UserController {
 	@GetMapping("/sign-up")
 	public String signUp(Model model) {
 		model.addAttribute("viewName", "user/signUp");
+		model.addAttribute("title", "회원가입 / ");
 		return "template/layout";
 	}
 	
