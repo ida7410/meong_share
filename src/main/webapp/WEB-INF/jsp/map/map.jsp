@@ -153,7 +153,7 @@
 						vets.push(data[i]);
 						getPosition(data[i]);
 						let info = 
-							'<div class="p-3 pointer vet-info" data-vet-id="' + i + '">' + 
+							'<div class="p-3 pointer vet-info border-bottom" data-vet-id="' + i + '">' + 
 								'<h5 class="font-weight-bold">' + data[i].name + '</h5>' + 
 								'<small>' + data[i].address + '</small>' +
 							'</div>';

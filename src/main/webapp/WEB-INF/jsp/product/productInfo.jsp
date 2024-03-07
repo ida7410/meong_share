@@ -4,9 +4,9 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <div class="p-5">
-	<div class="d-flex p-4">
+	<div class="d-flex px-4 border-bottom pb-5 pt-0">
 		<div class="col-4 mr-5 product-info-img-box">
-			<img src="${card.product.imagePath}" class="crop-img" width="100%">
+			<img src="${card.product.imagePath}" class="crop-img border rounded" width="100%">
 		</div>
 		
 		<div>

@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <div class="d-flex pt-4 pb-5">
-	<div class="col-2 p-3">
+	<div class="col-2 p-3 border-right">
 		<div class="profile-img-box">
 		<c:if test="${user.profileImagePath ne null}">
 			<img src="${user.profileImagePath}" class="crop-img" width="100%">

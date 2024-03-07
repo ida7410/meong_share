@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 
 <nav>
-	<ul class="nav">
+	<ul class="nav border-bottom">
 		<li class="nav-item pointer"><a id="incompleted" data-user-login-id="${user.loginId}" class="nav-link user-info-nav-link">전체</a></li>
 		<li class="nav-item pointer"><a id="completed" data-user-login-id="${user.loginId}" class="nav-link user-info-nav-link">거래 완료</a></li>
 	</ul>

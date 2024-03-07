@@ -67,7 +67,7 @@
 		
 		<div id="chat-input-box" class="input-group input-group-lg pt-3">
 			<div id="chat-input-prepend" class="input-group-prepend border border-right-0 rounded-left">
-				<button type="button" id="chat-image-btn" class="btn">
+				<button type="button" id="chat-image-btn" class="btn rounded-circle">
 					<img src="/static/img/image.png" width="100%">
 				</button>
 				<input type="file" id="chat-image" class="d-none" accept=".jpg, .jpeg, .gif, .png">
@@ -115,6 +115,7 @@
 			$("#chat-input").attr("disabled", true);
 			$("#chat-image-send-btn").prop("disabled", true);
 			$("#send-btn").prop("disabled", true);
+			$("#chat-image-btn").prop("disabled", true);
 		}
 		
 		setInterval(function() {

@@ -4,7 +4,7 @@
 
 <div class="d-flex pt-5">
 	
-	<div class="col-2 pl-4">
+	<div class="col-2 pl-4 border-right">
 		<h4 class="font-weight-bold">상품 검색</h4>
 		<form method="GET" action="/search">
 			<div class="input-group mb-5">
@@ -25,9 +25,9 @@
 		<h4 class="font-weight-bold">최근 본 상품</h4>
 		<div class="mb-5 col-9 p-0">
 		<c:forEach items="${recentViewProductList}" var="recentViewProduct">
-			<div class="recent-search-product p-2 pointer bg-hover" data-product-id="${recentViewProduct.id}">
-				<div class="recent-search-product-img-box w-100 bg-danger mb-2">
-					<img src="${recentViewProduct.imagePath}" class="crop-img" width="100%">
+			<div class="recent-search-product p-2 pointer bg-hover border rounded" data-product-id="${recentViewProduct.id}">
+				<div class="recent-search-product-img-box w-100 mb-2">
+					<img src="${recentViewProduct.imagePath}" class="crop-img border rounded" width="100%">
 				</div>
 				<h5 class="font-weight-bold">${recentViewProduct.name}</h5>
 			</div>

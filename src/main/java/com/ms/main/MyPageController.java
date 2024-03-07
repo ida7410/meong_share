@@ -32,6 +32,8 @@ public class MyPageController {
 	 */
 	@GetMapping("/info")
 	public String info(Model model, HttpSession session) {
+		
+		// check login status
 		Integer userId = (Integer)session.getAttribute("userId");
 		if (userId == null) {
 			return "redirect:/log-in";
@@ -52,11 +54,14 @@ public class MyPageController {
 	// Check recent trade the user made view
 	@GetMapping("/recent-trade")
 	public String recentTrade(Model model, HttpSession session) {
+		
+		// check login status
 		Integer userId = (Integer)session.getAttribute("userId");
 		if (userId == null) {
 			return "redirect:/log-in";
 		}
 		
+		// find the list of recently traded product
 		List<Product> recentTradeProductList = productBO.getProductListByOwnerIdOrKeyword(userId, null, 0, 3, true);
 		
 		model.addAttribute("recentTradeProductList", recentTradeProductList);

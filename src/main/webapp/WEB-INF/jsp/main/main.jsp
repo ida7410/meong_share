@@ -13,7 +13,9 @@
 	
 	<jsp:include page="../suggestion/recent.jsp" />
 	
-	<jsp:include page="../suggestion/recommend.jsp" />
+	<div class="mb-4">
+		<jsp:include page="../suggestion/recommend.jsp" />
+	</div>
 </div>
 
 <script>
