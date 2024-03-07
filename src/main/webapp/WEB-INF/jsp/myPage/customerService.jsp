@@ -20,7 +20,7 @@
 			$.ajax({
 				type:"post"
 				,url:"/mail"
-				,data:{"title":"[Meong Share] 문의: " + title, "content":content, "address":"ida.yoonh741@gmail.com"}
+				,data:{"title":title, "content":content, "address":"ida.yoonh741@gmail.com"}
 				
 				,success:function(data) {
 					if (data.code == 200) {
