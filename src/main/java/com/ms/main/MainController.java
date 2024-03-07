@@ -126,10 +126,10 @@ public class MainController {
 		List<Card> cardList = mainBO.getCardByUserLoginIdOrKeyword(null, keyword, (int)page, cri, false);
 		
 		// cookie set
-		List<String> keywordList = mainBO.setKeywordList(request, response, "keywordList", keyword);
+		List<String> keywordList = mainBO.setCookieList(request, response, "keywordList", keyword);
 		
 		// get recent view product
-		List<Product> recentViewProductList = mainBO.getRecentViewProductIdList(request, "productList");
+		List<Product> recentViewProductList = mainBO.getRecentViewProductIdList(request);
 		
 		model.addAttribute("viewName", "product/productSearch");
 		model.addAttribute("title", "검색 / ");
@@ -195,8 +195,8 @@ public class MainController {
 		// get random 3 recommended products
 		List<Product> recommendProductList = productBO.getThreeRandomProductList();
 		
-		// get searched keyword list in cookie
-		mainBO.setKeywordList(request, response, "productList", productId + "");
+		// set searched product list in cookie
+		mainBO.setCookieList(request, response, "productList", productId + "");
 		
 		model.addAttribute("viewName", "product/productInfo");
 		model.addAttribute("title", "물품 정보: " + card.getProduct().getName() + " / ");
@@ -336,7 +336,7 @@ public class MainController {
 		}
 		
 		// get chat list which user has
-		List<ChatListCard> clcList = mainBO.getChatListCard(chatListId, userId);
+		List<ChatListCard> clcList = mainBO.getChatListCardList(chatListId, userId);
 		
 		// get chat card (has chat message list in it)
 		ChatCard cc = mainBO.getChatCard(chatListId);

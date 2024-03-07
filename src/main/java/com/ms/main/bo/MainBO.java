@@ -50,19 +50,31 @@ public class MainBO {
 	@Autowired
 	private ChatMessageBO chatMessageBO;
 	
-	
+	/***
+	 * Get card of product
+	 * @param userId
+	 * @param productId
+	 * @return
+	 */
 	public Card getCardByProductId(Integer userId, int productId) {
+		
+		// find product
 		Product product = productBO.getProductById(productId);
+		// find logined user
 		User user = userBO.getUserById(product.getOwnerId());
 		
+		// get the number of like to product and how many time the owner had been recommended and traded
 		int likeCount = likeBO.getLikeCountBySubjectIdType(product.getId(), "like");
 		int recommendCount = likeBO.getLikeCountBySubjectIdType(user.getId(), "recommend");
 		int tradeCount = productBO.getProductListByOwnerIdOrKeyword(userId, null, 0, null, true).size();
-		String liked = "empty-";
 		
-		if (userId != null) {
+		// check if user liked the product
+		// if not log in default empty
+		String liked = "empty-";
+		if (userId != null) { // if login
+			// check like
 			Like like = likeBO.getLikeBySubjectIdUserIdType(productId, userId, "like");
-			if (like != null) {
+			if (like != null) { // if like exists
 				liked = "";
 			}
 		}
@@ -78,44 +90,78 @@ public class MainBO {
 		return card;
 	}
 	
-	public List<Product> getRecentViewProductIdList(HttpServletRequest request, String cookieName) {
-		Cookie cookie = cookieManager.getCookie(request, cookieName);
+	/***
+	 * Get the list of product recently viewed
+	 * @param request
+	 * @param cookieName
+	 * @return
+	 */
+	public List<Product> getRecentViewProductIdList(HttpServletRequest request) {
+		// get recently viewed product id list cookie
+		Cookie cookie = cookieManager.getCookie(request, "productList");
 		
+		// change cookie to list
 		List<String> recentViewProductIdStringList = cookieManager.getListByCookie(cookie);
 		
+		// get product list
 		List<Product> recentViewProductList = new ArrayList<>();
 		for (String productIdString : recentViewProductIdStringList) {
+			// change string to int
 			int productId = Integer.parseInt(productIdString);
+			
+			// get product
 			Product product = productBO.getProductById(productId);
+			
+			// add product to the list
 			recentViewProductList.add(product);
 		}
+		
 		return recentViewProductList;
 	}
 	
-	public List<String> setKeywordList(HttpServletRequest request, HttpServletResponse response, String cookieName, String keyword) {
+	/***
+	 * Set the keyword to the list
+	 * @param request
+	 * @param response
+	 * @param keyword
+	 * @return
+	 */
+	public List<String> setCookieList(
+			HttpServletRequest request, 
+			HttpServletResponse response, 
+			String cookieName,
+			String keyword) {
 		
+		// get og keyword list cookie
 		Cookie cookie = cookieManager.getCookie(request, cookieName);
 		
+		// chagne cookie to list
 		List<String> keywordList = cookieManager.getListByCookie(cookie);
-		if (keyword == null) {
+		if (keyword == null) { // if keyword x given => reverse the list and return it
 			Collections.reverse(keywordList);
 			return keywordList;
 		}
 		
-		String keywordListString = null;
-		if (keywordList.contains(keyword)) { // keyword가 이미 있었다면 지우기
+		// check if keyword already exists in the list
+		if (keywordList.contains(keyword)) { // if yes remove
 			keywordList.remove(keyword);
 		}
 		
 		// 존재한다면 value는 keyword,keyword,keyword,...의 형태
-		if (cookie != null) { 
-			if (keywordList.size() >= 3) {
-				keywordList.remove(0);
+		String keywordListString = null;
+		if (cookie != null) { // if list cookie exists
+			
+			if (keywordList.size() >= 3) { // max 3
+				keywordList.remove(0); // remove the first
 			}
+			
+			// add keywrod to the keyword list
 			keywordList.add(keyword);
+			
+			// change list to string form
 			keywordListString = String.join(",", keywordList);
 		}
-		else {
+		else { // if list cookie x exist
 			keywordListString = keyword; // 없다면 단순 keyword로
 		}
 		
@@ -129,25 +175,43 @@ public class MainBO {
 		return keywordList;
 	}
 	
-	
+	/***
+	 * Get card list uploaded by user or searched by keyword
+	 * @param userLoginId
+	 * @param keyword
+	 * @param page
+	 * @param cri
+	 * @param completed
+	 * @return
+	 */
 	public List<Card> getCardByUserLoginIdOrKeyword(String userLoginId, String keyword, int page, Criteria cri, boolean completed) {
+		
+		List<Card> cardList = new ArrayList<>();
+
+		// is it to find card list uploaded by one user
 		Integer userId = null;
-		if (userLoginId != null) {
+		if (userLoginId != null) { // if yes
+			// get the primary key id of that user
 			userId = userBO.getUserByLoginId(userLoginId).getId();
 		}
 		
-		List<Card> cardList = new ArrayList<>();
-		
+		// skip
 		int skip = (page - 1) * cri.getPerPageNum();
 		
-		
+		// get product list
+		// userId null => by keyword or get every product
+		// userId x null => uploaded by one user
 		List<Product> productList = productBO.getProductListByOwnerIdOrKeyword(userId, keyword, skip, cri.getPerPageNum(), completed);
 		
+		// get card list
 		for (Product product : productList) {
+			
 			Card card = new Card();
 			
+			// find the owner of the product
 			User user = userBO.getUserById(product.getOwnerId());
-
+			
+			// get date difference
 			Date now = new Date();
 			Date createdAt = product.getCreatedAt();
 			long diffSec = (now.getTime() - createdAt.getTime()) / 1000;
@@ -156,15 +220,15 @@ public class MainBO {
 			long diffDay = diffHrs / 24;
 			String diff = diffDay + "일";
 			
-			if (diffMin < 1) {
-				diff = diffSec + "초";
+			if (diffMin < 1) { // if diff of min < 1 min
+				diff = diffSec + "초"; // return diff sec
 			}
-			else if (diffHrs < 1) {
-				diff = diffMin + "분";
+			else if (diffHrs < 1) { // if diff of min > 1 min & diff hrs < 1 hr
+				diff = diffMin + "분"; // return diff min
 			}
-			else if (diffDay < 1) {
-				diff = diffHrs + "시간";
-			}
+			else if (diffDay < 1) { // if diff hrs > 1 hr & diff day < 1
+				diff = diffHrs + "시간"; // return diff hr
+			} // else reutrn diff of day
 			
 			card.setProduct(product);
 			card.setUser(user);
@@ -178,18 +242,29 @@ public class MainBO {
 		return cardList;
 	}
 	
-	public List<ChatListCard> getChatListCard(int chatListId, int userId) {
+	/***
+	 * Get chat list card where user is included in the chat
+	 * @param chatListId
+	 * @param userId
+	 * @return
+	 */
+	public List<ChatListCard> getChatListCardList(int chatListId, int userId) {
+		
 		List<ChatListCard> clcList = new ArrayList<>();
 		
+		// get the list of chat list
 		List<ChatList> clList = chatListBO.getChatListListByUserId(userId);
 		
+		// get chat list card list
 		for (ChatList cl : clList) {
-			ChatListCard clc = new ChatListCard();
 			
+			// get product of the chat list
 			Product product = productBO.getProductById(cl.getProductId());
 			
+			// get the latest chat message
 			ChatMessage latestCM = chatMessageBO.getLatestChatMessageByChatListId(cl.getId());
 			
+			ChatListCard clc = new ChatListCard();
 			clc.setCl(cl);
 			clc.setProduct(product);
 			clc.setLatestCM(latestCM);
@@ -200,19 +275,28 @@ public class MainBO {
 		return clcList;
 	}
 
+	/***
+	 * Get the chat card in the chat list
+	 * @param chatListId
+	 * @return
+	 */
 	public ChatCard getChatCard(int chatListId) {
-		ChatCard cc = new ChatCard();
 		
+		// find the chat list & chat message list
 		ChatList cl = chatListBO.getChatListById(chatListId);
 		List<ChatMessage> cml = chatMessageBO.getChatMessageListByChatListId(chatListId);
 		
+		// get the product
 		Product product = productBO.getProductById(cl.getProductId());
 		
+		// find the owner and buyer
 		User owner = userBO.getUserById(cl.getOwnerId());
 		User buyer = userBO.getUserById(cl.getBuyerId());
 		
+		// find if recommended
 		Like like = likeBO.getLikeBySubjectIdUserIdType(owner.getId(), buyer.getId(), product.getId() + "");
 		
+		ChatCard cc = new ChatCard();
 		cc.setChatListId(chatListId);
 		cc.setCml(cml);
 		cc.setProduct(product);
