@@ -64,6 +64,9 @@ a, a:hover {text-decoration:none;}
 /* my page user info update */
 #update-preview-box {position:relative; height:300px; width:300px;}
 
+/* my page customer service */
+#content {height:200px; resize:none;}
+
 /* suggestion */
 .recent-product:hover {background-color: #E5E5E5;}
 .recommend-product:hover {background-color: #E5E5E5;}

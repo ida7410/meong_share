@@ -9,6 +9,7 @@
 			<div id="info" class="pointer mb-1">내 정보 수정</div>
 			<div id="update-pw" class="pointer mb-1">비밀번호 변경</div>
 			<div id="recent-trade" class="pointer mb-1">최근 거래 목록</div>
+			<div id="customer-service" class="pointer mb-1">문의하기</div>
 		</div>
 		
 		<section id="my-page-content" class="col-11 pb-5">
@@ -40,6 +41,15 @@
 		$("#recent-trade").on("click", function() {
 			$.ajax({
 				url:"/my-page/recent-trade"
+				,success:function(data) {
+					$("#my-page-content").html(data);
+				}
+			});
+		});
+		
+		$("#customer-service").on("click", function() {
+			$.ajax({
+				url:"/my-page/customer-service"
 				,success:function(data) {
 					$("#my-page-content").html(data);
 				}

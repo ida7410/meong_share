@@ -68,4 +68,20 @@ public class MyPageController {
 		return "myPage/recentTrade";
 	}
 	
+	// Customer Serivice
+	@GetMapping("/customer-service")
+	public String customerService(Model model, HttpSession session) {
+		
+		// check login status
+		Integer userId = (Integer) session.getAttribute("userId");
+		if (userId == null) {
+			return "redirect:/log-in";
+		}
+		
+		String userEmail = userBO.getUserById(userId).getEmail();
+		
+		model.addAttribute("userEmail", userEmail);
+		return "myPage/customerService";
+	}
+	
 }
