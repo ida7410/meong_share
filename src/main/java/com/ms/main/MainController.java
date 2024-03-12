@@ -229,7 +229,7 @@ public class MainController {
 		
 		// get the total number founded user has traded & recommended
 		int tradeCount = productBO.getProductListByOwnerIdOrKeyword(user.getId(), null, 0, null, true).size();
-		int recommendCount = likeBO.getLikeCountBySubjectIdType(user.getId(), "recommend");
+		int recommendCount = likeBO.getRecommendCountBySubjectIdType(user.getId());
 		
 		// get total number of incompleted products
 		int totalCount = productBO.getProductCountByKeywordCompleted(null, false);
@@ -306,7 +306,7 @@ public class MainController {
 		
 		// get latest chat list
 		ChatList latestChatList = chatListBO.getLatestChatListByUserId((Integer)session.getAttribute("userId"));
-		if (latestChatList == null) { // if null just return view nam
+		if (latestChatList == null) { // if null just return view name
 			model.addAttribute("viewName", "chat/chatList");
 			model.addAttribute("title", "채팅 / ");
 			return "template/layout";
@@ -336,7 +336,7 @@ public class MainController {
 		}
 		
 		// get chat list which user has
-		List<ChatListCard> clcList = mainBO.getChatListCardList(chatListId, userId);
+		List<ChatListCard> clcList = mainBO.getChatListCardList(userId);
 		
 		// get chat card (has chat message list in it)
 		ChatCard cc = mainBO.getChatCard(chatListId);

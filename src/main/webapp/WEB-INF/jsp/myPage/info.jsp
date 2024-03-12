@@ -16,8 +16,8 @@
 
 <script>
 	$(document).ready(function() {
-		$("#pw-box").addClass("d-none");
-		$("#pw-check-box").addClass("d-none");
+		$("document #pw-box").addClass("d-none");
+		$("document #pw-check-box").addClass("d-none");
 		
 		let duplicateId = true;
 		let idChecked = false;

@@ -136,8 +136,6 @@
 			let swLatLng = bounds.getSouthWest();
 			let neLatLng = bounds.getNorthEast();
 			
-			console.log(type);
-			
 			$.ajax({
 				type:"post"
 				,url:"/get-vet-list"

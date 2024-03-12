@@ -208,10 +208,6 @@
 			})
 		});
 		
-		$("#not-recommend").on("click", function() {
-			
-		})
-		
 		$("#chat-image-btn").on("click", function() {
 			$("#chat-image").click();
 		})
@@ -229,7 +225,6 @@
 		});
 		
 		$("#chat-image-send-btn").on("click", function() {
-			console.log("here")
 			let fileName = $("#chat-image").val();
 			if (!fileName) {
 				return;

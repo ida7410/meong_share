@@ -20,7 +20,7 @@ public class LikeBO {
 	 * @param userId
 	 * @param type
 	 */
-	public void addLike(int subjectId, int userId, String type) {
+	public void likeToggle(int subjectId, int userId, String type) {
 		
 		// check if like already exists
 		boolean isAlreadyLiked = likeMapper.selectLikeCountBySubjectIdUserIdType(subjectId, userId, type) > 0;
@@ -53,8 +53,17 @@ public class LikeBO {
 	 * @param subjectId
 	 * @return
 	 */
-	public int getLikeCountBySubjectIdType(int subjectId, String type) {
-		return likeMapper.selectLikeCountBySubjectIdType(subjectId, type);
+	public int getLikeCountBySubjectIdType(int subjectId) {
+		return likeMapper.selectLikeCountBySubjectIdType(subjectId);
+	}
+	
+	/***
+	 * Get the number of like where subject id and type match
+	 * @param subjectId
+	 * @return
+	 */
+	public int getRecommendCountBySubjectIdType(int subjectId) {
+		return likeMapper.selectRecommendCountBySubjectIdType(subjectId);
 	}
 	
 }

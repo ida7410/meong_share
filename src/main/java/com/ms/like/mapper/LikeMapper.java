@@ -51,12 +51,16 @@ public interface LikeMapper {
 	/***
 	 * Select the number of like by subject id and type
 	 * @param subjectId
-	 * @param type
 	 * @return
 	 */
-	public int selectLikeCountBySubjectIdType(
-			@Param("subjectId") int subjectId,
-			@Param("type") String type);
+	public int selectLikeCountBySubjectIdType(int subjectId);
+	
+	/***
+	 * Select the number of recommend by subject id and type
+	 * @param subjectId
+	 * @return
+	 */
+	public int selectRecommendCountBySubjectIdType(int subjectId);
 	
 	
 	// ------- DELETE -------

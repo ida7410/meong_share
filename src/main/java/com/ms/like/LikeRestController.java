@@ -34,7 +34,7 @@ public class LikeRestController {
 		}
 		
 		// DB insert
-		likeBO.addLike(subjectId, userId, type);
+		likeBO.likeToggle(subjectId, userId, type);
 		
 		result.put("code", 200);
 		result.put("result", "success");
