@@ -135,7 +135,7 @@ public class MainBO {
 		// get og keyword list cookie
 		Cookie cookie = cookieManager.getCookie(request, cookieName);
 		
-		// chagne cookie to list
+		// change cookie to list
 		List<String> keywordList = cookieManager.getListByCookie(cookie);
 		if (keyword == null) { // if keyword x given => reverse the list and return it
 			Collections.reverse(keywordList);
@@ -236,8 +236,6 @@ public class MainBO {
 			
 			cardList.add(card);
 		}
-		
-		Collections.reverse(cardList);
 		
 		return cardList;
 	}
