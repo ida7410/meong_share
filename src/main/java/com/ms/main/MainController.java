@@ -232,7 +232,7 @@ public class MainController {
 		int recommendCount = likeBO.getRecommendCountBySubjectIdType(user.getId());
 		
 		// get total number of incompleted products
-		int totalCount = productBO.getProductCountByKeywordCompleted(null, false);
+		int totalCount = productBO.getProductListByOwnerIdOrKeyword(user.getId(), null, 0, null, false).size();
 
 		Criteria cri = new Criteria();
 		cri.setPage(page);
@@ -276,7 +276,7 @@ public class MainController {
 		
 		User user = userBO.getUserByLoginId(userLoginId);
 
-		int totalCount = productBO.getProductCountByKeywordCompleted(null, false);
+		int totalCount = productBO.getProductListByOwnerIdOrKeyword(user.getId(), null, 0, null, true).size();
 
 		Criteria cri = new Criteria();
 		cri.setPage(page);
