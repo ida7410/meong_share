@@ -3,7 +3,7 @@
 > 배포 URL: http://3.39.190.161:8080/home   
 > 개발 기간: 2023-02-01 ~ 2024-03-14   
 > Test ID:   
-> Test PW:
+> Test PW:   
 > Notion: https://www.notion.so/ida-coding/65e233a55e974a349f10e8df1b0ad3fa?pvs=4
 
 <br></br>
