@@ -1,9 +1,10 @@
 # 반려견 물품 중고 거래 사이트 - MEONG SHARE [멍셰어]
 {사진}
 > 배포 URL: http://3.39.190.161:8080/home   
-> 개발 기간: 2023-02-01 ~ 2024-03-08   
+> 개발 기간: 2023-02-01 ~ 2024-03-14   
 > Test ID:   
 > Test PW:
+> Notion: https://www.notion.so/ida-coding/65e233a55e974a349f10e8df1b0ad3fa?pvs=4
 
 <br></br>
 
@@ -15,23 +16,25 @@
 
 <br></br>
 ## 개발환경
-* 프론트엔드: HTML, JSP, Jquery
-* 백엔드: Java
-* 이슈 관리: GitHub
-* 서비스 배포: AWS
+* 프론트엔드: `HTML`, `JSP`, `Jquery`
+* 백엔드: `Java`
+* 이슈 관리: `GitHub`
+* 서비스 배포: `AWS`
+* DB: `MySQL`
+* FrameWork: `Spring Boot`, `Apache`, `Bootstrap`, `MySQL Workbench`
 
 <br></br>
 ## 일정표 & 개발현황
 * 예상 일정표
-{사진}
+![Untitled](https://github.com/ida7410/meong_share/assets/96316765/10c6ec6c-f498-4943-9aa6-d8de135f58cc)
 * 실시간 개발 현황 업데이트
 {사진}
-> {URL}
+> 스프레드 시트: https://docs.google.com/spreadsheets/d/1c1puFADBbbZ8iF9167SB91NuZQi73oMigSuZbW4OXr4/edit?usp=sharing
 
 <br></br>
 ## DB 구조
-{ERD}
-> {URL}
+![image](https://github.com/ida7410/meong_share/assets/96316765/412bfff0-fe05-4814-b474-be797faeec2e)
+> URL: https://gitmind.com/app/docs/f8l1gslt
 
 <br></br>
 ## 사이트 소개
