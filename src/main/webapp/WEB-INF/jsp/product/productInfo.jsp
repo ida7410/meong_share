@@ -22,7 +22,7 @@
 				</div>
 				
 				<div class="ml-5">
-					<h5><a href="/user/${card.user.loginId}">${card.user.name}</a></h5>
+					<h5><a href="/user/${card.user.loginId}">${card.user.nickname}</a></h5>
 					<span>추천 횟수: ${card.recommendCount}</span><br>
 					<span>거래 횟수: ${card.tradeCount}</span>
 				</div>
