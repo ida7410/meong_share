@@ -28,7 +28,7 @@
 * 예상 일정표
 ![Untitled](https://github.com/ida7410/meong_share/assets/96316765/10c6ec6c-f498-4943-9aa6-d8de135f58cc)
 * 실시간 개발 현황 업데이트
-{사진}
+![image](https://github.com/ida7410/meong_share/assets/96316765/a94fdccf-8a38-4ffc-aada-df682d25b3e1)
 > 스프레드 시트: https://docs.google.com/spreadsheets/d/1c1puFADBbbZ8iF9167SB91NuZQi73oMigSuZbW4OXr4/edit?usp=sharing
 
 <br></br>
