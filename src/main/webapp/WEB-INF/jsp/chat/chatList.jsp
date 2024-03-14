@@ -117,10 +117,11 @@
 			$("#send-btn").prop("disabled", true);
 			$("#chat-image-btn").prop("disabled", true);
 		}
-		
-		setInterval(function() {
-			$("#chat-area-div").load(location.href + " #chat-area-box");
-		}, 3000);
+		else {
+			setInterval(function() {
+				$("#chat-area-div").load(location.href + " #chat-area-box");
+			}, 3000);
+		}
 		
 		$(".chat-product-img-box").on("click", function() {
 			location.href = "/product/" + ${chatCard.product.id}
@@ -183,6 +184,7 @@
 		})
 		
 		$("#recommend").on("click", function() {
+			alert("click")
 			let subjectId = ${chatCard.owner.id};
 			let productId = ${chatCard.product.id};
 			

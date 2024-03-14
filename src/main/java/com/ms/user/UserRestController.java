@@ -92,7 +92,7 @@ public class UserRestController {
 			String encrypted = sha256.encrypt(sha256.encrypt(sha256.encrypt(password)));
 			
 			// check encrypted pw equals db user pw
-			if (!encrypted.equals(user.getPassword())) { // if not
+			if (user == null || !encrypted.equals(user.getPassword())) { // if not
 				result.put("code", 300);
 				result.put("error_message", "아이디/비밀번호가 일치하지 않습니다.");
 				return result;
