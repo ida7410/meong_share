@@ -40,7 +40,5 @@ public class CookieManager {
 		
 		return keywordList;
 	}
-
-	
 	
 }

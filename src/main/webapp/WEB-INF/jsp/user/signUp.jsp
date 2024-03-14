@@ -230,6 +230,10 @@
 				alert("이메일을 입력해주세요.");
 				return;
 			}
+			if (!emailChecked) {
+				alert("이메일 인증을 완료해주세요.");
+				return;
+			}
 			
 			let formData = new FormData();
 			formData.append("id", id);

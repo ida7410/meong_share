@@ -60,13 +60,13 @@ public class MainBO {
 		
 		// find product
 		Product product = productBO.getProductById(productId);
-		// find logined user
+		// find the owner
 		User user = userBO.getUserById(product.getOwnerId());
 		
 		// get the number of like to product and how many time the owner had been recommended and traded
-		int likeCount = likeBO.getLikeCountBySubjectIdType(product.getId(), "like");
-		int recommendCount = likeBO.getLikeCountBySubjectIdType(user.getId(), "recommend");
-		int tradeCount = productBO.getProductListByOwnerIdOrKeyword(userId, null, 0, null, true).size();
+		int likeCount = likeBO.getLikeCountBySubjectIdType(product.getId());
+		int recommendCount = likeBO.getRecommendCountBySubjectIdType(user.getId());
+		int tradeCount = productBO.getProductListByOwnerIdOrKeyword(user.getId(), null, 0, null, true).size();
 		
 		// check if user liked the product
 		// if not log in default empty
@@ -135,7 +135,7 @@ public class MainBO {
 		// get og keyword list cookie
 		Cookie cookie = cookieManager.getCookie(request, cookieName);
 		
-		// chagne cookie to list
+		// change cookie to list
 		List<String> keywordList = cookieManager.getListByCookie(cookie);
 		if (keyword == null) { // if keyword x given => reverse the list and return it
 			Collections.reverse(keywordList);
@@ -237,8 +237,6 @@ public class MainBO {
 			cardList.add(card);
 		}
 		
-		Collections.reverse(cardList);
-		
 		return cardList;
 	}
 	
@@ -248,7 +246,7 @@ public class MainBO {
 	 * @param userId
 	 * @return
 	 */
-	public List<ChatListCard> getChatListCardList(int chatListId, int userId) {
+	public List<ChatListCard> getChatListCardList(int userId) {
 		
 		List<ChatListCard> clcList = new ArrayList<>();
 		
