@@ -5,6 +5,9 @@ spring:
   config:
     activate:
       on-profile: railway
+  logging:
+    level:
+      root: DEBUG
   mail:
     host: smtp.gmail.com
     port: 587
