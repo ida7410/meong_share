@@ -19,19 +19,19 @@
 <body>
 	<div id="wrap" class="container col-10">
 		<header>
-			<jsp:include page="../include/header.jsp" />
+			<jsp:include page="/WEB-INF/jsp/include/header.jsp" />
 		</header>
 
 		<nav id="main-nev">
-			<jsp:include page="../include/nav.jsp" />
+			<jsp:include page="/WEB-INF/jsp/include/nav.jsp" />
 		</nav>
 
 		<section class="contents pb-3">
-			<jsp:include page="../${viewName}.jsp" />
+			<jsp:include page="/WEB-INF/jsp/${viewName}.jsp" />
 		</section>
 
 		<footer class="d-flex align-items-center pl-3">
-			<jsp:include page="../include/footer.jsp" />
+			<jsp:include page="/WEB-INF/jsp/include/footer.jsp" />
 		</footer>
 	</div>
 </body>
