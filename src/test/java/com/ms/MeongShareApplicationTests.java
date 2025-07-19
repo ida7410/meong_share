@@ -14,7 +14,7 @@ class MeongShareApplicationTests {
 	@Test // 아래 메소드가 테스트로 진행 = 주석 처리하면 실행x
 	void contextLoads() {
 		log.info("##### 테스트");
-		assertEquals(20, 10 + 20);
+		assertEquals(30, 10 + 20);
 		
 		if (ObjectUtils.isEmpty(log)) { // null인지 list나 string으로 테스트
 			
