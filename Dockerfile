@@ -2,7 +2,7 @@
 FROM gradle:8.5-jdk17 AS builder
 WORKDIR /app
 COPY . .
-RUN gradle build -x test
+RUN ./gradlew build -x test
 
 # Run stage
 FROM openjdk:17-jdk-slim
