@@ -35,6 +35,9 @@ spring:
     properties:
       hibernate:
         format_sql: true
-
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: false
 mybatis:
   mapper-locations: mappers/*Mapper.xml
