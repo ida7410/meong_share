@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
-<h3 class="font-weight-bold mt-4 p-2">이건 어떠세요?</h3>
+<h3 class="font-weight-bold mt-4 p-2">How About This?</h3>
 <div class="recommend-product-box d-flex">
 	<c:forEach items="${recommendProductList}" var="product">
 	<div class="recommend-product d-flex col-4 p-3 pointer bg-hover border rounded mr-2" data-product-id="${product.id}">

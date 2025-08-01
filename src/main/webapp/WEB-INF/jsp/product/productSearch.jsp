@@ -5,7 +5,7 @@
 <div class="d-flex pt-5">
 	
 	<div class="col-2 pl-4 border-right">
-		<h4 class="font-weight-bold">상품 검색</h4>
+		<h4 class="font-weight-bold">Search for Product</h4>
 		<form method="GET" action="/search">
 			<div class="input-group mb-5">
 				<input type="text" id="keyword" name="keyword" class="form-control" value="${keyword}">
@@ -15,14 +15,14 @@
 			</div>
 		</form>
 		
-		<h4 class="font-weight-bold">최근 검색 목록</h4>
+		<h4 class="font-weight-bold">Recently Searched</h4>
 		<div class="mb-5">
 		<c:forEach items="${keywordList}" var="searchKeyword">
 			<a href="/search?keyword=${searchKeyword}" class="keywords">${searchKeyword}</a><br>
 		</c:forEach>
 		</div>
 		
-		<h4 class="font-weight-bold">최근 본 상품</h4>
+		<h4 class="font-weight-bold">Recently Viewed</h4>
 		<div class="mb-5 col-9 p-0">
 		<c:forEach items="${recentViewProductList}" var="recentViewProduct">
 			<div class="recent-search-product p-2 pointer bg-hover border rounded" data-product-id="${recentViewProduct.id}">

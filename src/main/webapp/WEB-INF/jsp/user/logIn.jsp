@@ -3,7 +3,7 @@
 
 <div class="p-4 d-flex justify-content-center w-100">
 	<div class="col-3">
-		<h2 class="text-center font-weight-bold mt-5 mb-4">로그인</h2>
+		<h2 class="text-center font-weight-bold mt-5 mb-4">Log In</h2>
 		
 		<form method="post" action="/user/logIn" id="log-in-form">
 			<h5 class="font-weight-bold">ID</h5>
@@ -13,15 +13,15 @@
 			<input type="password" id="password" name="password" class="form-control">
 			
 			<div class="d-flex justify-content-end">
-				<a href="/find-id">아이디</a>
+				<a href="/find-id">Find ID</a>
 				&nbsp; / &nbsp;
-				<a href="/find-pw">비밀번호 찾기</a>
+				<a href="/find-pw">Passsword</a>
 			</div>
 			
-			<button id="log-in-btn" type="submit" class="btn btn-primary form-control mt-4 my-2">로그인</button>
+			<button id="log-in-btn" type="submit" class="btn btn-primary form-control mt-4 my-2">Log In</button>
 		</form>
 		
-		<a id="mv-sign-up-btn" href="/sign-up" class="btn btn-secondary form-control mt-2">회원가입</a>
+		<a id="mv-sign-up-btn" href="/sign-up" class="btn btn-secondary form-control mt-2">Sign Up</a>
 	</div>
 </div>
 
@@ -35,11 +35,11 @@
 			let password = $("#password").val().trim();
 			
 			if (!id) {
-				alert("아이디를 입력해주세요.");
+				alert("Please enter ID.");
 				return false;
 			}
 			if (!password) {
-				alert("비밀번호를 입력해주세요.");
+				alert("Please enter password.");
 				return false;
 			}
 			
@@ -52,7 +52,7 @@
 				
 				,success:function(data) {
 					if (data.code == 200) {
-						alert("환영합니다!");
+						alert("Welcome!");
 						location.href = "/home";
 					}
 					else {
@@ -60,7 +60,7 @@
 					}
 				}
 				,error:function(request, status, error) {
-					alert("로그인에 실패했습니다. 관리자에게 문의해주세요.");
+					alert("Failed to log in. Please contact through Customer service.");
 				}
 			});
 		});

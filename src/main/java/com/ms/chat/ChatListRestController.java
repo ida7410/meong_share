@@ -51,7 +51,7 @@ public class ChatListRestController {
 		Integer userId = (Integer)session.getAttribute("userId");
 		if (userId == null) { // if not
 			result.put("code", 300);
-			result.put("error_message", "세션이 만료되었습니다. 다시 로그인해주세요.");
+			result.put("error_message", "Your session has been expired. Please try to log in again.");
 			return result;
 		}
 		
@@ -66,8 +66,8 @@ public class ChatListRestController {
 			// find the owner and send them email
 			User user = userBO.getUserById(ownerId);
 			mailBO.mailSend(user.getEmail(), 
-						"[MEONG SHAR] 문의 알림", 
-						"멍셰어 알림: 올리신 상품에 대한 문의가 있습니다! 지금 로그인해서 확인해보세요!");
+						"[MEONG SHARE] Notification", 
+						"MEONG SHARE NOTIFICATION: Someone questioned about your posts! Log int to check it!");
 			result.put("chatListId", chatListId);
 		}
 		else { // if already exists

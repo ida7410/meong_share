@@ -3,23 +3,23 @@
 
 <div class="col-8 pl-5">
 	<div id="pw-box" class="d-flex mb-3">
-		<h5 class="font-weight-bold col-3 d-flex align-items-center">현재 비밀번호</h5>
+		<h5 class="font-weight-bold col-3 d-flex align-items-center">Current Password</h5>
 		<input type="password" id="og-password" class="form-control col-5">
 	</div>
 	
 	<div id="pw-box" class="d-flex mb-3">
-		<h5 class="font-weight-bold col-3 d-flex align-items-center">새 비밀번호</h5>
+		<h5 class="font-weight-bold col-3 d-flex align-items-center">New Password</h5>
 		<input type="password" id="password" class="form-control col-5">
 		<div id="pw-desc" class="small d-flex align-items-center pl-3"></div>
 	</div>
 	
 	<div id="pw-check-box" class="d-flex mb-3">
-		<h5 class="font-weight-bold col-3 d-flex align-items-center">비밀번호 확인</h5>
+		<h5 class="font-weight-bold col-3 d-flex align-items-center">Retype Password</h5>
 		<input type="password" id="passwordCheck" class="form-control col-5">
 		<div id="pwc-desc" class="small d-flex align-items-center pl-3"></div>
 	</div>
 	
-	<button id="update-pw-btn" type="button" class="btn btn-primary form-control mt-4">비밀번호 변경</button>
+	<button id="update-pw-btn" type="button" class="btn btn-primary form-control mt-4">Update Password</button>
 </div>
 
 
@@ -39,14 +39,14 @@
 	        $("#passwordCheck").val("");
 			
 	        if (pw.length < 8) {
-	        	$("#pw-desc").text("비밀번호를 8자 이상 입력해주세요.");
+	        	$("#pw-desc").text("Password should be longer than 7 characters.");
 	        	$("#pw-desc").addClass("text-danger");
 	        	
 	        	passwordReg = false;
 	        	return;
 	        }
 	        if (pw.search(/\s/) != -1) {
-	        	$("#pw-desc").text("비밀번호는 공백 없이 입력해주세요.");
+	        	$("#pw-desc").text("Password must not include spaces.");
 	        	$("#pw-desc").addClass("text-danger");
 	        	
 	        	passwordReg = false;
@@ -54,13 +54,13 @@
 	        }
 	        
 	        if (!reg.test(pw)) {
-	        	$("#pw-desc").text("비밀번호는 숫자/대문자/소문자/특수문자를 포함해야 합니다.");
+	        	$("#pw-desc").text("Password must include numbers/uppsercase/lowercase/special characters.");
 	        	$("#pw-desc").addClass("text-danger");
 	        	
 	        	passwordReg = false;
 	        	return;
 	        } else {
-	        	$("#pw-desc").text("사용 가능한 비밀번호입니다.");
+	        	$("#pw-desc").text("Available Passwrod!");
 	        	$("#pw-desc").addClass("text-success");
 	        	
 	        	passwordReg = true;
@@ -74,7 +74,7 @@
 			$("#pwc-desc").removeClass("text-danger");
 			
 			if (pw != pwc) {
-				$("#pwc-desc").text("비밀번호가 일치하지 않습니다.");
+				$("#pwc-desc").text("Password does not match.");
 				$("#pwc-desc").addClass("text-danger");
 				
 				passwordChecked = false;
@@ -94,11 +94,11 @@
 			let passwordCheck = $("#passwordCheck").val().trim();
 			
 			if (!og_password || !password || !passwordCheck) {
-				alert("비밀번호를 입력해주세요.");
+				alert("Please enter the password.");
 				return;
 			}
 			if (!passwordChecked) {
-				alert("사용 불가능한 비밀번호입니다.");
+				alert("Unavailable Password");
 				return;
 			}
 
@@ -109,7 +109,7 @@
 				
 				,success:function(data) {
 					if (data.code == 200) {
-						alert("비밀번호를 수정했습니다. 다시 로그인해주세요.");
+						alert("You have updated your password. Please log in again.");
 						location.href = "/log-out"
 					}
 					else {
@@ -120,7 +120,7 @@
 					}
 				}
 				,error:function(request, status, error) {
-					alert("비밀번호 수정에 실패했습니다. 관리자에게 문의해주세요.");
+					alert("Failed to update the password. Please contact through Customer service.");
 				}
 			});
 		})

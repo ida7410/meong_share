@@ -5,7 +5,7 @@
 
 <div class="product-list-box">
 	<c:if test="${empty cardList}">
-	<div class="display-4 text-secondary pt-4 pl-3 pb-5 mb-5">올라온 상품이 없습니다.</div>
+	<div class="display-4 text-secondary pt-4 pl-3 pb-5 mb-5">There is no products uploaded.</div>
 	</c:if>
 	
 	<c:if test="${not empty cardList}">
@@ -20,9 +20,9 @@
 			<!-- title -->
 			<h4 class="font-weight-bold">${card.product.name}</h4>
 			
-			<h5>${card.product.price}원</h5>
+			<h5>$ ${card.product.price}</h5>
 			
-			<h7>${card.diffTime} 전</h7>
+			<h7>${card.diffTime} ago</h7>
 			
 			<h6>${card.user.nickname}</h6>
 			<h6 class="text-break">

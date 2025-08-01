@@ -3,15 +3,15 @@
 
 <div class="p-4 d-flex justify-content-center w-100">
 	<div class="col-3 pb-5">
-		<h2 class="text-center font-weight-bold mt-5 mb-4">아이디 찾기</h2>
+		<h2 class="text-center font-weight-bold mt-5 mb-4">Find ID</h2>
 		
-		<h5 class="font-weight-bold">이름</h5>
+		<h5 class="font-weight-bold">Name</h5>
 		<input type="text" id="name" class="form-control">
 	
-		<h5 class="font-weight-bold mt-3">이메일</h5>
+		<h5 class="font-weight-bold mt-3">Email</h5>
 		<input type="text" id="email" class="form-control">
 			
-		<button id="find-id-btn" type="button" class="btn btn-primary form-control mt-4 my-2">아이디 찾기</button>
+		<button id="find-id-btn" type="button" class="btn btn-primary form-control mt-4 my-2">Find My ID</button>
 	</div>
 </div>
 
@@ -22,11 +22,11 @@
 			let email = $("#email").val().trim();
 			
 			if (!name) {
-				alert("이름을 입력해주세요.");
+				alert("Please enter your name.");
 				return;
 			}
 			if (!email) {
-				alert("이메일을 입력해주세요.");
+				alert("Please enter Email.");
 				return;
 			}
 			

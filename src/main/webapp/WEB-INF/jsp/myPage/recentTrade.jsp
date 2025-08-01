@@ -4,7 +4,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <c:if test="${empty recentTradeProductList}">
-<div class="display-4 text-secondary pb-5 mb-5">최근 거래 내역이 없습니다.</div>
+<div class="display-4 text-secondary pb-5 mb-5">There is no recent trades.</div>
 </c:if>
 
 <c:if test="${not empty recentTradeProductList}">

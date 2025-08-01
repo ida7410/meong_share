@@ -90,7 +90,7 @@ public class ProductRestController {
 		Integer userId = (Integer)session.getAttribute("userId");
 		if (userId == null) {
 			result.put("code", 300);
-			result.put("error_message", "세션이 만료되었습니다. 다시 로그인해주세요.");
+			result.put("error_message", "Your session has been expired. Please try to log in again.");
 			return result;
 		}
 		
