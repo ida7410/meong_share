@@ -398,4 +398,40 @@ public class MainController {
 		return "template/layout";
 	}
 	
+	
+	
+	
+
+	/***
+	 * chat view & get chat list with messages
+	 * @param chatListId
+	 * @param session
+	 * @param model
+	 * @return
+	 */
+	@GetMapping("/ws-chat/{chatListId}")
+	public String wsChatList(
+			@PathVariable("chatListId") Integer chatListId,
+			HttpSession session,
+			Model model) {
+		
+		// get user id to check if logined or not
+		Integer userId = (Integer)session.getAttribute("userId");
+		if (userId == null) {
+			return "redirect:/log-in";
+		}
+		
+		// get chat list which user has
+		List<ChatListCard> clcList = mainBO.getChatListCardList(userId);
+		
+		// get chat card (has chat message list in it)
+		ChatCard cc = mainBO.getChatCard(chatListId);
+		
+		model.addAttribute("viewName", "chat/chatList");
+		model.addAttribute("title", "채팅 / ");
+		model.addAttribute("chatListCardList", clcList);
+		model.addAttribute("chatListId", chatListId);
+		model.addAttribute("chatCard", cc);
+		return "template/layout";
+	}
 }

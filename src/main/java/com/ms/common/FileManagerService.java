@@ -2,19 +2,31 @@ package com.ms.common;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.google.cloud.storage.BlobId;
+import com.google.cloud.storage.BlobInfo;
+import com.google.cloud.storage.HttpMethod;
+import com.google.cloud.storage.Storage;
+import com.google.cloud.storage.Storage.SignUrlOption;
 
 @Component
 public class FileManagerService {
     
     public static final String FILE_UPLOAD_PATH = "C:\\megastudy\\6_spring_project\\MEONG_SHARE\\ms_workspace\\images/";
 //    public static final String FILE_UPLOAD_PATH = "D:\\hyeonbeen\\6_spring project\\MEONGSHARE\\ms_workspace/images/";
+    
+    @Autowired
+    private Storage storage;
     
     public String saveFile(String loginId, MultipartFile file) {
         // directory name: {loginId}_{current time in milli sec}
@@ -51,4 +63,23 @@ public class FileManagerService {
     public static String getUuid() {
 		return UUID.randomUUID().toString().replaceAll("-", "");
 	}
+    
+    public String saveFileGCS(String chatListId, String ext) {
+    	String uuid = getUuid();
+    	String bucketName = "your-bucket-name";
+        String objectName = "chat-images/" + chatListId + "/" + uuid + ext;;
+
+        BlobId blobId = BlobId.of(bucketName, objectName);
+        BlobInfo blobInfo = BlobInfo.newBuilder(blobId).build();
+
+        URL signedUrl = storage.signUrl(
+        		blobInfo,
+        		15,
+        		TimeUnit.MINUTES,
+        		SignUrlOption.httpMethod(HttpMethod.PUT),
+        		SignUrlOption.withV4Signature()
+        );
+        
+        return signedUrl.toString();
+    }
 }
