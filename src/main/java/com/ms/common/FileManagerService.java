@@ -9,7 +9,6 @@ import java.nio.file.Paths;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,6 +17,7 @@ import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.HttpMethod;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.Storage.SignUrlOption;
+import com.google.cloud.storage.StorageOptions;
 
 @Component
 public class FileManagerService {
@@ -25,8 +25,7 @@ public class FileManagerService {
     public static final String FILE_UPLOAD_PATH = "C:\\megastudy\\6_spring_project\\MEONG_SHARE\\ms_workspace\\images/";
 //    public static final String FILE_UPLOAD_PATH = "D:\\hyeonbeen\\6_spring project\\MEONGSHARE\\ms_workspace/images/";
     
-    @Autowired
-    private Storage storage;
+    private final Storage storage = StorageOptions.getDefaultInstance().getService();
     
     public String saveFile(String loginId, MultipartFile file) {
         // directory name: {loginId}_{current time in milli sec}

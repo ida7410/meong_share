@@ -300,21 +300,41 @@
 		}
 
 		function showMessage(message) {
-			if (message.type == "message") {
-			    $("#chat-area-div").append(`
-			    		<div class="chat-area d-flex align-items-end justify-content-end pb-2 pr-3">
-			    			<div class="chat my-chat p-2 px-3 ml-2 d-flex align-items-center">
-			    				${message.content}
-			    			</div>
-			    		</div>`);				
+			if (message.senderId == ${userId}) {				
+				if (message.type == "message") {
+				    $("#chat-area-div").append(`
+				    	<div class="chat-area d-flex align-items-end justify-content-end pb-2 pr-3">
+				    		<div class="chat my-chat p-2 px-3 ml-2 d-flex align-items-center">
+				    			${message.content}
+				    		</div>
+				    	</div>`);				
+				}
+				else if (message.type == "image") {
+				    $("#chat-area-div").append(`
+				    	<div class="chat-area d-flex align-items-end justify-content-end pb-2 pr-3">
+				    		<div class="chat my-chat p-2 px-3 ml-2 d-flex align-items-center">
+				    			<img src="${message.content}" width="100%">
+				    		</div>
+				    	</div>`);				
+				}
 			}
-			else if (message.type == "image") {
-			    $("#chat-area-div").append(`
-			    		<div class="chat-area d-flex align-items-end justify-content-end pb-2 pr-3">
-			    			<div class="chat my-chat p-2 px-3 ml-2 d-flex align-items-center">
-			    				<img src="${message.content}" width="100%">
-			    			</div>
-			    		</div>`);				
+			else {				
+				if (message.type == "message") {
+				    $("#chat-area-div").append(`
+				    	<div class="chat-area d-flex align-items-end justify-content-end pb-2 pr-3">
+				    		<div class="chat received-chat p-2 px-3 mr-2 d-flex align-items-center">
+				    			${message.content}
+				    		</div>
+				    	</div>`);				
+				}
+				else if (message.type == "image") {
+				    $("#chat-area-div").append(`
+				    	<div class="chat-area d-flex align-items-end justify-content-end pb-2 pr-3">
+				    		<div class="chat received-chat p-2 px-3 mr-2 d-flex align-items-center">
+				    			<img src="${message.content}" width="100%">
+				    		</div>
+				    	</div>`);				
+				}
 			}
 			$("#chat-area-div").scrollTop($("#chat-area-div")[0].scrollHeight);
 		}
