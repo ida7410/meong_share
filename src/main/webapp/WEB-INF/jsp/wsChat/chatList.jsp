@@ -2,6 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 
 <div class="d-flex">
 	<div class="col-3 chat-list-box p-0 border-right">
@@ -108,7 +110,7 @@
 		$('#chat-area-div').scrollTop($('#chat-area-div')[0].scrollHeight);
 		
 		let chatListId = ${chatListId};
-		let completed = ${chatCard.product.completed}
+		let completed = ${chatCard.product.completed};
 		let subjectId = ${chatCard.owner.id};
 		let productId = ${chatCard.product.id};
 		
@@ -118,11 +120,6 @@
 			$("#chat-image-send-btn").prop("disabled", true);
 			$("#send-btn").prop("disabled", true);
 			$("#chat-image-btn").prop("disabled", true);
-		}
-		else {
-			setInterval(function() {
-				$("#chat-area-div").load(location.href + " #chat-area-box");
-			}, 3000);
 		}
 		
 		$(".chat-product-img-box").on("click", function() {

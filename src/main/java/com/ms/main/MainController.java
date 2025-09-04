@@ -209,7 +209,6 @@ public class MainController {
 	 * Info view of a user
 	 * @param userLoginId
 	 * @param page
-	 * @param completed
 	 * @param model
 	 * @return
 	 */
@@ -307,7 +306,7 @@ public class MainController {
 		// get latest chat list
 		ChatList latestChatList = chatListBO.getLatestChatListByUserId((Integer)session.getAttribute("userId"));
 		if (latestChatList == null) { // if null just return view name
-			model.addAttribute("viewName", "chat/chatList");
+			model.addAttribute("viewName", "wsChat/chatList");
 			model.addAttribute("title", "채팅 / ");
 			return "template/layout";
 		}
@@ -341,7 +340,7 @@ public class MainController {
 		// get chat card (has chat message list in it)
 		ChatCard cc = mainBO.getChatCard(chatListId);
 		
-		model.addAttribute("viewName", "chat/chatList");
+		model.addAttribute("viewName", "wsChat/chatList");
 		model.addAttribute("title", "채팅 / ");
 		model.addAttribute("chatListCardList", clcList);
 		model.addAttribute("chatListId", chatListId);
