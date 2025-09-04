@@ -149,11 +149,11 @@
 					alert("Upload failed: " + uploadResult.error);
 					return;
 				}
-				const publicUrl = uploadResult.publicUrl;
+				const imageUrl = uploadResult.imageUrl;
 
 				// save in sql db
 				formData = new FormData();
-				formData.append("productImageFile", publicUrl);
+				formData.append("productImageFile", imageUrl);
 				formData.append("name", name);
 				formData.append("company", company);
 				formData.append("price", price);

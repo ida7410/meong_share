@@ -1,13 +1,17 @@
 package com.ms.common;
 
+import com.google.cloud.storage.Blob;
+import com.google.cloud.storage.BlobId;
+import com.google.cloud.storage.Storage;
+import com.google.cloud.storage.StorageOptions;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
@@ -19,6 +23,11 @@ public class FileRestController {
 
     @Autowired
     private FileManagerService fileManagerService;
+
+    @Value("${google.bucket.name}")
+    private String BUCKET_NAME;
+
+    private final Storage storage = StorageOptions.getDefaultInstance().getService();
 
 //    @GetMapping("/getSignedUrl")
 //    public ResponseEntity<Map<String, Object>> getSignedUrl(
@@ -52,10 +61,10 @@ public class FileRestController {
             ) {
         Map<String, Object> result = new HashMap<>();
         try {
-            String publicUrl = fileManagerService.saveFileGcs(file, key, type, ext);
+            String imageUrl = fileManagerService.saveFileGcs(file, key, type, ext);
 
             result.put("code", 200);
-            result.put("publicUrl", publicUrl);
+            result.put("imageUrl", imageUrl);
             result.put("result", "success");
             return ResponseEntity.ok(result);
         } catch (Exception e) {
@@ -63,6 +72,34 @@ public class FileRestController {
             result.put("code", 300);
             result.put("error", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(result);
+        }
+    }
+
+    @GetMapping("/image/{type}/{key}/{filename}")
+    public ResponseEntity<byte[]> getImage(
+            @PathVariable String type,
+            @PathVariable String key,
+            @PathVariable String filename) {
+        try {
+            String objectName = type + "/" + key + "/" + filename;
+            BlobId blobId = BlobId.of(BUCKET_NAME, objectName);
+            Blob blob = storage.get(blobId);
+
+            if (blob == null) {
+                return ResponseEntity.notFound().build();
+            }
+
+            byte[] content = blob.getContent();
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.parseMediaType(blob.getContentType()));
+
+            return ResponseEntity.ok()
+                    .headers(headers)
+                    .body(content);
+        } catch (Exception e) {
+            log.error("error: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 

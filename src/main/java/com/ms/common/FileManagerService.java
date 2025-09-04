@@ -74,14 +74,13 @@ public class FileManagerService {
                     .setContentType(file.getContentType())
                     .build();
 
-            log.info("BUCKET_NAME: {}", BUCKET_NAME);
             log.info("Object name: {}", objectName);
-            log.info("Storage client: {}", storage != null ? "initialized" : "null");
 
             assert storage != null;
             storage.create(blobInfo, file.getBytes());
 
-            return String.format("https://storage.googleapis.com/%s/%s", BUCKET_NAME, objectName);
+            String imageUrl = String.format("/image/%s/%s/%s.%s", type, key, uuid, ext);
+            return imageUrl;
         }
         catch(Exception e) {
             log.error(e.getMessage());

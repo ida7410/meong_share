@@ -236,9 +236,10 @@
 		    let ext = file.name.split('.').pop();
 			let formData = new FormData();
 			formData.append("file", file);
-			formData.append("key", `${userLoginId}``);
+			formData.append("key", `${userLoginId}`);
 			formData.append("ext", ext);
 			formData.append("type", "product-images");
+
 			const uploadResponse = await fetch("/uploadToGcs", {
 				method: "POST",
 				body: formData
@@ -249,11 +250,10 @@
 				alert("Upload failed: " + uploadResult.error);
 				return;
 			}
-
-		    const publicUrl = uploadResult.publicUrl;
+		    const imageUrl = uploadResult.imageUrl;
 
 		    const msg = {
-				content: publicUrl,
+				content: imageUrl,
 				type: "image"
 		    };
 			stompClient.send(`/app/wsChat/${chatListId}/send`, {}, JSON.stringify(msg));
