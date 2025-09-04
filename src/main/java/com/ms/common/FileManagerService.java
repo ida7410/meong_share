@@ -1,5 +1,12 @@
 package com.ms.common;
 
+import com.google.cloud.storage.*;
+import com.google.cloud.storage.Storage.SignUrlOption;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -9,24 +16,18 @@ import java.nio.file.Paths;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-import org.springframework.stereotype.Component;
-import org.springframework.web.multipart.MultipartFile;
-
-import com.google.cloud.storage.BlobId;
-import com.google.cloud.storage.BlobInfo;
-import com.google.cloud.storage.HttpMethod;
-import com.google.cloud.storage.Storage;
-import com.google.cloud.storage.Storage.SignUrlOption;
-import com.google.cloud.storage.StorageOptions;
-
+@Slf4j
 @Component
 public class FileManagerService {
     
     public static final String FILE_UPLOAD_PATH = "C:\\megastudy\\6_spring_project\\MEONG_SHARE\\ms_workspace\\images/";
 //    public static final String FILE_UPLOAD_PATH = "D:\\hyeonbeen\\6_spring project\\MEONGSHARE\\ms_workspace/images/";
+
+    @Value("${google.bucket.name}")
+    private String BUCKET_NAME;
     
     private final Storage storage = StorageOptions.getDefaultInstance().getService();
-    
+
     public String saveFile(String loginId, MultipartFile file) {
         // directory name: {loginId}_{current time in milli sec}
         String directoryName = loginId + "_" + System.currentTimeMillis();
@@ -63,22 +64,28 @@ public class FileManagerService {
 		return UUID.randomUUID().toString().replaceAll("-", "");
 	}
     
-    public String saveFileGCS(String chatListId, String ext) {
-    	String uuid = getUuid();
-    	String bucketName = "your-bucket-name";
-        String objectName = "chat-images/" + chatListId + "/" + uuid + ext;;
+    public String saveFileGcs(MultipartFile file, String key, String type, String ext) throws IOException {
+        try {
+            String uuid = getUuid();
+            String objectName = type + "/" + key + "/" + uuid + "." + ext;
 
-        BlobId blobId = BlobId.of(bucketName, objectName);
-        BlobInfo blobInfo = BlobInfo.newBuilder(blobId).build();
+            BlobId blobId = BlobId.of(BUCKET_NAME, objectName);
+            BlobInfo blobInfo = BlobInfo.newBuilder(blobId)
+                    .setContentType(file.getContentType())
+                    .build();
 
-        URL signedUrl = storage.signUrl(
-        		blobInfo,
-        		15,
-        		TimeUnit.MINUTES,
-        		SignUrlOption.httpMethod(HttpMethod.PUT),
-        		SignUrlOption.withV4Signature()
-        );
-        
-        return signedUrl.toString();
+            log.info("BUCKET_NAME: {}", BUCKET_NAME);
+            log.info("Object name: {}", objectName);
+            log.info("Storage client: {}", storage != null ? "initialized" : "null");
+
+            assert storage != null;
+            storage.create(blobInfo, file.getBytes());
+
+            return String.format("https://storage.googleapis.com/%s/%s", BUCKET_NAME, objectName);
+        }
+        catch(Exception e) {
+            log.error(e.getMessage());
+            throw e;
+        }
     }
 }

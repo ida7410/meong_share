@@ -69,26 +69,5 @@ public class ChatMessageRestController {
 		
 		return result;
 	}
-	
 
-	@GetMapping("/getSignedUrl")
-	public Map<String, Object> getSignedUrl(
-			@RequestParam int chatListId,
-			@RequestParam String ext) {
-		Map<String, Object> result = new HashMap<>();
-		try {
-			String filePath = fileManagerService.saveFileGCS(Integer.toString(chatListId), ext);
-			
-			result.put("code", 200);
-			result.put("filePath", filePath);
-			result.put("result", "success");
-		}
-		catch (Exception e) {
-			result.put("code", 300);
-			result.put("error:", e);
-		}
-		
-		return result;
-	}
-	
 }

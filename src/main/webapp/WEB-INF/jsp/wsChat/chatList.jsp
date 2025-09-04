@@ -233,29 +233,25 @@
 		$("#chat-image-send-btn").on("click", async function() {
 		    const file = event.target.files[0];
 		    if (!file) return;
-		    let ext = file.name.split('.').pop()
+		    let ext = file.name.split('.').pop();
+			let formData = new FormData();
+			formData.append("file", file);
+			formData.append("key", `${userLoginId}``);
+			formData.append("ext", ext);
+			formData.append("type", "product-images");
+			const uploadResponse = await fetch("/uploadToGcs", {
+				method: "POST",
+				body: formData
+			});
 
-		    const data = await fetch(`/chat/chatMessage/getSignedUrl?chatListId=${chatListId}&ext=${ext}`)
-		    	.then(res => res.json());
-		    
-			if (data.code !== 200) {
-				alert("Failed to create Signed URL");
+			const uploadResult = await uploadResponse.json();
+			if (uploadResult.code !== 200) {
+				alert("Upload failed: " + uploadResult.error);
 				return;
 			}
-			
-			
-		    const signedUrl = data.filePath; // Use this for sending via WebSocket
-		    
-		    await fetch(signedUrl, {
-		        method: "PUT",
-		        body: file,
-		        headers: {
-		            "Content-Type": file.type
-		        }
-		    });
 
-		    // After upload, the file is accessible via GCS path or public URL
-		    const publicUrl = signedUrl.split("?")[0]; // the path without query params
+		    const publicUrl = uploadResult.publicUrl;
+
 		    const msg = {
 				content: publicUrl,
 				type: "image"

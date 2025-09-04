@@ -35,10 +35,10 @@ public class ProductBO {
      * @return
      */
 	public int addProduct(int ownerId, String ownerLoginId, String name, String company, int price,
-							MultipartFile productImageFile, String description, String boughtDate) {
+							String productImageFile, String description, String boughtDate) {
 		
 		// save file and get the path of image
-        String imagePath = fileManagerService.saveFile(ownerLoginId, productImageFile);
+//        String imagePath = fileManagerService.saveFile(ownerLoginId, productImageFile);
         
         // make Product temporarily
         Product product = new Product();
@@ -46,7 +46,7 @@ public class ProductBO {
         product.setName(name);
         product.setCompany(company);
         product.setPrice(price);
-		product.setImagePath(imagePath);
+		product.setImagePath(productImageFile);
 		product.setDescription(description);
 		product.setBoughtDate(boughtDate);
         
@@ -59,7 +59,7 @@ public class ProductBO {
         return insertedProductId;
 	}
 	
-	
+
 	// ------- READ -------
 	
 	/***

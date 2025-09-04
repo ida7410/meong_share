@@ -35,7 +35,7 @@
 
 		<div class="my-4">
 			<textarea id="description" class="form-control" rows="7"></textarea>
-			<div id="desc" class="d-flex justify-content-end">512</div>
+			<div id="desc" class="d-flex justify-content-end text-danger">512</div>
 		</div>
 		
 		<button id="create-btn" type="button" class="btn btn-primary form-control mt-2 mb-5">등록하기</button>
@@ -84,7 +84,7 @@
 			$("#desc").text(512 - descLen)
 		})
 		
-		$("#create-btn").on("click", function() {
+		$("#create-btn").on("click", async function() {
 			let fileName = $("#productImageFile").val();
 			let name = $("#name").val().trim();
 			let company = $("#company").val().trim();
@@ -128,37 +128,64 @@
 				alert("설명은 512자 이내여야 합니다.");
 				return;
 			}
-			
-			let formData = new FormData();
-			formData.append("productImageFile", $("#productImageFile")[0].files[0]);
-			formData.append("name", name);
-			formData.append("company", company);
-			formData.append("price", price);
-			formData.append("boughtDate", boughtDate);
-			formData.append("description", description);
-			console.log(formData);
-			
-			$.ajax({
-				type:"post"
-				,url:"/product/create"
-				,data:formData
-				,enctype:"multipart/form-data"
-				,processData:false
-				,contentType:false
-				
-				,success:function(data) {
-					if (data.code == 200) {
-						alert("물품 등록에 성공했습니다.");
-						location.href = "/product/" + data.insertedProductId;
-					}
-					else {
-						alert(data.error_message);
-					}
+
+			try {
+				// upload file to gcs & get public url
+				let file = $("#productImageFile")[0].files[0];
+				let ext = fileName.split('.')[1];
+				let formData = new FormData();
+				formData.append("file", file);
+				formData.append("key", `${userLoginId}`);
+				formData.append("ext", ext);
+				formData.append("type", "product-images");
+
+				const uploadResponse = await fetch("/uploadToGcs", {
+					method: "POST",
+					body: formData
+				});
+
+				const uploadResult = await uploadResponse.json();
+				if (uploadResult.code !== 200) {
+					alert("Upload failed: " + uploadResult.error);
+					return;
 				}
-				,error:function(request, status, error) {
-					alert("물품 등록에 실패했습니다. 관리자에게 문의해주세요.");
-				}
-			});
+				const publicUrl = uploadResult.publicUrl;
+
+				// save in sql db
+				formData = new FormData();
+				formData.append("productImageFile", publicUrl);
+				formData.append("name", name);
+				formData.append("company", company);
+				formData.append("price", price);
+				formData.append("boughtDate", boughtDate);
+				formData.append("description", description);
+
+				$.ajax({
+					type:"post"
+					,url:"/product/createGcs"
+					,data:formData
+					,enctype:"multipart/form-data"
+					,processData:false
+					,contentType:false
+
+					,success:function(data) {
+						if (data.code == 200) {
+							alert("물품 등록에 성공했습니다.");
+							location.href = "/product/" + data.insertedProductId;
+						}
+						else {
+							alert(data.error_message);
+						}
+					}
+					,error:function(request, status, error) {
+						alert("물품 등록에 실패했습니다. 관리자에게 문의해주세요.");
+					}
+				});
+
+			} catch (error) {
+				console.error('Error:', error);
+				alert("An error occurred: " + error.message);
+			}
 		});
 	})
 </script>
