@@ -132,55 +132,42 @@
 		})
 		
 		$("#end-trade-btn").on("click", function() {
-			let productId = ${chatCard.product.id};
-			
-			let buyerId = ${chatCard.buyer.id};
-			let ownerId = ${chatCard.owner.id};
-			
-			$.ajax({
-				type:"post"
-				,url:"/chat/chatMessage/send"
-				,data:{"chatListId":chatListId, "message":"거래완료신청", "type":"endTradeRequest"}
-				
-				,success:function(data) {
-					if (data.code == 200) {
-						location.reload();
-					}
-					else {
-						alert(data.error_message);
-						if (data.code == 300) {
-							location.href = "/log-in";
-						}
-					}
-				}
-				,error:function(request, status, error) {
-					alert("채팅 전송에 실패했습니다. 관리자에게 문의해주세요.");
-				}
-			});
+			let msg = {
+				type: "endTradeRequest"
+			};
+			stompClient.send('/app/ws-chat/' + chatListId + '/send', {}, JSON.stringify(msg));
+
+			$("#chat-input").val("");
 		});
-		
-		$(".complete-trade-btn").on("click", function() {
-			let productId = ${chatCard.product.id};
-			console.log(productId)
-			
-			$.ajax({
-				type:"put"
-				,url:"/product/complete/" + productId
-				
-				,success:function(data) {
-					if (data.code == 200) {
-						alert("거래를 완료했습니다.");
-						location.reload();
-					}
-					else {
-						alert(data.error_message)
-					}
-				}
-				,error:function(request, status, error) {
-					alert("거래 완료 신청에 실패했습니다. 관리자에게 문의해주세요.")
-				}
-			})
-		})
+
+		<%--$(".complete-trade-btn").on("click", function() {--%>
+		<%--	let productId = ${chatCard.product.id};--%>
+		<%--	console.log(productId)--%>
+		<%--	--%>
+		<%--	$.ajax({--%>
+		<%--		type:"put"--%>
+		<%--		,url:"/product/complete/" + productId--%>
+		<%--		--%>
+		<%--		,success:function(data) {--%>
+		<%--			if (data.code == 200) {--%>
+		<%--				let msg = {--%>
+		<%--					type: "complatedTrade"--%>
+		<%--				};--%>
+		<%--				stompClient.send('/app/ws-chat/' + chatListId + '/send', {}, JSON.stringify(msg));--%>
+
+		<%--				$("#chat-input").val("");--%>
+		<%--				alert("거래를 완료했습니다.");--%>
+		<%--				location.reload();--%>
+		<%--			}--%>
+		<%--			else {--%>
+		<%--				alert(data.error_message)--%>
+		<%--			}--%>
+		<%--		}--%>
+		<%--		,error:function(request, status, error) {--%>
+		<%--			alert("거래 완료 신청에 실패했습니다. 관리자에게 문의해주세요.")--%>
+		<%--		}--%>
+		<%--	})--%>
+		<%--})--%>
 		
 		$("#recommend").on("click", function() {
 			alert("click")
@@ -337,6 +324,36 @@
 				}
 				chatDiv.find('.chat').find('.chat-img').attr('src', content);
 			}
+			else if (message.type == "endTradeRequest") {
+				if (message.senderId == ${userId}) {
+					chatDiv = $(`
+				    	<div class="chat-area d-flex align-items-end justify-content-end pb-2 pr-3">
+				    		now
+				    		<div class="chat my-chat p-2 px-3 ml-2 d-flex align-items-center">
+				    			You have requested to complete this trade.
+				    		</div>
+				    	</div>`);
+				}
+				else {
+					chatDiv = $(`
+				    	<div class="chat-area d-flex align-items-end pb-2">
+				    		<div class="chat received-chat p-2 px-3 mr-2 d-flex align-items-center">
+				    			<div>
+									Complete This Trade?<br>
+									<button type="button" class="complete-trade-btn form-control mt-1  btn btn-primary">
+										Complete Trade
+									</button>
+								</div>
+				    		</div>
+				    		now
+				    	</div>`);
+				}
+			}
+			else if (message.type == "complatedTrade") {
+				if (message.senderId != ${userId}) {
+					location.reload();
+				}
+			}
 			$("#chat-area-box").append(chatDiv);
 			$("#chat-area-div").scrollTop($("#chat-area-div")[0].scrollHeight);
 		}
@@ -352,5 +369,38 @@
 			});
 		});
 
+		$(document).on('click',".complete-trade-btn", function () {
+			let productId = ${chatCard.product.id};
+			console.log(productId)
+
+			$.ajax({
+				type:"put"
+				,url:"/product/complete/" + productId
+
+				,success:function(data) {
+					if (data.code == 200) {
+						let msg = {
+							type: "complatedTrade"
+						};
+						stompClient.send('/app/ws-chat/' + chatListId + '/send', {}, JSON.stringify(msg));
+
+						$("#chat-input").val("");
+						alert("거래를 완료했습니다.");
+						location.reload();
+					}
+					else {
+						alert(data.error_message)
+					}
+				}
+				,error:function(request, status, error) {
+					alert("거래 완료 신청에 실패했습니다. 관리자에게 문의해주세요.")
+				}
+			});
+
+			let msg = {
+				type: "complatedTrade"
+			};
+			stompClient.send('/app/ws-chat/' + chatListId + '/send', {}, JSON.stringify(msg));
+		});
 	});
 </script>

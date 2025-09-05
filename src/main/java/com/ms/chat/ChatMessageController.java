@@ -43,6 +43,9 @@ public class ChatMessageController {
 	    else if (chatMessage.getType().equals("message")) {
 	        chatMessageBO.addChatMessage(chatListId, userId, chatMessage.getMessage(), user.getLoginId(), null, "message");
 	    }
+	    else if (chatMessage.getType().equals("endTradeRequest")) {
+	        chatMessageBO.addChatMessage(chatListId, userId, null, user.getLoginId(), null, "endTradeRequest");
+	    }
 
 	    return chatMessage;
 	}
