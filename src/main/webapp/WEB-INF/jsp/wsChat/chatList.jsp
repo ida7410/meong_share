@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-		 pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 
 <div class="d-flex">
 	<div class="col-3 chat-list-box p-0 border-right">
@@ -248,7 +250,7 @@
 		    const imageUrl = uploadResult.imageUrl;
 
 		    const msg = {
-				message: imageUrl,
+				content: imageUrl,
 				type: "image"
 		    };
 			stompClient.send(`/app/ws-chat/${chatListId}/send`, {}, JSON.stringify(msg));
@@ -315,7 +317,7 @@
 				    $("#chat-area-div").append(`
 				    	<div class="chat-area d-flex align-items-end pb-2">
 				    		<div class="chat received-chat p-2 px-3 mr-2 d-flex align-items-center">
-				    			${message.message}
+				    			${message.content}
 				    		</div>
 				    	</div>
 				    	now`);
@@ -324,7 +326,7 @@
 				    $("#chat-area-div").append(`
 				    	<div class="chat-area d-flex align-items-end pb-2">
 				    		<div class="chat received-chat p-2 px-3 mr-2 d-flex align-items-center">
-				    			<img src="${message.message}" width="100%">
+				    			<img src="${message.content}" width="100%">
 				    		</div>
 				    	</div>
 				    	now`);
