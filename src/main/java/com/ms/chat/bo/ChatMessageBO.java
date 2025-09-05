@@ -37,7 +37,7 @@ public class ChatMessageBO {
 	public void addChatMessage(int chatListId, int userId, String message, String userLoginId, MultipartFile file, String type) {
 		
 		if (type.equals("image")) { // if type is image
-			String imagePath = fileManagerService.saveFile(userLoginId, file);
+			String imagePath = fileManagerService.saveFile(file, userLoginId, type);
 			chatMessageMapper.insertChatMessageImage(chatListId, userId, imagePath, type);
 		}
 		else if (type.equals("message")) { // if type is just text message

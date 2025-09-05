@@ -3,7 +3,7 @@
 
 <div>
 	<small>
-		윤현빈 Ida Yoon<br>
+		Hyeonbeen (Ida) Yoon<br>
 		ida.yoonh@gmail.com<br>
 		Copyright 2024. Meong Share All Rights Reserved.
 	</small>

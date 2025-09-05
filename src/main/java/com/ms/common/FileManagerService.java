@@ -1,24 +1,28 @@
 package com.ms.common;
 
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
-import org.springframework.stereotype.Component;
-import org.springframework.web.multipart.MultipartFile;
-
+@Slf4j
 @Component
 public class FileManagerService {
     
     public static final String FILE_UPLOAD_PATH = "C:\\megastudy\\6_spring_project\\MEONG_SHARE\\ms_workspace\\images/";
 //    public static final String FILE_UPLOAD_PATH = "D:\\hyeonbeen\\6_spring project\\MEONGSHARE\\ms_workspace/images/";
-    
-    public String saveFile(String loginId, MultipartFile file) {
+
+    public String saveFile(MultipartFile file, String key, String type) {
         // directory name: {loginId}_{current time in milli sec}
-        String directoryName = loginId + "_" + System.currentTimeMillis();
+        String directoryName = type + "/" + key;
         
         // file path: ...MEONGSHARE\\ms_workspace/images/{loginId}_{current time in milli sec}
         String filePath = FILE_UPLOAD_PATH + directoryName;

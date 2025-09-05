@@ -15,8 +15,8 @@
 		
 		<h3 class="font-weight-bold pt-2">${user.nickname}</h3>
 		<div>
-			<h5>거래 횟수: ${tradeCount}</h5>
-			<h5>추천 횟수: ${recommendCount}</h5>
+			<h5>Trades: ${tradeCount}</h5>
+			<h5>Recommended: ${recommendCount}</h5>
 		</div>
 	</div>
 	

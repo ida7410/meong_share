@@ -3,10 +3,10 @@
 
 <div class="p-4 d-flex justify-content-center w-100">
 	<div class="col-7">
-		<h2 class="text-center font-weight-bold my-5">회원가입</h2>
+		<h2 class="text-center font-weight-bold my-5">Sign Up</h2>
 		<jsp:include page="user.jsp" />
 		
-		<button id="sign-up-btn" type="button" class="btn btn-primary form-control mt-4">가입하기</button>
+		<button id="sign-up-btn" type="button" class="btn btn-primary form-control mt-4">Sign Up</button>
 	</div>
 </div>
 
@@ -27,7 +27,7 @@
 	        $("#id-desc").removeClass("text-success");
 			
 			if (id.length < 4) {
-				$("#id-desc").text("아이디를 4자 이상 입력해주세요.");
+				$("#id-desc").text("ID must be longer than 3 characters");
 				$("#id-desc").addClass("text-danger");
 				
 				idChecked = false;
@@ -35,7 +35,7 @@
 			}
 			
 			if (!idChecked) {
-				$("#id-desc").text("아이디 중복 확인을 실행해주세요.");
+				$("#id-desc").text("Please check ID duplicates");
 				$("#id-desc").addClass("text-danger");
 				
 				idChecked = false;
@@ -56,11 +56,14 @@
 					if (data.code == 200) {
 						duplicateId = data.isDuplicateId;
 						if (!duplicateId){
-							$("#id-desc").text("사용 가능한 아이디입니다.");
+							$("#id-desc").text("Available ID");
 							$("#id-desc").removeClass("text-danger");
 							$("#id-desc").addClass("text-success");
 							
 							idChecked = true;
+						}
+						else {
+							$("#id-desc").text("ID already exists");
 						}
 					}
 					else {
@@ -68,7 +71,7 @@
 					}
 				}
 				,error:function(request, status, error) {
-					alert("아이디 중복 확인에 실패했습니다. 관리자에게 문의해주세요.")
+					alert("Failed to check ID duplicates. Please contact through Customer service.")
 				}
 			})
 		});
@@ -82,14 +85,14 @@
 	        $("#passwordCheck").val("");
 			
 	        if (pw.length < 8) {
-	        	$("#pw-desc").text("비밀번호를 8자 이상 입력해주세요.");
+	        	$("#pw-desc").text("Password should be longer than 7 characters.");
 	        	$("#pw-desc").addClass("text-danger");
 	        	
 	        	passwordReg = false;
 	        	return;
 	        }
 	        if (pw.search(/\s/) != -1) {
-	        	$("#pw-desc").text("비밀번호는 공백 없이 입력해주세요.");
+	        	$("#pw-desc").text("Password must not include spaces.");
 	        	$("#pw-desc").addClass("text-danger");
 	        	
 	        	passwordReg = false;
@@ -97,7 +100,7 @@
 	        }
 	        
 	        if (!reg.test(pw)) {
-	        	$("#pw-desc").text("비밀번호는 숫자/대문자/소문자/특수문자를 포함해야 합니다.");
+	        	$("#pw-desc").text("Password must include numbers/uppsercase/lowercase/special characters.");
 	        	$("#pw-desc").addClass("text-danger");
 	        	
 	        	passwordReg = false;
@@ -117,7 +120,7 @@
 			$("#pwc-desc").removeClass("text-danger");
 			
 			if (pw != pwc) {
-				$("#pwc-desc").text("비밀번호가 일치하지 않습니다.");
+				$("#pwc-desc").text("Password does not match.");
 				$("#pwc-desc").addClass("text-danger");
 				
 				passwordChecked = false;
@@ -145,14 +148,14 @@
 				,data:{"email":email}
 				,success:function(data) {
 					if (data.code == 200) {
-						$("#email-desc").text("인증번호가 발송되었습니다.");
+						$("#email-desc").text("Verification code has been sent!");
 						$("#email-check").prop("disabled", false);
 						$("#email-check-btn").prop("disabled", false);
 						emailCode = data.randomChar;
 					}
 				}
 				,error:function(request, status, error) {
-					alert("이메일 인증번호 전송에 실패했습니다.");
+					alert("Failed to send the code. Please send an inquiry.");
 				}
 			})
 		})
@@ -172,12 +175,12 @@
 	        
 			if (code != emailCode) {
 				$("#email-check-desc").addClass("text-danger");
-				$("#email-check-desc").text("인증번호가 일치하지 않습니다.");
+				$("#email-check-desc").text("Verification code does not match.");
 				return;
 			}
 			
 			$("#email-check-desc").addClass("text-success");
-			$("#email-check-desc").text("이메일 인증을 완료했습니다.");
+			$("#email-check-desc").text("Successfully verificed Email");
 			
 			emailChecked = true;
 		})
@@ -195,43 +198,43 @@
 			let email = $("#email").val().trim();
 			
 			if (!id) {
-				alert("아이디를 입력해주세요.");
+				alert("Please enter ID.");
 				return;
 			}
 			if (duplicateId) {
-				alert("아이디 중복 확인을 실행해주세요.");
+				alert("Please proceed with ID duplication checking.");
 				return;
 			}
 			if (!idChecked) {
-				alert("사용 불가능한 아이디입니다.");
+				alert("Unavailable ID");
 				return;
 			}
 			if (!password || !passwordCheck) {
-				alert("비밀번호를 입력해주세요.");
+				alert("Please enter password.");
 				return;
 			}
 			if (!passwordChecked) {
-				alert("사용 불가능한 비밀번호입니다.");
+				alert("Unavailalbe password");
 				return;
 			}
 			if (!nickname) {
-				alert("닉네임을 입력해주세요.");
+				alert("Please enter your nickname.");
 				return;
 			}
 			if (!name) {
-				alert("이름을 입력해주세요.");
+				alert("Please enter your name.");
 				return;
 			}
 			if (!phoneNumberFirst || !phoneNumberSecond || !phoneNumberThird) {
-				alert("전화번호를 입력해주세요.");
+				alert("Please enter phonenumber.");
 				return;
 			}
 			if (!email) {
-				alert("이메일을 입력해주세요.");
+				alert("Please enter Email.");
 				return;
 			}
 			if (!emailChecked) {
-				alert("이메일 인증을 완료해주세요.");
+				alert("Please proceed with Email verification.");
 				return;
 			}
 			
@@ -253,7 +256,7 @@
 				
 				,success:function(data) {
 					if (data.code == 200) {
-						alert("회원 가입에 성공했습니다! 로그인해주세요.");
+						alert("Succuessfully sign up! You may proceed to Log in.");
 						location.href = "/log-in"
 					}
 				}

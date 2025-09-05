@@ -15,13 +15,13 @@
 		<div>
 			<c:if test="${userId eq null}">
 			<div>
-				<a href="/log-in">로그인</a> / <a href="/sign-up">회원가입</a>
+				<a href="/log-in">Log in</a> / <a href="/sign-up">Sign Up</a>
 			</div>
 			</c:if>
 			
 			<c:if test="${userId ne null}">
 			<div>
-				<a href="/user/${userLoginId}">${userNickname}님 환영합니다!</a> / <a href="/log-out">로그아웃</a>
+				<a href="/user/${userLoginId}">Welcome, ${userNickname}!</a> / <a href="/log-out">Log out</a>
 			</div>
 			</c:if>
 		</div>

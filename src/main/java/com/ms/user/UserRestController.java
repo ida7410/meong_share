@@ -64,7 +64,7 @@ public class UserRestController {
 			
 		} catch (NoSuchAlgorithmException e) {
 			result.put("code", 400);
-			result.put("error_message", "비밀번호 저장에 실패했습니다.");
+			result.put("error_message", "Failed to save password.");
 		}
 		
 		return result;
@@ -94,7 +94,7 @@ public class UserRestController {
 			// check encrypted pw equals db user pw
 			if (user == null || !encrypted.equals(user.getPassword())) { // if not
 				result.put("code", 300);
-				result.put("error_message", "아이디/비밀번호가 일치하지 않습니다.");
+				result.put("error_message", "ID/Password were not matched.");
 				return result;
 			}
 			
@@ -108,7 +108,7 @@ public class UserRestController {
 			
 		} catch (NoSuchAlgorithmException e) {
 			result.put("code", 400);
-			result.put("error_message", "비밀번호 확인에 실패했습니다.");
+			result.put("error_message", "Failed to check password.");
 		}
 		
 		return result;
@@ -156,8 +156,8 @@ public class UserRestController {
 		
 		// send email including code
 		mailBO.mailSend(email, 
-					"[MEONG SHAR] 이메일 인증번호", 
-					"멍셰어 이메일 인증번호: " + randomChar);
+					"[MEONG SHARE] Email Verification Code Has Been Arrived!", 
+					"MEONG SHARE Email Verification Code: " + randomChar);
 		
 		result.put("code", 200);
 		result.put("randomChar", randomChar);
@@ -181,17 +181,17 @@ public class UserRestController {
 		User user = userBO.getUserByNameEmail(name, email);
 		if (user == null) { // if user x exist
 			result.put("code", 300);
-			result.put("message", "사용자를 찾을 수 없습니다.");
+			result.put("message", "Unable to find user.");
 		}
 		else { // if exists
 			
 			// send email including id
 			mailBO.mailSend(email, 
-						"[MEONG SHAR] 아이디 찾기", 
-						"멍셰어 아이디: " + user.getLoginId());
+						"[MEONG SHARE] Find ID", 
+						"MEONG SHARE ID: " + user.getLoginId());
 			
 			result.put("code", 200);
-			result.put("message", "아이디를 보내드렸습니다. 이메일을 확인해주세요.");
+			result.put("message", "We have sent your ID through Email. Please check it.");
 		}
 		
 		result.put("result", "success");
@@ -216,7 +216,7 @@ public class UserRestController {
 		User user = userBO.getUserByLoginIdEmail(id, email);
 		if (user == null) { // if user x exist
 			result.put("code", 300);
-			result.put("message", "사용자를 찾을 수 없습니다.");
+			result.put("message", "Unable to find user.");
 		}
 		else { // if exists
 			
@@ -225,8 +225,8 @@ public class UserRestController {
 			
 			// send email with code
 			mailBO.mailSend(email, 
-						"[MEONG SHAR] 비밀번호 찾기 - 인증번호", 
-						"멍셰어 비밀번호 찾기 - 인증번호: " + randomChar);
+						"[MEONG SHAR] Find Password - Verification Code", 
+						"Find Password - Verification Code: " + randomChar);
 			
 			result.put("code", 200);
 			result.put("randomChar", randomChar);
@@ -246,7 +246,7 @@ public class UserRestController {
 
 		String str = "";
 
-		// 문자 배열 길이의 값을 랜덤으로 10개를 뽑아 구문을 작성함
+		// get random 10 chars
 		int idx = 0;
 		for (int i = 0; i < 10; i++) {
 			idx = (int) (charSet.length * Math.random());
@@ -280,15 +280,15 @@ public class UserRestController {
 			
 			// send mail with temporary password
 			mailBO.mailSend(user.getEmail(), 
-					"[MEONG SHARE] 임시 비밀번호", 
-					"멍셰어 임시비밀번호: " + tempPassword);
+					"[MEONG SHARE] Temporary Password", 
+					"Your MEONG SHARE Temporary PW: " + tempPassword);
 			
 			result.put("code", 200);
 			result.put("result", "success");
 			
 		} catch (NoSuchAlgorithmException e) {
 			result.put("code", 400);
-			result.put("error_message", "임시 비밀번호 저장에 실패했습니다.");
+			result.put("error_message", "Failed to save temporary pw.");
 		}
 		return result;
 	}
@@ -312,7 +312,7 @@ public class UserRestController {
 		String id = (String)session.getAttribute("userLoginId");
 		if (id == null) {
 			result.put("code", 300);
-			result.put("error_message", "세션이 만료되었습니다. 다시 로그인해주세요.");
+			result.put("error_message", "Your session has been expired. Please try to log in again.");
 			return result;
 		}
 		
@@ -326,7 +326,7 @@ public class UserRestController {
 			// check encrypted pw equals db user pw
 			if (!encrypted.equals(user.getPassword())) { // if not
 				result.put("code", 300);
-				result.put("error_message", "아이디/비밀번호가 일치하지 않습니다.");
+				result.put("error_message", "ID/Password were not matched.");
 				return result;
 			}
 
@@ -339,7 +339,7 @@ public class UserRestController {
 
 		} catch (NoSuchAlgorithmException e) {
 			result.put("code", 400);
-			result.put("error_message", "비밀번호 확인에 실패했습니다.");
+			result.put("error_message", "Failed to check password");
 		}
 		
 		return result;
@@ -372,7 +372,7 @@ public class UserRestController {
 		Integer userId = (Integer)session.getAttribute("userId");
 		if (userId == null) {
 			result.put("code", 300);
-			result.put("error_message", "세션이 만료되었습니다. 로그인해주세요.");
+			result.put("error_message", "Your session has been expired. Please try to log in again.");
 			return result;
 		}
 		

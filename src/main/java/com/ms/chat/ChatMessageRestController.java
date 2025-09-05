@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ms.chat.bo.ChatMessageBO;
+import com.ms.common.FileManagerService;
 import com.ms.user.bo.UserBO;
 import com.ms.user.domain.User;
 
@@ -25,6 +27,9 @@ public class ChatMessageRestController {
 	
 	@Autowired
 	private UserBO userBO;
+	
+	@Autowired
+	private FileManagerService fileManagerService;
 	
 	// ------- CREATE -------
 	
@@ -51,7 +56,7 @@ public class ChatMessageRestController {
 		Integer userId = (Integer) session.getAttribute("userId");
 		if (userId == null) {
 			result.put("code", 300);
-			result.put("error_message", "세션이 만료되었습니다. 다시 로그인해주세요.");
+			result.put("error_message", "Your session has been expired. Please try to log in again.");
 		}
 		
 		User user = userBO.getUserById(userId);
@@ -64,5 +69,5 @@ public class ChatMessageRestController {
 		
 		return result;
 	}
-	
+
 }

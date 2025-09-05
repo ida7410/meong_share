@@ -14,10 +14,10 @@
 				<h5 class="font-weight-bold">${chatListCard.product.name}</h5>
 				<h6>
 				<c:if test="${chatListCard.latestCM.type == 'image'}">
-					사진
+					photo
 				</c:if>
 				<c:if test="${chatListCard.latestCM.type == 'endTradeRequest'}">
-					거래 완료 신청
+					End-trade Request
 				</c:if>
 				<c:if test="${fn:length(chatListCard.latestCM.message) > 28}">
 					${fn:substring(chatListCard.latestCM.message, 0, 28)}...
@@ -111,7 +111,7 @@
 		let completed = ${chatCard.product.completed}
 		
 		if (completed) {
-			$("#chat-input").attr("placeholder", "거래가 완료되어 채팅이 불가능합니다.");
+			$("#chat-input").attr("placeholder", "It is impossible to chat since the trade has been completed.");
 			$("#chat-input").attr("disabled", true);
 			$("#chat-image-send-btn").prop("disabled", true);
 			$("#send-btn").prop("disabled", true);
@@ -155,7 +155,7 @@
 					}
 				}
 				,error:function(request, status, error) {
-					alert("채팅 전송에 실패했습니다. 관리자에게 문의해주세요.");
+					alert("Failed to send a message. Please contact through Customer service.");
 				}
 			});
 		});
@@ -170,7 +170,7 @@
 				
 				,success:function(data) {
 					if (data.code == 200) {
-						alert("거래를 완료했습니다.");
+						alert("You have completed the trade!");
 						location.reload();
 					}
 					else {
@@ -178,7 +178,7 @@
 					}
 				}
 				,error:function(request, status, error) {
-					alert("거래 완료 신청에 실패했습니다. 관리자에게 문의해주세요.")
+					alert("Failed to complete the trade. Please contact through Customer service.")
 				}
 			})
 		})
