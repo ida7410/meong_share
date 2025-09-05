@@ -7,31 +7,31 @@
 
 <div class="d-flex">
 	<div class="col-3 chat-list-box p-0 border-right">
-	<c:forEach items="${chatListCardList}" var="chatListCard">
-		<div class="chat-list d-flex p-3 pointer bg-hover" data-chat-list-id="${chatListCard.cl.id}">
-			<div class="col-2 chat-list-img-box">
-				<img src="${chatListCard.product.imagePath}" class="crop-img" width="100%">
+		<c:forEach items="${chatListCardList}" var="chatListCard">
+			<div class="chat-list d-flex p-3 pointer bg-hover" data-chat-list-id="${chatListCard.cl.id}">
+				<div class="col-2 chat-list-img-box">
+					<img src="${chatListCard.product.imagePath}" class="crop-img" width="100%">
+				</div>
+				<div class="col-9">
+					<h5 class="font-weight-bold">${chatListCard.product.name}</h5>
+					<h6>
+						<c:if test="${chatListCard.latestCM.type == 'image'}">
+							photo
+						</c:if>
+						<c:if test="${chatListCard.latestCM.type == 'endTradeRequest'}">
+							End-trade Request
+						</c:if>
+						<c:if test="${fn:length(chatListCard.latestCM.message) > 28}">
+							${fn:substring(chatListCard.latestCM.message, 0, 28)}...
+						</c:if>
+
+						<c:if test="${fn:length(chatListCard.latestCM.message) <= 28}">
+							${chatListCard.latestCM.message}
+						</c:if>
+					</h6>
+				</div>
 			</div>
-			<div class="col-9">
-				<h5 class="font-weight-bold">${chatListCard.product.name}</h5>
-				<h6>
-				<c:if test="${chatListCard.latestCM.type == 'image'}">
-					사진
-				</c:if>
-				<c:if test="${chatListCard.latestCM.type == 'endTradeRequest'}">
-					거래 완료 신청
-				</c:if>
-				<c:if test="${fn:length(chatListCard.latestCM.message) > 28}">
-					${fn:substring(chatListCard.latestCM.message, 0, 28)}...
-				</c:if>
-				
-				<c:if test="${fn:length(chatListCard.latestCM.message) <= 28}">
-					${chatListCard.latestCM.message}
-				</c:if>
-				</h6>
-			</div>
-		</div>
-	</c:forEach>
+		</c:forEach>
 	</div>
 
 	<div id="chat-box" class="col-9 px-4 pb-4">
@@ -46,27 +46,27 @@
 						${chatCard.product.name}
 					</a>
 				</h5>
-		
+
 				<h6 class="mb-2">
 					<c:if test="${userId == chatCard.product.ownerId}">
 					<a href="/user/${chatCard.buyer.loginId}">${chatCard.buyer.nickname}</a>
 					</c:if>
-					
+
 					<c:if test="${userId != chatCard.product.ownerId}">
 					<a href="/user/${chatCard.owner.loginId}">${chatCard.owner.nickname}</a>
 					</c:if>
 				</h6>
-				
+
 				<c:if test="${userId == chatCard.product.ownerId && chatCard.product.completed == false}">
 				<button type="button" id="end-trade-btn" class="btn btn-primary">거래완료</button>
 				</c:if>
 			</div>
 		</div>
-		
+
 		<div id="chat-area-div">
 			<jsp:include page="chatBox.jsp" />
 		</div>
-		
+
 		<div id="chat-input-box" class="input-group input-group-lg pt-3">
 			<div id="chat-input-prepend" class="input-group-prepend border border-right-0 rounded-left">
 				<button type="button" id="chat-image-btn" class="btn rounded-circle">
@@ -80,9 +80,9 @@
 			</div>
 		</div>
 	</c:if>
-	
+
 	<c:if test="${empty chatListCardList}">
-	<h2 class="text-center py-5 text-secondary">채팅이 없습니다.</h2>
+	    <h2 class="text-center py-5 text-secondary">채팅이 없습니다.</h2>
 	</c:if>
 	</div>
 </div>
@@ -95,10 +95,10 @@
 				<img src="" id="preview" class="crop-img" width="100%">
 			</div>
 			<div class="border-bottom py-3">
-				<div id="chat-image-send-btn" class="pointer">전송</div>			
+				<div id="chat-image-send-btn" class="pointer">전송</div>
 			</div>
 			<div class="py-3">
-				<div data-dismiss="modal" class="pointer">취소</div>			
+				<div data-dismiss="modal" class="pointer">취소</div>
 			</div>
 		</div>
 	</div>
@@ -260,14 +260,7 @@
 			$("#chat-image").val('');
 			selectedFile = null;
 		});
-		
-		
-		// $("#chat-input").on("keydown", function(key) {
-		// 	if (key.keyCode == 13) {
-		// 		$("#send-btn").click(sendMessage);
-		// 	}
-		// });
-		
+
 		let stompClient = null;
 
 		function connect() {
@@ -292,62 +285,70 @@
 		function sendMessage() {
 			let message = $("#chat-input").val().trim();
 		    let msg = {
-		        content: message,
+		        message: message,
 		        type: "message"
 		    };
 		    stompClient.send('/app/ws-chat/' + chatListId + '/send', {}, JSON.stringify(msg));
+
+			$("#chat-input").val("");
 		}
 
 		function showMessage(message) {
-			if (message.senderId == ${userId}) {				
-				if (message.type == "message") {
-				    $("#chat-area-div").append(`
-				    	now
+			let content = message.message
+			let chatDiv = '';
+			if (message.type == "message") {
+				if (message.senderId == ${userId}) {
+					console.log(content)
+					chatDiv = $(`
 				    	<div class="chat-area d-flex align-items-end justify-content-end pb-2 pr-3">
+				    		now
 				    		<div class="chat my-chat p-2 px-3 ml-2 d-flex align-items-center">
-				    			${message.content}
 				    		</div>
-				    	</div>`);				
+				    	</div>`)
 				}
-				else if (message.type == "image") {
-				    $("#chat-area-div").append(`
-				    	now
+				else {
+					chatDiv = $(`
+				    	<div class="chat-area d-flex align-items-end pb-2">
+				    		<div class="chat received-chat p-2 px-3 mr-2 d-flex align-items-center">
+				    			${content}
+				    		</div>
+				    		now
+				    	</div>`);
+				}
+				chatDiv.find('.chat').text(content);
+			}
+			else if (message.type == "image") {
+				if (message.senderId == ${userId}) {
+					chatDiv = $(`
 				    	<div class="chat-area d-flex align-items-end justify-content-end pb-2 pr-3">
+				    		now
 				    		<div class="chat my-chat p-2 px-3 ml-2 d-flex align-items-center">
-				    			<img src="${message.content}" width="100%">
+				    			<img src="${content}" width="100%">
 				    		</div>
 				    	</div>`);
 				}
-			}
-			else {
-				if (message.type == "message") {
-				    $("#chat-area-div").append(`
+				else {
+					chatDiv = $(`
 				    	<div class="chat-area d-flex align-items-end pb-2">
 				    		<div class="chat received-chat p-2 px-3 mr-2 d-flex align-items-center">
-				    			${message.message}
+				    			<img src="${content}" width="100%">
 				    		</div>
-				    	</div>
-				    	now`);
-				}
-				else if (message.type == "image") {
-				    $("#chat-area-div").append(`
-				    	<div class="chat-area d-flex align-items-end pb-2">
-				    		<div class="chat received-chat p-2 px-3 mr-2 d-flex align-items-center">
-				    			<img src="${message.message}" width="100%">
-				    		</div>
-				    	</div>
-				    	now`);
+				    		now
+				    	</div>`);
+					chatDiv.find('img').src(content);
 				}
 			}
+			$("#chat-area-box").append(chatDiv);
 			$("#chat-area-div").scrollTop($("#chat-area-div")[0].scrollHeight);
 		}
 
 		$(function() {
 		    connect();
 		    $("#send-btn").click(sendMessage);
-			$("#chat-input").on("keydown", function(key) {
-				if (key.keyCode == 13) {
-					$("#send-btn").click(sendMessage);
+			$("#chat-input").on("keydown", function(e) {
+				if (e.keyCode == 13 || e.which == 13) {
+					e.preventDefault();
+					sendMessage()
 				}
 			});
 		});
