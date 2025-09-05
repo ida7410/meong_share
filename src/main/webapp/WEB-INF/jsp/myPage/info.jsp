@@ -12,26 +12,26 @@
 	</div>
 	<div>
 		<div class="d-flex mb-3">
-			<h5 class="font-weight-bold col-3 d-flex align-items-center">아이디</h5>
+			<h5 class="font-weight-bold col-3 d-flex align-items-center">ID</h5>
 			<div class="inside-group col-5 p-0">
 				<input type="text" id="id" class="form-control">
-				<button type="button" id="check-dup-btn" class="inside-btn btn btn-info py-1 px-2">중복확인</button>
+				<button type="button" id="check-dup-btn" class="inside-btn btn btn-info py-1 px-2">Duplicate</button>
 			</div>
 			<div id="id-desc" class="small d-flex align-items-center pl-3"></div>
 		</div>
 		
 		<div class="d-flex mb-3">
-			<h5 class="font-weight-bold col-3 d-flex align-items-center">닉네임</h5>
+			<h5 class="font-weight-bold col-3 d-flex align-items-center">Nickname</h5>
 			<input type="text" id="nickname" class="form-control col-5">
 		</div>
 		
 		<div class="d-flex mb-3">
-			<h5 class="font-weight-bold col-3 d-flex align-items-center">이름</h5>
+			<h5 class="font-weight-bold col-3 d-flex align-items-center">Name</h5>
 			<input type="text" id="name" class="form-control col-5">
 		</div>
 		
 		<div class="d-flex mb-3">
-			<h5 class="font-weight-bold col-3 d-flex align-items-center">전화번호</h5>
+			<h5 class="font-weight-bold col-3 d-flex align-items-center">Phonenumber</h5>
 			<div class="d-flex justify-content-between col-5 p-0 ">
 				<select id="phone-number-first" class="form-control col-3 mr-2">
 					<option selected>010</option>
@@ -44,26 +44,26 @@
 		</div>
 		
 		<div class="d-flex mb-3">
-			<h5 class="font-weight-bold col-3 d-flex align-items-center">이메일</h5>
+			<h5 class="font-weight-bold col-3 d-flex align-items-center">Email</h5>
 			<div class="inside-group col-5 p-0">
 				<input type="text" id="email" name="email" class="form-control">
-				<button type="button" id="send-code-btn" class="inside-btn btn btn-info py-1 px-2">인증하기</button>
+				<button type="button" id="send-code-btn" class="inside-btn btn btn-info py-1 px-2">Verify</button>
 			</div>
 			<div id="email-desc" class="small d-flex align-items-center pl-3"></div>
 		</div>
 		
 		<div class="d-flex mb-3">
-			<h5 class="font-weight-bold col-3 d-flex align-items-center">이메일 인증번호</h5>
+			<h5 class="font-weight-bold col-3 d-flex align-items-center">Verification Code</h5>
 			<div class="inside-group col-5 p-0">
 				<input type="text" id="email-check" name="email-check" class="form-control" disabled>
-				<button type="button" id="email-check-btn" class="inside-btn btn btn-info py-1 px-2" disabled>확인</button>
+				<button type="button" id="email-check-btn" class="inside-btn btn btn-info py-1 px-2" disabled>Check</button>
 			</div>
 			<div id="email-check-desc" class="small d-flex align-items-center pl-3"></div>
 		</div>
 		
 				
 	</div>
-	<button id="update-info-btn" type="button" class="btn btn-primary form-control mt-4">저장</button>
+	<button id="update-info-btn" type="button" class="btn btn-primary form-control mt-4">Save</button>
 </div>
 
 <script>
@@ -92,7 +92,7 @@
 	        $("#id-desc").removeClass("text-success");
 			
 			if (id.length < 4) {
-				$("#id-desc").text("아이디를 4자 이상 입력해주세요.");
+				$("#id-desc").text("Please type more than 4 characters for ID.");
 				$("#id-desc").addClass("text-danger");
 				
 				idChecked = false;
@@ -100,7 +100,7 @@
 			}
 			
 			if (!idChecked) {
-				$("#id-desc").text("아이디 중복 확인을 실행해주세요.");
+				$("#id-desc").text("Please check duplicates of ID.");
 				$("#id-desc").addClass("text-danger");
 				
 				idChecked = false;
@@ -121,7 +121,7 @@
 					if (data.code == 200) {
 						duplicateId = data.isDuplicateId;
 						if (!duplicateId){
-							$("#id-desc").text("사용 가능한 아이디입니다.");
+							$("#id-desc").text("Available ID");
 							$("#id-desc").removeClass("text-danger");
 							$("#id-desc").addClass("text-success");
 							
@@ -133,7 +133,7 @@
 					}
 				}
 				,error:function(request, status, error) {
-					alert("아이디 중복 확인에 실패했습니다. 관리자에게 문의해주세요.")
+					alert("Unable to check ID duplicates. Please contact through Customer service.")
 				}
 			})
 		});
@@ -151,16 +151,16 @@
 			
 			if (loginId) {
 				if (duplicateId) {
-					alert("아이디 중복 확인을 실행해주세요.");
+					alert("Please check duplicates of ID.");
 					return;
 				}
 				if (!idChecked) {
-					alert("사용 불가능한 아이디입니다.");
+					alert("This ID is not usable.");
 					return;
 				}
 			}
 			if ((phoneNumberSecond && !phoneNumberThird) || (!phoneNumberSecond && phoneNumberThird)) {
-				alert("전화번호를 입력해주세요.");
+				alert("Please type Phonenumber");
 				return;
 			}
 			
@@ -170,13 +170,12 @@
 			
 			let formData = new FormData();
 			formData.append("loginId", loginId);
-			formData.append("password", password);
 			formData.append("nickname", nickname);
 			formData.append("name", name);
 			formData.append("phoneNumber", phoneNumber);
 			formData.append("email", email);
 			formData.append("profileImageFile", $("#profileImageFile")[0].files[0]);
-			
+			console.log("here");
 			$.ajax({
 				type:"post"
 				,url:"/user/update"
@@ -187,7 +186,7 @@
 				
 				,success:function(data) {
 					if (data.code == 200) {
-						alert("회원 정보 수정에 성공했습니다.");
+						alert("Successfully saved the change.");
 						location.reload();
 					}
 					else {

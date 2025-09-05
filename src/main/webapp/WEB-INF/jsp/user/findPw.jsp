@@ -3,27 +3,27 @@
 
 <div class="p-4 d-flex justify-content-center w-100">
 	<div id="find-pw-box" class="col-3 pb-5">
-		<h2 class="text-center font-weight-bold mt-5 mb-4">비밀번호 찾기</h2>
+		<h2 class="text-center font-weight-bold mt-5 mb-4">Find Password</h2>
 		
-		<h5 class="font-weight-bold">아이디</h5>
+		<h5 class="font-weight-bold">ID</h5>
 		<input type="text" id="id" class="form-control">
 	
-		<h5 class="font-weight-bold mt-3">이메일</h5>
+		<h5 class="font-weight-bold mt-3">Email</h5>
 		<input type="text" id="email" class="form-control">
 	
-		<button id="find-pw-btn" type="button" class="btn btn-primary form-control mt-4 my-2">아이디 찾기</button>
+		<button id="find-pw-btn" type="button" class="btn btn-primary form-control mt-4 my-2">Find My Password</button>
 	</div>
 	
 	<div id="check-code-box" class="col-3 pb-5 d-none">
-		<h2 class="text-center font-weight-bold mt-5 mb-4">비밀번호 찾기</h2>
+		<h2 class="text-center font-weight-bold mt-5 mb-4">Find Password</h2>
 		
 		<div class="mt-3">
-			<h5 class="font-weight-bold mt-3">인증번호</h5>
+			<h5 class="font-weight-bold mt-3">Verification Code</h5>
 			<input type="text" id="code" class="form-control">
-			<small id="code-desc">인증번호가 전송되었습니다.</small>
+			<small id="code-desc">The code has been sent.</small>
 		</div>
 	
-		<button id="check-code-btn" type="button" class="btn btn-primary form-control mt-4 my-2">인증번호 확인</button>
+		<button id="check-code-btn" type="button" class="btn btn-primary form-control mt-4 my-2">Check</button>
 	</div>
 	
 </div>
@@ -38,11 +38,11 @@
 			let email = $("#email").val().trim();
 			
 			if (!id) {
-				alert("아이디를 입력해주세요.");
+				alert("Please enter your ID.");
 				return;
 			}
 			if (!email) {
-				alert("이메일을 입력해주세요.");
+				alert("Please enter your Email.");
 				return;
 			}
 			
@@ -63,7 +63,7 @@
 					}
 				}
 				,error:function(request, status, error) {
-					alert("비밀번호 찾기에 실패했습니다. 관리자에게 문의해주세요.");
+					alert("Failed to find user. Please contact through Customer service.");
 				}
 			})
 		});
@@ -71,12 +71,12 @@
 		$("#check-code-btn").on("click", function() {
 			let code = $("#code").val();
 			if (!code) {
-				alert("인증번호를 입력해주세요.")
+				alert("Please enter the code.")
 				return;
 			}
 			
 			if(code != randomChar) {
-				$("#code-desc").val("인증번호가 일치하지 않습니다.")
+				$("#code-desc").val("Verification code does not match.")
 				return;
 			}
 			
@@ -86,9 +86,12 @@
 				,data:{"id":id}
 				,success:function(data) {
 					if (data.code == 200) {
-						alert("임시 비밀번호가 발급되었습니다. 다시 로그인 후 비밀번호를 업데이트해주세요.");
+						alert("Your new temporary password has been sent. Please Log in again and update the password.");
 						location.href = "/log-in";
 					}
+				}
+				,error:function(request, status, error) {
+					alert("Failed to create temporary password. Please contact through Customer service.");
 				}
 			})
 			

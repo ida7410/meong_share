@@ -27,7 +27,7 @@ public class UserController {
 	@GetMapping("/log-in")
 	public String logIn(Model model) {
 		model.addAttribute("viewName", "user/logIn");
-		model.addAttribute("title", "로그인 / ");
+		model.addAttribute("title", "Log-in / ");
 		return "template/layout";
 	}
 	
@@ -39,7 +39,7 @@ public class UserController {
 	@GetMapping("/sign-up")
 	public String signUp(Model model) {
 		model.addAttribute("viewName", "user/signUp");
-		model.addAttribute("title", "회원가입 / ");
+		model.addAttribute("title", "Sign Up / ");
 		return "template/layout";
 	}
 	
@@ -53,7 +53,7 @@ public class UserController {
 			HttpServletRequest request,
 			HttpServletResponse response,
 			HttpSession session) {
-		// session의 내용을 모두 비운다.
+		// empty all session
 		session.removeAttribute("userId");
 		session.removeAttribute("userLoginId");
 		session.removeAttribute("userNickame");

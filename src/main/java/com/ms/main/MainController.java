@@ -79,7 +79,7 @@ public class MainController {
 		List<Product> recommendProductList = productBO.getThreeRandomProductList();
 		
 		model.addAttribute("viewName", "main/main");
-		model.addAttribute("title", "홈 / ");
+		model.addAttribute("title", "Home / ");
 		model.addAttribute("recentProductList", recentProductList);
 		model.addAttribute("recommendProductList", recommendProductList);
 		return "template/layout";
@@ -132,7 +132,7 @@ public class MainController {
 		List<Product> recentViewProductList = mainBO.getRecentViewProductIdList(request);
 		
 		model.addAttribute("viewName", "product/productSearch");
-		model.addAttribute("title", "검색 / ");
+		model.addAttribute("title", "Search / ");
 		model.addAttribute("keyword", keyword);
 		if (keyword != null) { // if keyword exists make keyword parameter		
 			model.addAttribute("keywordParam", "keyword=" + keyword + "&");
@@ -153,7 +153,7 @@ public class MainController {
 	@GetMapping("/add-product")
 	public String addProduct(Model model) {
 		model.addAttribute("viewName", "product/productCreate");
-		model.addAttribute("title", "물품 등록 / ");
+		model.addAttribute("title", "Upload Product / ");
 		return "template/layout";
 	}
 	
@@ -165,7 +165,7 @@ public class MainController {
 	@GetMapping("/map")
 	public String map(Model model) {
 		model.addAttribute("viewName", "map/map");		
-		model.addAttribute("title", "지도 / ");		
+		model.addAttribute("title", "Map / ");
 		return "template/layout";
 	}
 	
@@ -199,7 +199,7 @@ public class MainController {
 		mainBO.setCookieList(request, response, "productList", productId + "");
 		
 		model.addAttribute("viewName", "product/productInfo");
-		model.addAttribute("title", "물품 정보: " + card.getProduct().getName() + " / ");
+		model.addAttribute("title", "Info : " + card.getProduct().getName() + " / ");
 		model.addAttribute("card", card);
 		model.addAttribute("recommendProductList", recommendProductList);
 		return "template/layout";
@@ -244,7 +244,7 @@ public class MainController {
 		List<Card> cardList = mainBO.getCardByUserLoginIdOrKeyword(userLoginId, null, (int)page, cri, false);
 		
 		model.addAttribute("viewName", "user/userInfo");
-		model.addAttribute("title", "사용자 정보 : " + user.getNickname() + " / ");
+		model.addAttribute("title", "User Info : " + user.getNickname() + " / ");
 		model.addAttribute("cardList", cardList);
 		model.addAttribute("page", page);
 		model.addAttribute("pm", pm);
@@ -340,8 +340,8 @@ public class MainController {
 		// get chat card (has chat message list in it)
 		ChatCard cc = mainBO.getChatCard(chatListId);
 		
-		model.addAttribute("viewName", "wsChat/chatList");
-		model.addAttribute("title", "채팅 / ");
+		model.addAttribute("viewName", "chat/chatList");
+		model.addAttribute("title", "Chat / ");
 		model.addAttribute("chatListCardList", clcList);
 		model.addAttribute("chatListId", chatListId);
 		model.addAttribute("chatCard", cc);
@@ -368,7 +368,7 @@ public class MainController {
 		String userProfileImagePath = user.getProfileImagePath();
 		
 		model.addAttribute("viewName", "myPage/myPage");
-		model.addAttribute("title", "마이페이지 / ");
+		model.addAttribute("title", "My Page / ");
 		model.addAttribute("userProfileImagePath", userProfileImagePath);
 		return "template/layout";
 	}
@@ -381,7 +381,7 @@ public class MainController {
 	@GetMapping("/find-id")
 	public String findIdView(Model model) {
 		model.addAttribute("viewName", "user/findId");
-		model.addAttribute("title", "아이디 찾기 / ");
+		model.addAttribute("title", "Find ID / ");
 		return "template/layout";
 	}
 	
@@ -393,7 +393,7 @@ public class MainController {
 	@GetMapping("/find-pw")
 	public String findPwView(Model model) {
 		model.addAttribute("viewName", "user/findPw");
-		model.addAttribute("title", "비밀번호 찾기 / ");
+		model.addAttribute("title", "Find PW / ");
 		return "template/layout";
 	}
 	

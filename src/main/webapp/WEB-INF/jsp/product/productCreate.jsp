@@ -3,7 +3,7 @@
 
 <div class="p-4 d-flex justify-content-center w-100">
 	<div class="col-7">
-		<h2 class="text-center font-weight-bold my-5">상품 등록</h2>
+		<h2 class="text-center font-weight-bold my-5">Upload Post</h2>
 
 		<div class="d-flex">
 
@@ -19,16 +19,16 @@
 			
 			<!-- basic info -->
 			<div class="col-6">
-				<h5 class="font-weight-bold">제목</h5>
+				<h5 class="font-weight-bold">Title</h5>
 				<input type="text" id="name" class="form-control">
 				
-				<h5 class="font-weight-bold mt-3">제조업체</h5>
+				<h5 class="font-weight-bold mt-3">Company</h5>
 				<input type="text" id="company" class="form-control">
 				
-				<h5 class="font-weight-bold mt-3">가격</h5>
+				<h5 class="font-weight-bold mt-3">Price</h5>
 				<input type="text" id="price" class="form-control">
 				
-				<h5 class="font-weight-bold mt-3">구매일</h5>
+				<h5 class="font-weight-bold mt-3">Bought At</h5>
 				<input type="text" id="boughtDate" class="form-control">
 			</div>
 		</div>
@@ -38,7 +38,7 @@
 			<div id="desc" class="d-flex justify-content-end text-danger">512</div>
 		</div>
 		
-		<button id="create-btn" type="button" class="btn btn-primary form-control mt-2 mb-5">등록하기</button>
+		<button id="create-btn" type="button" class="btn btn-primary form-control mt-2 mb-5">Upload</button>
 	</div>
 </div>
 
@@ -46,8 +46,7 @@
 <script>
 	$(document).ready(function() {
 		$.datepicker.setDefaults({
-            dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'] // 요일을 한글로 변경
-            , dateFormat: 'yy-mm-dd'
+            dateFormat: 'yy-mm-dd'
         });
 		
 		// 오늘 날짜로 이동하는 함수
@@ -84,7 +83,7 @@
 			$("#desc").text(512 - descLen)
 		})
 		
-		$("#create-btn").on("click", async function() {
+		$("#create-btn").on("click", function() {
 			let fileName = $("#productImageFile").val();
 			let name = $("#name").val().trim();
 			let company = $("#company").val().trim();
@@ -170,7 +169,7 @@
 
 					,success:function(data) {
 						if (data.code == 200) {
-							alert("물품 등록에 성공했습니다.");
+							alert("Successfully uploaded your product!");
 							location.href = "/product/" + data.insertedProductId;
 						}
 						else {
@@ -178,7 +177,7 @@
 						}
 					}
 					,error:function(request, status, error) {
-						alert("물품 등록에 실패했습니다. 관리자에게 문의해주세요.");
+						alert("Faield to upload. Please contact through Customer service.");
 					}
 				});
 

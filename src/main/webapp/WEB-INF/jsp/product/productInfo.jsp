@@ -17,14 +17,14 @@
 					<h5 class="pb-3">${card.product.price}원</h5>
 					<h5 class="d-flex align-items-center">
 						<img id="heart" src="/static/img/${card.liked}heart-icon.png" width="15px" class="pointer">
-						&nbsp; 찜 ${card.likeCount}개
+						&nbsp; Like ${card.likeCount}개
 					</h5>
 				</div>
 				
 				<div class="ml-5">
 					<h5><a href="/user/${card.user.loginId}">${card.user.nickname}</a></h5>
-					<span>추천 횟수: ${card.recommendCount}</span><br>
-					<span>거래 횟수: ${card.tradeCount}</span>
+					<span>Recommended : ${card.recommendCount}</span><br>
+					<span>Trades : ${card.tradeCount}</span>
 				</div>
 			</div>
 			
@@ -33,14 +33,14 @@
 			<div class="pb-4">
 				<fmt:parseDate value="${card.product.boughtDate}" pattern="yyyy-MM-dd" var="boughtDateParse" />
 				<fmt:formatDate value="${boughtDateParse}" pattern="yyyy년 MM월 dd일" var="boughtDate" />
-				구매일: ${boughtDate}
+				Bought At: ${boughtDate}
 				<br>
 				<fmt:formatDate value="${card.product.createdAt}" pattern="yyyy년 MM월 dd일" var="createdAt" />
-				업로드: ${createdAt}
+				Uploaded At: ${createdAt}
 			</div>
 			
 			<c:if test="${userId ne card.user.id}">
-			<button type="button" id="start-chat-btn" class="btn btn-primary">문의하기</button>
+			<button type="button" id="start-chat-btn" class="btn btn-primary">Chat</button>
 			</c:if>
 		</div>
 	</div>
@@ -77,7 +77,7 @@
 					}
 				}
 				,error:function(request, status, error) {
-					alert("채팅방 생성에 실패했습니다. 관리자에게 문의해주세요.");
+					alert("Failed to create a chat. Please contact through Customer service.");
 				}
 			})
 		});
@@ -86,7 +86,7 @@
 			let productId = ${card.product.id};
 			
 			if (completed) {
-				alert("이미 상품 거래가 완료되었습니다.");
+				alert("This product has already been sold.");
 				return;
 			}
 			
@@ -107,7 +107,7 @@
 					}
 				}
 				,error:function(request, status, error) {
-					alert("찜에 실패했습니다. 관리자에게 문의해주세요.");
+					alert("Failed to like the post. Please contact through Customer service.");
 				}
 			});
 		});
