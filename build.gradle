@@ -50,6 +50,12 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
     implementation 'com.google.cloud:google-cloud-storage:2.54.0'
     implementation 'com.google.cloud.sql:mysql-socket-factory-connector-j-8:1.10.0'
+	// Required WebSocket dependencies
+	implementation 'org.springframework:spring-messaging'
+	implementation 'org.springframework:spring-websocket'
+
+	// SockJS client (for the /info endpoint and fallback transports)
+	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 }
 
 tasks.named('test') {

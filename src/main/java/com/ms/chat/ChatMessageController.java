@@ -21,7 +21,7 @@ public class ChatMessageController {
 	@Autowired
 	private UserBO userBO;
 	
-	@MessageMapping("/wsChat/{chatListId}/send")
+	@MessageMapping("/ws-chat/{chatListId}/send")
 	@SendTo("/topic/chat/{chatListId}")
 	public ChatMessage sendWS(
 			@DestinationVariable Integer chatListId, 

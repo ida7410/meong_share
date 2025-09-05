@@ -250,10 +250,10 @@
 		    const imageUrl = uploadResult.imageUrl;
 
 		    const msg = {
-				content: imageUrl,
+				message: imageUrl,
 				type: "image"
 		    };
-			stompClient.send(`/app/wsChat/${chatListId}/send`, {}, JSON.stringify(msg));
+			stompClient.send(`/app/ws-chat/${chatListId}/send`, {}, JSON.stringify(msg));
 			
 			// Close modal and reset input
 			$("#modal").modal("hide");
@@ -262,18 +262,24 @@
 		});
 		
 		
-		$("#chat-input").on("keydown", function(key) {
-			if (key.keyCode == 13) {
-				$("#send-btn").click();
-			}
-		});
+		// $("#chat-input").on("keydown", function(key) {
+		// 	if (key.keyCode == 13) {
+		// 		$("#send-btn").click(sendMessage);
+		// 	}
+		// });
 		
 		let stompClient = null;
 
 		function connect() {
 		    let socket = new SockJS('/ws-chat');
 		    stompClient = Stomp.over(socket);
-		    stompClient.connect({}, function(frame) {
+
+			// Send userId as connection header
+			let connectHeaders = {
+				'userId': `${userId}`  // Make sure you have userId available in your JSP
+			};
+
+		    stompClient.connect(connectHeaders, function(frame) {
 		        console.log("Connected: " + frame);
 
 		        // subscribe only to this room
@@ -289,13 +295,14 @@
 		        content: message,
 		        type: "message"
 		    };
-		    stompClient.send('/app/wsChat/' + chatListId + '/send', {}, JSON.stringify(msg));
+		    stompClient.send('/app/ws-chat/' + chatListId + '/send', {}, JSON.stringify(msg));
 		}
 
 		function showMessage(message) {
 			if (message.senderId == ${userId}) {				
 				if (message.type == "message") {
 				    $("#chat-area-div").append(`
+				    	now
 				    	<div class="chat-area d-flex align-items-end justify-content-end pb-2 pr-3">
 				    		<div class="chat my-chat p-2 px-3 ml-2 d-flex align-items-center">
 				    			${message.content}
@@ -304,29 +311,32 @@
 				}
 				else if (message.type == "image") {
 				    $("#chat-area-div").append(`
+				    	now
 				    	<div class="chat-area d-flex align-items-end justify-content-end pb-2 pr-3">
 				    		<div class="chat my-chat p-2 px-3 ml-2 d-flex align-items-center">
 				    			<img src="${message.content}" width="100%">
 				    		</div>
-				    	</div>`);				
+				    	</div>`);
 				}
 			}
-			else {				
+			else {
 				if (message.type == "message") {
 				    $("#chat-area-div").append(`
-				    	<div class="chat-area d-flex align-items-end justify-content-end pb-2 pr-3">
+				    	<div class="chat-area d-flex align-items-end pb-2">
 				    		<div class="chat received-chat p-2 px-3 mr-2 d-flex align-items-center">
-				    			${message.content}
+				    			${message.message}
 				    		</div>
-				    	</div>`);				
+				    	</div>
+				    	now`);
 				}
 				else if (message.type == "image") {
 				    $("#chat-area-div").append(`
-				    	<div class="chat-area d-flex align-items-end justify-content-end pb-2 pr-3">
+				    	<div class="chat-area d-flex align-items-end pb-2">
 				    		<div class="chat received-chat p-2 px-3 mr-2 d-flex align-items-center">
-				    			<img src="${message.content}" width="100%">
+				    			<img src="${message.message}" width="100%">
 				    		</div>
-				    	</div>`);				
+				    	</div>
+				    	now`);
 				}
 			}
 			$("#chat-area-div").scrollTop($("#chat-area-div")[0].scrollHeight);
@@ -335,6 +345,11 @@
 		$(function() {
 		    connect();
 		    $("#send-btn").click(sendMessage);
+			$("#chat-input").on("keydown", function(key) {
+				if (key.keyCode == 13) {
+					$("#send-btn").click(sendMessage);
+				}
+			});
 		});
 
 	});
