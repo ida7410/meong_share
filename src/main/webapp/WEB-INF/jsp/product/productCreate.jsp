@@ -161,7 +161,7 @@
 
 				$.ajax({
 					type: "post"
-					, url: "/product/create"
+					, url: "/product/createGcs"
 					, data: formData
 					, enctype: "multipart/form-data"
 					, processData: false

@@ -7,7 +7,7 @@ WORKDIR /app
 
 # Copy the Gradle configuration files and source code
 # The Gradle Wrapper files are needed to run the build command
-COPY gradlew gradlew.bat build.gradle settings.gradle .
+COPY gradlew gradlew.bat build.gradle settings.gradle ./
 COPY gradle ./gradle
 COPY src ./src
 
