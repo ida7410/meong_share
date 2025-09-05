@@ -83,14 +83,14 @@
 			$("#desc").text(512 - descLen)
 		})
 		
-		$("#create-btn").on("click", function() {
+		$("#create-btn").on("click", async function () {
 			let fileName = $("#productImageFile").val();
 			let name = $("#name").val().trim();
 			let company = $("#company").val().trim();
 			let price = $("#price").val().trim();
 			let boughtDate = $("#boughtDate").val().trim();
 			let description = $("#description").val().trim();
-			
+
 			if (!fileName) {
 				alert("파일을 선택해주세요.");
 				return;
@@ -160,24 +160,23 @@
 				formData.append("description", description);
 
 				$.ajax({
-					type:"post"
-					,url:"/product/createGcs"
-					,data:formData
-					,enctype:"multipart/form-data"
-					,processData:false
-					,contentType:false
+					type: "post"
+					, url: "/product/create"
+					, data: formData
+					, enctype: "multipart/form-data"
+					, processData: false
+					, contentType: false
 
-					,success:function(data) {
+					, success: function (data) {
 						if (data.code == 200) {
 							alert("Successfully uploaded your product!");
 							location.href = "/product/" + data.insertedProductId;
-						}
-						else {
+						} else {
 							alert(data.error_message);
 						}
 					}
-					,error:function(request, status, error) {
-						alert("Faield to upload. Please contact through Customer service.");
+					, error: function (request, status, error) {
+						alert("Failed to upload. Please contact through Customer service.");
 					}
 				});
 

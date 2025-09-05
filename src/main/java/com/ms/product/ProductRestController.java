@@ -45,7 +45,7 @@ public class ProductRestController {
 			@RequestParam("name") String name, 
 			@RequestParam("company") String company, 
 			@RequestParam("price") int price,
-			@RequestParam("productImageFile") MultipartFile productImageFile, 
+			@RequestParam("productImageFile") String productImageFile,
 			@RequestParam("description") String description, 
 			@RequestParam("boughtDate") String boughtDate,
 			HttpSession session) {
