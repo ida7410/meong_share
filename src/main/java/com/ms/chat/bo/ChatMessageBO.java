@@ -36,11 +36,11 @@ public class ChatMessageBO {
      */
 	public void addChatMessage(int chatListId, int userId, String message, String userLoginId, MultipartFile file, String type) {
 		
-		if (type.equals("image")) { // if type is image
-			String imagePath = fileManagerService.saveFile(file, userLoginId, type);
-			chatMessageMapper.insertChatMessageImage(chatListId, userId, imagePath, type);
-		}
-		else if (type.equals("message")) { // if type is just text message
+//		if (type.equals("image")) { // if type is image
+//			String imagePath = fileManagerService.saveFile(file, userLoginId, type);
+//			chatMessageMapper.insertChatMessageImage(chatListId, userId, message, type);
+//		}
+		 if (type.equals("message") || type.equals("image")) { // if type is just text message
 			chatMessageMapper.insertChatMessage(chatListId, userId, message, type);
 		}
 		else { // if type is end trade request

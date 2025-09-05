@@ -21,18 +21,18 @@ public class FileManagerService {
 //    public static final String FILE_UPLOAD_PATH = "D:\\hyeonbeen\\6_spring project\\MEONGSHARE\\ms_workspace/images/";
 
     public String saveFile(MultipartFile file, String key, String type) {
-        // directory name: {loginId}_{current time in milli sec}
+        // directory name: {type}/{key}
         String directoryName = type + "/" + key;
         
-        // file path: ...MEONGSHARE\\ms_workspace/images/{loginId}_{current time in milli sec}
+        // file path: ...MEONGSHARE\\ms_workspace/images/{type}/{key}
         String filePath = FILE_UPLOAD_PATH + directoryName;
         
         // create directory
         File directory = new File(filePath);
-        if (!directory.mkdir()) { // if failed
+        if (!directory.exists() && !directory.mkdir()) { // if failed
             return null;
         }
-        
+
         try {
             byte[] bytes = file.getBytes();
 			

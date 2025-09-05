@@ -228,14 +228,14 @@
 		});
 
 		$("#chat-image-send-btn").on("click", async function() {
-		    const file = event.target.files[0];
+		    const file = $("#chat-image")[0].files[0];
 		    if (!file) return;
 		    let ext = file.name.split('.').pop();
 			let formData = new FormData();
 			formData.append("file", file);
 			formData.append("key", `${userLoginId}`);
 			formData.append("ext", ext);
-			formData.append("type", "product-images");
+			formData.append("type", "chat-images");
 
 			const uploadResponse = await fetch("/uploadToLocal", {
 				method: "POST",
@@ -310,7 +310,6 @@
 					chatDiv = $(`
 				    	<div class="chat-area d-flex align-items-end pb-2">
 				    		<div class="chat received-chat p-2 px-3 mr-2 d-flex align-items-center">
-				    			${content}
 				    		</div>
 				    		now
 				    	</div>`);
@@ -323,7 +322,7 @@
 				    	<div class="chat-area d-flex align-items-end justify-content-end pb-2 pr-3">
 				    		now
 				    		<div class="chat my-chat p-2 px-3 ml-2 d-flex align-items-center">
-				    			<img src="${content}" width="100%">
+				    			<img class="chat-img" width="100%">
 				    		</div>
 				    	</div>`);
 				}
@@ -331,12 +330,12 @@
 					chatDiv = $(`
 				    	<div class="chat-area d-flex align-items-end pb-2">
 				    		<div class="chat received-chat p-2 px-3 mr-2 d-flex align-items-center">
-				    			<img src="${content}" width="100%">
+				    			<img class="chat-img" width="100%">
 				    		</div>
 				    		now
 				    	</div>`);
-					chatDiv.find('img').src(content);
 				}
+				chatDiv.find('.chat').find('.chat-img').attr('src', content);
 			}
 			$("#chat-area-box").append(chatDiv);
 			$("#chat-area-div").scrollTop($("#chat-area-div")[0].scrollHeight);

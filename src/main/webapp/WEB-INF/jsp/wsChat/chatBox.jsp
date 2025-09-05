@@ -9,7 +9,7 @@
 			<div class="chat-area d-flex align-items-end pb-2">
 				<div class="chat received-chat p-2 px-3 mr-2 d-flex align-items-center">
 					<c:if test="${chatMessage.type == 'image'}">
-						<img src="${chatMessage.imagePath}" width="100%">
+						<img src="${chatMessage.message}" width="100%">
 					</c:if>
 
 					<c:if test="${chatMessage.type == 'message'}">
@@ -40,7 +40,7 @@
 					${createdAt}
 				<div class="chat my-chat p-2 px-3 ml-2 d-flex align-items-center">
 					<c:if test="${chatMessage.type == 'image'}">
-						<img src="${chatMessage.imagePath}" width="100%">
+						<img src="${chatMessage.message}" width="100%">
 					</c:if>
 
 					<c:if test="${chatMessage.type == 'message'}">

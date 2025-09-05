@@ -9,6 +9,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,13 +46,13 @@ public class FileRestController {
         }
     }
 
-//    @GetMapping("/image/{type}/{key}/{filename}")
-//    public ResponseEntity<byte[]> getImage(
-//            @PathVariable String type,
-//            @PathVariable String key,
-//            @PathVariable String filename) {
-//        try {
-//            String objectName = type + "/" + key + "/" + filename;
+    @GetMapping("/image/{type}/{key}/{filename}")
+    public ResponseEntity<byte[]> getImage(
+            @PathVariable String type,
+            @PathVariable String key,
+            @PathVariable String filename) {
+        try {
+            String objectName = type + "/" + key + "/" + filename;
 //            BlobId blobId = BlobId.of(BUCKET_NAME, objectName);
 //            Blob blob = storage.get(blobId);
 //
@@ -57,17 +61,25 @@ public class FileRestController {
 //            }
 //
 //            byte[] content = blob.getContent();
-//
-//            HttpHeaders headers = new HttpHeaders();
-//            headers.setContentType(MediaType.parseMediaType(blob.getContentType()));
-//
-//            return ResponseEntity.ok()
-//                    .headers(headers)
-//                    .body(content);
-//        } catch (Exception e) {
-//            log.error("error: {}", e.getMessage());
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-//        }
-//    }
+
+            Path filePath = Paths.get("/images/" + objectName).resolve(filename);
+            File file = filePath.toFile();
+
+            if (!file.exists() || !file.canRead()) {
+                throw new Exception("");
+            }
+            byte[] content = Files.readAllBytes(filePath);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.parseMediaType(filename.split("\\.")[0]));
+
+            return ResponseEntity.ok()
+                    .headers(headers)
+                    .body(content);
+        } catch (Exception e) {
+            log.error("error: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 
 }
