@@ -340,7 +340,7 @@ public class MainController {
 		// get chat card (has chat message list in it)
 		ChatCard cc = mainBO.getChatCard(chatListId);
 		
-		model.addAttribute("viewName", "chat/chatList");
+		model.addAttribute("viewName", "wsChat/chatList");
 		model.addAttribute("title", "Chat / ");
 		model.addAttribute("chatListCardList", clcList);
 		model.addAttribute("chatListId", chatListId);
