@@ -9,7 +9,7 @@
 	$(document).ready(function() {
 		// let socket = new SockJS('/ws-chat');
 		// let stompClient = Stomp.over(socket);
-		let chatListCardList = ${chatListCardList};
+		let chatListCardJson = ${chatListCardJson};
 
 		<%--function connect() {--%>
 		<%--	let socket = new SockJS('/ws-chat');--%>
@@ -33,13 +33,16 @@
 
 		ChatWebSocketManager.init('${userId}').then(function(stompClient) {
 			// subscribe to all chat rooms
-			chatListCardList.forEach(function (chatListCard) {
+			chatListCardJson.forEach(function (chatListCard, index) {
+				let topicUrl = '/topic/chat/' + chatListCard.cl.id
+				let subscriptionUrl = 'chatList-' + chatListCard.cl.id
+				console.log(subscriptionUrl);
 				ChatWebSocketManager.subscribe(
-						'/topic/chat/' + chatListCard.cl.id,
+						topicUrl,
 						function(message) {
 							updateLatestMessage(chatListCard.cl.id, JSON.parse(message.body));
 						},
-						'chatList-' + chatListCard.cl.id // unique subscription id
+						subscriptionUrl // unique subscription id
 				);
 			});
 		});
@@ -54,7 +57,7 @@
 					messageText = 'photo';
 				} else if (messageData.type === 'endTradeRequest') {
 					messageText = 'End-trade Request';
-				} else if (messageData.message) {
+				} else if (messageData.type === 'message') {
 					if (messageData.message.length > 28) {
 						messageText = messageData.message.substring(0, 28) + '...';
 					} else {
@@ -84,7 +87,7 @@
 				</div>
 				<div class="col-9">
 					<h5 class="font-weight-bold">${chatListCard.product.name}</h5>
-					<h6>
+					<h6 class="latest-cm">
 						<c:if test="${chatListCard.latestCM.type == 'image'}">
 							photo
 						</c:if>

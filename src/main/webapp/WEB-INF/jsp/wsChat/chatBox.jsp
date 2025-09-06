@@ -171,9 +171,19 @@
 						let messageData = JSON.parse(message.body);
 						showMessage(messageData);
 					},
-					'chatBox-${chstListId}'
+					'chatBox-${chatListId}'
 			);
 		});
+
+		function sendMessage() {
+			let message = $("#chat-input").val().trim();
+			let msg = {
+				message: message,
+				type: "message"
+			};
+			ChatWebSocketManager.send('/app/ws-chat/' + chatListId + '/send', {}, JSON.stringify(msg));
+			$("#chat-input").val("");
+		}
 
 		$(".chat-product-img-box").on("click", function() {
 			location.href = "/product/" + ${chatCard.product.id}
@@ -262,16 +272,6 @@
 			$("#chat-image").val('');
 			selectedFile = null;
 		});
-
-		function sendMessage() {
-			let message = $("#chat-input").val().trim();
-			let msg = {
-				message: message,
-				type: "message"
-			};
-			ChatWebSocketManager.send('/app/ws-chat/' + chatListId + '/send', {}, JSON.stringify(msg));
-			$("#chat-input").val("");
-		}
 
 		function showMessage(message) {
 			let content = message.message
