@@ -50,6 +50,7 @@
 		function updateLatestMessage(chatListId, messageData) {
 			let chatListElement = $(`.chat-list[data-chat-list-id="${chatListId}"]`);
 			if (chatListElement.length > 0) {
+				$(".chat-list-box").prepend(chatListElement)
 				let latestCmElement = chatListElement.find('.latest-cm');
 				let messageText = '';
 
