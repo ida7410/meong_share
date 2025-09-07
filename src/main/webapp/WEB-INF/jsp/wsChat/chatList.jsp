@@ -119,10 +119,10 @@
 				<img src="" id="preview" class="crop-img" width="100%">
 			</div>
 			<div class="border-bottom py-3">
-				<div id="chat-image-send-btn" class="pointer">전송</div>
+				<div id="chat-image-send-btn" class="pointer">Send</div>
 			</div>
 			<div class="py-3">
-				<div data-dismiss="modal" class="pointer">취소</div>
+				<div data-dismiss="modal" class="pointer">Cancel</div>
 			</div>
 		</div>
 	</div>

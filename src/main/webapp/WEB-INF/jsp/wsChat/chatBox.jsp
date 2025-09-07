@@ -27,7 +27,7 @@
 				</h6>
 
 				<c:if test="${userId == chatCard.product.ownerId && chatCard.product.completed == false}">
-					<button type="button" id="end-trade-btn" class="btn btn-primary">거래완료</button>
+					<button type="button" id="end-trade-btn" class="btn btn-primary">Complete Trade</button>
 				</c:if>
 			</div>
 		</div>
@@ -49,8 +49,8 @@
 								<c:if test="${chatMessage.type == 'endTradeRequest'}">
 									<c:if test="${chatCard.product.completed == false}">
 										<div>
-											Complete This Trade?<br>
-											<button type="button" class="complete-trade-btn form-control mt-1  btn btn-primary">거래 완료</button>
+											Do you want to complete this trade?<br>
+											<button type="button" class="complete-trade-btn form-control mt-1  btn btn-primary">Compelte Trade</button>
 										</div>
 									</c:if>
 
@@ -101,7 +101,7 @@
 										How was it? Do you want to recommend ${chatCard.owner.nickname}?
 										<br>
 										<div class="mt-2">
-											<button type="button" id="recommend" class="btn btn-primary">추천하기</button>
+											<button type="button" id="recommend" class="btn btn-primary">Recommend</button>
 										</div>
 									</c:if>
 
@@ -134,13 +134,13 @@
 			</div>
 			<input type="text" id="chat-input" class="form-control border-left-0">
 			<div class="input-group-append border rounded-right">
-				<button type="button" id="send-btn" class="btn btn-light">전송</button>
+				<button type="button" id="send-btn" class="btn btn-light">send</button>
 			</div>
 		</div>
 	</c:if>
 
 	<c:if test="${empty chatListCardList}">
-		<h2 class="text-center py-5 text-secondary">채팅이 없습니다.</h2>
+		<h2 class="text-center py-5 text-secondary">There is no chat.</h2>
 	</c:if>
 </div>
 
@@ -156,7 +156,7 @@
 		let selectedFile = null;
 
 		if (completed) {
-			$("#chat-input").attr("placeholder", "거래가 완료되어 채팅이 불가능합니다.");
+			$("#chat-input").attr("placeholder", "It is impossible to chat since the trade has been completed.");
 			$("#chat-input").attr("disabled", true);
 			$("#chat-image-send-btn").prop("disabled", true);
 			$("#send-btn").prop("disabled", true);
@@ -209,7 +209,7 @@
 					}
 				}
 				,error:function(request, status, error) {
-					alert("사용자 추천에 실패했습니다. 관리자에게 문의해주세요.");
+					alert("Failed to recommend user. Please contact through Customer service.");
 				}
 			})
 		});
@@ -376,7 +376,7 @@
 						ChatWebSocketManager.send('/app/ws-chat/' + chatListId + '/send', {}, JSON.stringify(msg));
 
 						$("#chat-input").val("");
-						alert("거래를 완료했습니다.");
+						alert("You have completed the trade!");
 						location.reload();
 					}
 					else {
@@ -384,7 +384,7 @@
 					}
 				}
 				,error:function(request, status, error) {
-					alert("거래 완료 신청에 실패했습니다. 관리자에게 문의해주세요.")
+					alert("Failed to complete the trade. Please contact through Customer service.")
 				}
 			});
 		});
