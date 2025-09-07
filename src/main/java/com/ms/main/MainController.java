@@ -2,6 +2,9 @@ package com.ms.main;
 
 import java.util.List;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,6 +30,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
+@Slf4j
 @Controller
 public class MainController {
 	
@@ -336,13 +340,23 @@ public class MainController {
 		
 		// get chat list which user has
 		List<ChatListCard> clcList = mainBO.getChatListCardList(userId);
-		
+		// convert to json for js
+		ObjectMapper objectMapper = new ObjectMapper();
+		String clcJson = "[]"; // fallback
+
+		try {
+			clcJson = objectMapper.writeValueAsString(clcList);
+		} catch (JsonProcessingException e) {
+			log.error("Failed to convert chatListCardList to JSON", e);
+		}
+
 		// get chat card (has chat message list in it)
 		ChatCard cc = mainBO.getChatCard(chatListId);
 		
 		model.addAttribute("viewName", "wsChat/chatList");
 		model.addAttribute("title", "Chat / ");
 		model.addAttribute("chatListCardList", clcList);
+		model.addAttribute("chatListCardJson", clcJson);
 		model.addAttribute("chatListId", chatListId);
 		model.addAttribute("chatCard", cc);
 		return "template/layout";

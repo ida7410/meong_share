@@ -131,7 +131,7 @@ public class UserBO {
 			profileImagePath = user.getProfileImagePath();
 		}
 		else {
-			profileImagePath = fileManagerService.saveFile(loginId, profileImageFile);
+			profileImagePath = fileManagerService.saveFile(profileImageFile, loginId, "user");
 		}
 		
 		// update user

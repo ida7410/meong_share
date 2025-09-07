@@ -64,60 +64,60 @@ public class ProductRestController {
 		}
 		
 		// insert product
-//		int insertedProductId = productBO.addProduct(ownerId, ownerLoginId, name, company, price,
-//													productImageFile, description, boughtDate);
-		
-		result.put("code", 200);
-		result.put("result", "success");
-//		result.put("insertedProductId", insertedProductId);
-		
-		return result;
-	}
-
-	/***
-	 * Create a product
-	 * @param name
-	 * @param company
-	 * @param price
-	 * @param productImageFile
-	 * @param description
-	 * @param boughtDate
-	 * @param session
-	 * @return
-	 */
-	@PostMapping("/createGcs")
-	public Map<String, Object> createGcs(
-			@RequestParam("name") String name,
-			@RequestParam("company") String company,
-			@RequestParam("price") int price,
-			@RequestParam("productImageFile") String productImageFile,
-			@RequestParam("description") String description,
-			@RequestParam("boughtDate") String boughtDate,
-			HttpSession session) {
-
-		Map<String, Object> result = new HashMap<>();
-
-		// get owner id for checking login status and owner's login id for saving file
-		Integer ownerId = (Integer)session.getAttribute("userId");
-		String ownerLoginId = (String)session.getAttribute("userLoginId");
-
-		// check login status
-		if (ownerId == null) {
-			result.put("code", 300);
-			result.put("error_message", "세션이 만료되었습니다. 다시 로그인해주세요.");
-			return result;
-		}
-
-		// insert product
 		int insertedProductId = productBO.addProduct(ownerId, ownerLoginId, name, company, price,
-				productImageFile, description, boughtDate);
-
+													productImageFile, description, boughtDate);
+		
 		result.put("code", 200);
 		result.put("result", "success");
 		result.put("insertedProductId", insertedProductId);
-
+		
 		return result;
 	}
+//
+//	/***
+//	 * Create a product
+//	 * @param name
+//	 * @param company
+//	 * @param price
+//	 * @param productImageFile
+//	 * @param description
+//	 * @param boughtDate
+//	 * @param session
+//	 * @return
+//	 */
+//	@PostMapping("/createGcs")
+//	public Map<String, Object> createGcs(
+//			@RequestParam("name") String name,
+//			@RequestParam("company") String company,
+//			@RequestParam("price") int price,
+//			@RequestParam("productImageFile") String productImageFile,
+//			@RequestParam("description") String description,
+//			@RequestParam("boughtDate") String boughtDate,
+//			HttpSession session) {
+//
+//		Map<String, Object> result = new HashMap<>();
+//
+//		// get owner id for checking login status and owner's login id for saving file
+//		Integer ownerId = (Integer)session.getAttribute("userId");
+//		String ownerLoginId = (String)session.getAttribute("userLoginId");
+//
+//		// check login status
+//		if (ownerId == null) {
+//			result.put("code", 300);
+//			result.put("error_message", "세션이 만료되었습니다. 다시 로그인해주세요.");
+//			return result;
+//		}
+//
+//		// insert product
+//		int insertedProductId = productBO.addProduct(ownerId, ownerLoginId, name, company, price,
+//				productImageFile, description, boughtDate);
+//
+//		result.put("code", 200);
+//		result.put("result", "success");
+//		result.put("insertedProductId", insertedProductId);
+//
+//		return result;
+//	}
 
 	
 	// ------- UPDATE -------

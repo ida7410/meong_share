@@ -4,6 +4,80 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<script src="/static/js/websocket-manager.js"></script>
+<script>
+	$(document).ready(function() {
+		// let socket = new SockJS('/ws-chat');
+		// let stompClient = Stomp.over(socket);
+		let chatListCardJson = ${chatListCardJson};
+
+		<%--function connect() {--%>
+		<%--	let socket = new SockJS('/ws-chat');--%>
+		<%--	stompClient = Stomp.over(socket);--%>
+
+		<%--	// Send userId as connection header--%>
+		<%--	let connectHeaders = {--%>
+		<%--		'userId': `${userId}`  // Make sure you have userId available in your JSP--%>
+		<%--	};--%>
+
+		<%--	stompClient.connect(connectHeaders, function(frame) {--%>
+		<%--		console.log("Connected: " + frame);--%>
+
+		<%--		chatListCardList.forEach(function (chatListCard) {--%>
+		<%--			stompClient.subscribe('/topic/chat/' + chatListCard.cl.id, function(message) {--%>
+		<%--				showMessage(JSON.parse(message.body));--%>
+		<%--			});--%>
+		<%--		});--%>
+		<%--	});--%>
+		<%--}--%>
+
+		ChatWebSocketManager.init('${userId}').then(function(stompClient) {
+			// subscribe to all chat rooms
+			chatListCardJson.forEach(function (chatListCard, index) {
+				let topicUrl = '/topic/chat/' + chatListCard.cl.id
+				let subscriptionUrl = 'chatList-' + chatListCard.cl.id
+				console.log(subscriptionUrl);
+				ChatWebSocketManager.subscribe(
+						topicUrl,
+						function(message) {
+							updateLatestMessage(chatListCard.cl.id, JSON.parse(message.body));
+						},
+						subscriptionUrl // unique subscription id
+				);
+			});
+		});
+
+		function updateLatestMessage(chatListId, messageData) {
+			let chatListElement = $(`.chat-list[data-chat-list-id="${chatListId}"]`);
+			if (chatListElement.length > 0) {
+				$(".chat-list-box").prepend(chatListElement)
+				let latestCmElement = chatListElement.find('.latest-cm');
+				let messageText = '';
+
+				if (messageData.type === 'image') {
+					messageText = 'photo';
+				} else if (messageData.type === 'endTradeRequest') {
+					messageText = 'End-trade Request';
+				} else if (messageData.type === 'message') {
+					if (messageData.message.length > 28) {
+						messageText = messageData.message.substring(0, 28) + '...';
+					} else {
+						messageText = messageData.message;
+					}
+				}
+
+				latestCmElement.text(messageText);
+			}
+		}
+
+		$(".chat-list").on("click", function() {
+			ChatWebSocketManager.unsubscribe('chatBox-${chatListId}');
+			let getChatListId = $(this).data("chat-list-id");
+			location.href = "/chat/" + getChatListId;
+		})
+	});
+</script>
+
 
 <div class="d-flex">
 	<div class="col-3 chat-list-box p-0 border-right">
@@ -14,7 +88,7 @@
 				</div>
 				<div class="col-9">
 					<h5 class="font-weight-bold">${chatListCard.product.name}</h5>
-					<h6>
+					<h6 class="latest-cm">
 						<c:if test="${chatListCard.latestCM.type == 'image'}">
 							photo
 						</c:if>
@@ -34,57 +108,7 @@
 		</c:forEach>
 	</div>
 
-	<div id="chat-box" class="col-9 px-4 pb-4">
-	<c:if test="${not empty chatListCardList}">
-		<div class="d-flex justify-content-center text-center py-3 border-bottom">
-			<div class="col-2">
-				<div class="chat-product-img-box pointer">
-					<img src="${chatCard.product.imagePath}" class="crop-img" width="100%">
-				</div>
-				<h5 class="font-weight-bold mt-3 mb-2 pointer">
-					<a href="/product/${chatCard.product.id}">
-						${chatCard.product.name}
-					</a>
-				</h5>
-
-				<h6 class="mb-2">
-					<c:if test="${userId == chatCard.product.ownerId}">
-					<a href="/user/${chatCard.buyer.loginId}">${chatCard.buyer.nickname}</a>
-					</c:if>
-
-					<c:if test="${userId != chatCard.product.ownerId}">
-					<a href="/user/${chatCard.owner.loginId}">${chatCard.owner.nickname}</a>
-					</c:if>
-				</h6>
-
-				<c:if test="${userId == chatCard.product.ownerId && chatCard.product.completed == false}">
-				<button type="button" id="end-trade-btn" class="btn btn-primary">거래완료</button>
-				</c:if>
-			</div>
-		</div>
-
-		<div id="chat-area-div">
-			<jsp:include page="chatBox.jsp" />
-		</div>
-
-		<div id="chat-input-box" class="input-group input-group-lg pt-3">
-			<div id="chat-input-prepend" class="input-group-prepend border border-right-0 rounded-left">
-				<button type="button" id="chat-image-btn" class="btn rounded-circle">
-					<img src="/static/img/image.png" width="100%">
-				</button>
-				<input type="file" id="chat-image" class="d-none" accept=".jpg, .jpeg, .gif, .png">
-			</div>
-			<input type="text" id="chat-input" class="form-control border-left-0">
-			<div class="input-group-append border rounded-right">
-				<button type="button" id="send-btn" class="btn btn-light">전송</button>
-			</div>
-		</div>
-	</c:if>
-
-	<c:if test="${empty chatListCardList}">
-	    <h2 class="text-center py-5 text-secondary">채팅이 없습니다.</h2>
-	</c:if>
-	</div>
+	<jsp:include page="chatBox.jsp" />
 </div>
 
 <!-- Modal -->
@@ -95,263 +119,11 @@
 				<img src="" id="preview" class="crop-img" width="100%">
 			</div>
 			<div class="border-bottom py-3">
-				<div id="chat-image-send-btn" class="pointer">전송</div>
+				<div id="chat-image-send-btn" class="pointer">Send</div>
 			</div>
 			<div class="py-3">
-				<div data-dismiss="modal" class="pointer">취소</div>
+				<div data-dismiss="modal" class="pointer">Cancel</div>
 			</div>
 		</div>
 	</div>
 </div>
-
-
-<script>
-	$(document).ready(function() {
-		$('#chat-area-div').scrollTop($('#chat-area-div')[0].scrollHeight);
-		
-		let chatListId = ${chatListId};
-		let completed = ${chatCard.product.completed};
-		let subjectId = ${chatCard.owner.id};
-		let productId = ${chatCard.product.id};
-		
-		if (completed) {
-			$("#chat-input").attr("placeholder", "거래가 완료되어 채팅이 불가능합니다.");
-			$("#chat-input").attr("disabled", true);
-			$("#chat-image-send-btn").prop("disabled", true);
-			$("#send-btn").prop("disabled", true);
-			$("#chat-image-btn").prop("disabled", true);
-		}
-		
-		$(".chat-product-img-box").on("click", function() {
-			location.href = "/product/" + ${chatCard.product.id}
-		})
-		
-		$(".chat-list").on("click", function() {
-			let getChatListId = $(this).data("chat-list-id");
-			location.href = "/chat/" + getChatListId;
-		})
-		
-		$("#end-trade-btn").on("click", function() {
-			let productId = ${chatCard.product.id};
-			
-			let buyerId = ${chatCard.buyer.id};
-			let ownerId = ${chatCard.owner.id};
-			
-			$.ajax({
-				type:"post"
-				,url:"/chat/chatMessage/send"
-				,data:{"chatListId":chatListId, "message":"거래완료신청", "type":"endTradeRequest"}
-				
-				,success:function(data) {
-					if (data.code == 200) {
-						location.reload();
-					}
-					else {
-						alert(data.error_message);
-						if (data.code == 300) {
-							location.href = "/log-in";
-						}
-					}
-				}
-				,error:function(request, status, error) {
-					alert("채팅 전송에 실패했습니다. 관리자에게 문의해주세요.");
-				}
-			});
-		});
-		
-		$(".complete-trade-btn").on("click", function() {
-			let productId = ${chatCard.product.id};
-			console.log(productId)
-			
-			$.ajax({
-				type:"put"
-				,url:"/product/complete/" + productId
-				
-				,success:function(data) {
-					if (data.code == 200) {
-						alert("거래를 완료했습니다.");
-						location.reload();
-					}
-					else {
-						alert(data.error_message)
-					}
-				}
-				,error:function(request, status, error) {
-					alert("거래 완료 신청에 실패했습니다. 관리자에게 문의해주세요.")
-				}
-			})
-		})
-		
-		$("#recommend").on("click", function() {
-			alert("click")
-			
-			$.ajax ({
-				type:"post"
-				,url:"/like"
-				,data:{"subjectId":subjectId, "type":productId}
-				
-				,success:function(data) {
-					if (data.code == 200) {
-						location.reload();
-					}
-					else {
-						alert(data.error_message);
-						if (data.code == 300) {
-							location.href = "/log-in";
-						}
-					}
-				}
-				,error:function(request, status, error) {
-					alert("사용자 추천에 실패했습니다. 관리자에게 문의해주세요.");
-				}
-			})
-		});
-		
-		$("#chat-image-btn").on("click", function() {
-			$("#chat-image").click();
-		})
-		
-		
-		let selectedFile = null;
-
-		// When a file is selected
-		$("#chat-image").on("change", function(event) {
-			selectedFile = event.target.files[0];
-			if (!selectedFile) return;
-		
-		    var reader = new FileReader();
-			reader.onload = function(event){
-				$("#modal #preview").attr("src", event.target.result);
-			};
-			reader.readAsDataURL(selectedFile);
-			$("#modal").modal("show");
-		});
-
-		$("#chat-image-send-btn").on("click", async function() {
-		    const file = event.target.files[0];
-		    if (!file) return;
-		    let ext = file.name.split('.').pop();
-			let formData = new FormData();
-			formData.append("file", file);
-			formData.append("key", `${userLoginId}`);
-			formData.append("ext", ext);
-			formData.append("type", "product-images");
-
-			const uploadResponse = await fetch("/uploadToGcs", {
-				method: "POST",
-				body: formData
-			});
-
-			const uploadResult = await uploadResponse.json();
-			if (uploadResult.code !== 200) {
-				alert("Upload failed: " + uploadResult.error);
-				return;
-			}
-		    const imageUrl = uploadResult.imageUrl;
-
-		    const msg = {
-				message: imageUrl,
-				type: "image"
-		    };
-			stompClient.send(`/app/ws-chat/${chatListId}/send`, {}, JSON.stringify(msg));
-			
-			// Close modal and reset input
-			$("#modal").modal("hide");
-			$("#chat-image").val('');
-			selectedFile = null;
-		});
-
-		let stompClient = null;
-
-		function connect() {
-		    let socket = new SockJS('/ws-chat');
-		    stompClient = Stomp.over(socket);
-
-			// Send userId as connection header
-			let connectHeaders = {
-				'userId': `${userId}`  // Make sure you have userId available in your JSP
-			};
-
-		    stompClient.connect(connectHeaders, function(frame) {
-		        console.log("Connected: " + frame);
-
-		        // subscribe only to this room
-		        stompClient.subscribe('/topic/chat/' + chatListId, function(message) {
-		            showMessage(JSON.parse(message.body));
-		        });
-		    });
-		}
-
-		function sendMessage() {
-			let message = $("#chat-input").val().trim();
-		    let msg = {
-		        message: message,
-		        type: "message"
-		    };
-		    stompClient.send('/app/ws-chat/' + chatListId + '/send', {}, JSON.stringify(msg));
-
-			$("#chat-input").val("");
-		}
-
-		function showMessage(message) {
-			let content = message.message
-			let chatDiv = '';
-			if (message.type == "message") {
-				if (message.senderId == ${userId}) {
-					console.log(content)
-					chatDiv = $(`
-				    	<div class="chat-area d-flex align-items-end justify-content-end pb-2 pr-3">
-				    		now
-				    		<div class="chat my-chat p-2 px-3 ml-2 d-flex align-items-center">
-				    		</div>
-				    	</div>`)
-				}
-				else {
-					chatDiv = $(`
-				    	<div class="chat-area d-flex align-items-end pb-2">
-				    		<div class="chat received-chat p-2 px-3 mr-2 d-flex align-items-center">
-				    			${content}
-				    		</div>
-				    		now
-				    	</div>`);
-				}
-				chatDiv.find('.chat').text(content);
-			}
-			else if (message.type == "image") {
-				if (message.senderId == ${userId}) {
-					chatDiv = $(`
-				    	<div class="chat-area d-flex align-items-end justify-content-end pb-2 pr-3">
-				    		now
-				    		<div class="chat my-chat p-2 px-3 ml-2 d-flex align-items-center">
-				    			<img src="${content}" width="100%">
-				    		</div>
-				    	</div>`);
-				}
-				else {
-					chatDiv = $(`
-				    	<div class="chat-area d-flex align-items-end pb-2">
-				    		<div class="chat received-chat p-2 px-3 mr-2 d-flex align-items-center">
-				    			<img src="${content}" width="100%">
-				    		</div>
-				    		now
-				    	</div>`);
-					chatDiv.find('img').src(content);
-				}
-			}
-			$("#chat-area-box").append(chatDiv);
-			$("#chat-area-div").scrollTop($("#chat-area-div")[0].scrollHeight);
-		}
-
-		$(function() {
-		    connect();
-		    $("#send-btn").click(sendMessage);
-			$("#chat-input").on("keydown", function(e) {
-				if (e.keyCode == 13 || e.which == 13) {
-					e.preventDefault();
-					sendMessage()
-				}
-			});
-		});
-
-	});
-</script>

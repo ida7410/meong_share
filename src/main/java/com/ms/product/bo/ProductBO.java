@@ -29,16 +29,16 @@ public class ProductBO {
      * @param name
      * @param company
      * @param price
-     * @param productImageFile
+     * @param imagePath
      * @param description
      * @param boughtDate
      * @return
      */
 	public int addProduct(int ownerId, String ownerLoginId, String name, String company, int price,
-							String productImageFile, String description, String boughtDate) {
+							String imagePath, String description, String boughtDate) {
 		
 		// save file and get the path of image
-//        String imagePath = fileManagerService.saveFile(ownerLoginId, productImageFile);
+//        String imagePath = fileManagerService.saveFile(productImageFile, ownerLoginId, "product-image");
         
         // make Product temporarily
         Product product = new Product();
@@ -46,7 +46,7 @@ public class ProductBO {
         product.setName(name);
         product.setCompany(company);
         product.setPrice(price);
-		product.setImagePath(productImageFile);
+		product.setImagePath(imagePath);
 		product.setDescription(description);
 		product.setBoughtDate(boughtDate);
         
