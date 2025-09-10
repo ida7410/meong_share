@@ -190,8 +190,6 @@
 		})
 
 		$("#recommend").on("click", function() {
-			alert("click")
-
 			$.ajax ({
 				type:"post"
 				,url:"/like"
@@ -249,7 +247,7 @@
 			formData.append("ext", ext);
 			formData.append("type", "chat-images");
 
-			const uploadResponse = await fetch("/uploadToLocal", {
+			const uploadResponse = await fetch("/uploadToGcs", {
 				method: "POST",
 				body: formData
 			});

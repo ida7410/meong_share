@@ -106,36 +106,33 @@ public class UserBO {
 			int id, String loginId, 
 			String nickname, String name,
 			String phoneNumber, String email,
-			MultipartFile profileImageFile) {
+			String profileImageFile
+	) {
 		
 		User user = userMapper.selectUserById(id);
-		String profileImagePath = null;
-		
+
 		// if given is empty set as og value
-		if (loginId.equals("")) {
+		if (loginId == null || loginId.isEmpty()) {
 			loginId = user.getLoginId();
 		}
-		if (nickname.equals("")) {
+		if (nickname == null || nickname.isEmpty()) {
 			nickname = user.getNickname();
 		}
-		if (name.equals("")) {
+		if (name == null || name.isEmpty()) {
 			name = user.getName();
 		}
-		if (phoneNumber.equals("")) {
+		if (phoneNumber == null || phoneNumber.isEmpty()) {
 			phoneNumber = user.getPhoneNumber();
 		}
-		if (email.equals("")) {
+		if (email == null || email.isEmpty()) {
 			email = user.getEmail();
 		}
 		if (profileImageFile == null) {
-			profileImagePath = user.getProfileImagePath();
+			profileImageFile = user.getProfileImagePath();
 		}
-		else {
-			profileImagePath = fileManagerService.saveFile(profileImageFile, loginId, "user");
-		}
-		
+
 		// update user
-		userMapper.updateUser(id, loginId, nickname, name, phoneNumber, email, profileImagePath);
+		userMapper.updateUser(id, loginId, nickname, name, phoneNumber, email, profileImageFile);
 	}
 	
 }

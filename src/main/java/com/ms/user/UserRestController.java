@@ -363,7 +363,7 @@ public class UserRestController {
 			@RequestParam(value = "name", required = false) String name,
 			@RequestParam(value = "phoneNumber", required = false) String phoneNumber,
 			@RequestParam(value = "email", required = false) String email,
-			@RequestParam(value = "profileImageFile", required = false) MultipartFile profileImageFile,
+			@RequestParam(value = "profileImageFile", required = false) String profileImageFile,
 			HttpSession session) {
 
 		Map<String, Object> result = new HashMap<>();

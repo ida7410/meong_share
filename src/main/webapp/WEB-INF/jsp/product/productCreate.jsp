@@ -119,7 +119,7 @@
 				alert("설명을 입력해주세요.");
 				return;
 			}
-			if (description.length < 50) {
+			if (description.length <= 50) {
 				alert("설명은 50자 이상이어야 합니다.");
 				return;
 			}
@@ -163,7 +163,6 @@
 					type: "post"
 					, url: "/product/createGcs"
 					, data: formData
-					, enctype: "multipart/form-data"
 					, processData: false
 					, contentType: false
 

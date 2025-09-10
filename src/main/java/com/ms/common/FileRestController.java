@@ -1,7 +1,12 @@
 package com.ms.common;
 
+import com.google.cloud.storage.Blob;
+import com.google.cloud.storage.BlobId;
+import com.google.cloud.storage.Storage;
+import com.google.cloud.storage.StorageOptions;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -23,7 +28,12 @@ public class FileRestController {
     @Autowired
     private FileManagerService fileManagerService;
 
-    @PostMapping("/uploadToLocal")
+    @Value("${google.bucket.name}")
+    private String BUCKET_NAME;
+
+    private final Storage storage = StorageOptions.getDefaultInstance().getService();
+
+    @PostMapping("/uploadToGcs")
     public ResponseEntity<Map<String, Object>> uploadToGcs(
             @RequestParam MultipartFile file,
             @RequestParam String key,
@@ -32,7 +42,7 @@ public class FileRestController {
             ) {
         Map<String, Object> result = new HashMap<>();
         try {
-            String imageUrl = fileManagerService.saveFile(file, key, type);
+            String imageUrl = fileManagerService.saveFileGcs(file, key, type, ext);
 
             result.put("code", 200);
             result.put("imageUrl", imageUrl);
@@ -53,25 +63,17 @@ public class FileRestController {
             @PathVariable String filename) {
         try {
             String objectName = type + "/" + key + "/" + filename;
-//            BlobId blobId = BlobId.of(BUCKET_NAME, objectName);
-//            Blob blob = storage.get(blobId);
-//
-//            if (blob == null) {
-//                return ResponseEntity.notFound().build();
-//            }
-//
-//            byte[] content = blob.getContent();
+            BlobId blobId = BlobId.of(BUCKET_NAME, objectName);
+            Blob blob = storage.get(blobId);
 
-            Path filePath = Paths.get("/images/" + objectName).resolve(filename);
-            File file = filePath.toFile();
-
-            if (!file.exists() || !file.canRead()) {
-                throw new Exception("");
+            if (blob == null) {
+                return ResponseEntity.notFound().build();
             }
-            byte[] content = Files.readAllBytes(filePath);
+
+            byte[] content = blob.getContent();
 
             HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.parseMediaType(filename.split("\\.")[0]));
+            headers.setContentType(MediaType.parseMediaType(blob.getContentType()));
 
             return ResponseEntity.ok()
                     .headers(headers)
