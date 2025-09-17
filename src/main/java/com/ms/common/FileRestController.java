@@ -71,7 +71,7 @@ public class FileRestController {
             byte[] content = Files.readAllBytes(filePath);
 
             HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.parseMediaType(filename.split("\\.")[0]));
+            headers.setContentType(MediaType.parseMediaType(filename.split("\\.")[1]));
 
             return ResponseEntity.ok()
                     .headers(headers)

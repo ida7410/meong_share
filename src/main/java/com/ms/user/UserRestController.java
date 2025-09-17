@@ -363,7 +363,7 @@ public class UserRestController {
 			@RequestParam(value = "name", required = false) String name,
 			@RequestParam(value = "phoneNumber", required = false) String phoneNumber,
 			@RequestParam(value = "email", required = false) String email,
-			@RequestParam(value = "profileImageFile", required = false) MultipartFile profileImageFile,
+			@RequestParam(value = "profileImageFile", required = false) String profileImageFile,
 			HttpSession session) {
 
 		Map<String, Object> result = new HashMap<>();
@@ -377,9 +377,11 @@ public class UserRestController {
 		}
 		
 		// DB update
-		userBO.updateUser(userId, loginId, nickname, name, phoneNumber, email, profileImageFile);
-		
-		session.setAttribute("userNickname", nickname);
+		// returns updated nickname
+		User user = userBO.updateUser(userId, loginId, nickname, name, phoneNumber, email, profileImageFile);
+
+		session.setAttribute("userLoginId", user.getLoginId());
+		session.setAttribute("userNickname", user.getNickname());
 
 		result.put("code", 200);
 		result.put("result", "success");
