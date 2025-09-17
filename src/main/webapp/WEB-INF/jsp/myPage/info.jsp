@@ -73,6 +73,7 @@
 		
 		let duplicateId = true;
 		let idChecked = false;
+		let fileChanged = false;
 		
 		$("#profileImageFile").on("change", function(event) {
 			var reader = new FileReader();
@@ -83,6 +84,7 @@
 			};
 			
 			reader.readAsDataURL(event.target.files[0]);
+			fileChanged = true;
 		});
 		
 		$("#id").on("input", function() {
@@ -138,7 +140,7 @@
 			})
 		});
 		
-		$("#update-info-btn").on("click", function() {
+		$("#update-info-btn").on("click", async function() {
 			let loginId = $("#id").val().trim();
 			let nickname = $("#nickname").val().trim();
 			let name = $("#name").val().trim();
@@ -147,8 +149,8 @@
 			let phoneNumberThird = $("#phone-number-third").val().trim();
 			let phoneNumber = phoneNumberFirst + phoneNumberSecond + phoneNumberThird;
 			let email = $("#email").val().trim();
-			let fileName = $("#profileImageFile").val();
-			
+			let imageUrl = "";
+
 			if (loginId) {
 				if (duplicateId) {
 					alert("Please check duplicates of ID.");
@@ -167,23 +169,55 @@
 			if (!phoneNumberSecond && !phoneNumberThird) {
 				phoneNumber = "";
 			}
-			
-			let formData = new FormData();
+
+			if (fileChanged) {
+
+				// upload file to local & get url
+				let file = $("#profileImageFile")[0].files[0];
+				let fileName = $("#profileImageFile").val();
+				let ext = fileName.split('.')[1];
+				let formData = new FormData();
+				formData.append("file", file);
+				formData.append("key", `${userLoginId}`);
+				formData.append("ext", ext);
+				formData.append("type", "profile-images");
+
+				const uploadResponse = await fetch("/uploadToLocal", {
+					method: "POST",
+					body: formData
+				});
+				if (!uploadResponse.ok) {
+					throw new Error(`HTTP error! status: ${uploadResponse.status}`);
+				}
+
+				// Check if response has content before parsing JSON
+				const text = await uploadResponse.text();
+				if (!text) {
+					throw new Error('Empty response from server');
+				}
+
+				const uploadResult = JSON.parse(text);
+				if (uploadResult.code !== 200) {
+					alert("Upload failed: " + uploadResult.error);
+					return;
+				}
+				imageUrl = uploadResult.imageUrl;
+			}
+
+			formData = new FormData();
 			formData.append("loginId", loginId);
 			formData.append("nickname", nickname);
 			formData.append("name", name);
 			formData.append("phoneNumber", phoneNumber);
 			formData.append("email", email);
-			formData.append("profileImageFile", $("#profileImageFile")[0].files[0]);
-			console.log("here");
+			formData.append("profileImageFile", imageUrl);
+
 			$.ajax({
 				type:"post"
 				,url:"/user/update"
 				,data:formData
-				, enctype:"multipart/form-data" // 파일 업로드를 위한 필수 설정
-					, processData:false // 파일 업로드를 위한 필수 설정
-					, contentType:false //
-				
+				,processData: false
+				,contentType: false
 				,success:function(data) {
 					if (data.code == 200) {
 						alert("Successfully saved the change.");
