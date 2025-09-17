@@ -17,8 +17,6 @@ public class PermissionInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request,
             HttpServletResponse response, Object Handler) throws IOException {
         
-        String uri = request.getRequestURI();
-        
         HttpSession session = request.getSession();
         Integer userId = (Integer)session.getAttribute("userId");
         
@@ -29,21 +27,5 @@ public class PermissionInterceptor implements HandlerInterceptor {
         
         return true;
     }
-    
-    @Override
-    public void postHandle(HttpServletRequest request, 
-            HttpServletResponse response,
-            Object Handler, ModelAndView mav) {
-        
-    	// post handler
-    }
-    
-    @Override
-    public void afterCompletion(HttpServletRequest request, 
-            HttpServletResponse resposne,
-            Object Handler, Exception ex) {
-        
-    	// after handler
-    }
-    
+
 }

@@ -5,7 +5,6 @@
 	<ul class="nav nav-fill w-100 h-100">
 		<li class="nav-item"><a href="/search" class="nav-link main-nav-link py-3">Search</a></li>
 		<li class="nav-item"><a href="/add-product" class="nav-link main-nav-link py-3">Upload Post</a></li>
-		<li class="nav-item"><a href="/map" class="nav-link main-nav-link py-3">Vet/Pharamacy</a></li>
 		<li class="nav-item"><a href="/my-page" class="nav-link main-nav-link py-3">My Page</a></li>
 	</ul>
 </div>

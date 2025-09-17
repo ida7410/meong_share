@@ -11,6 +11,8 @@ import com.ms.chat.domain.ChatMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Objects;
+
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -21,7 +23,7 @@ public class WebSocketEventListener {
 	@EventListener
 	public void handleWebSocketDisconnectListener(SessionDisconnectEvent event) {
 		StompHeaderAccessor accessor = StompHeaderAccessor.wrap(event.getMessage());
-		Integer userId = (int) accessor.getSessionAttributes().get("userId");
+		Integer userId = (int) Objects.requireNonNull(accessor.getSessionAttributes()).get("userId");
 		if (userId != null) {
 			log.info(userId + " has disconnected");
 			ChatMessage chatMessage = new ChatMessage();

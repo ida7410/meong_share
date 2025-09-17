@@ -1,10 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<script type="text/javascript"
-	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7721e3cb346c5be67ed5ff4096c78f53&libraries=services,clusterer,drawing"></script>
-<script type="text/javascript"
-	src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=uaxrj4lheu"></script>
-<script src="/static/json/vet.json" type="text/javascript"></script>
 
 <input type="text" id="keyword" value="동물병원">
 <button type="button" id="search-btn">검색</button>
