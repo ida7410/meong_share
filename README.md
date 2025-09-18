@@ -1,73 +1,193 @@
-# 반려견 물품 중고 거래 사이트 - MEONG SHARE [멍셰어]
-{사진}
-> 배포 URL: http://3.39.190.161:8080/home   
-> 개발 기간: 2023-02-01 ~ 2024-03-14   
-> Test ID:   
-> Test PW:   
-> Notion: https://www.notion.so/ida-coding/65e233a55e974a349f10e8df1b0ad3fa?pvs=4
+# 🐾 MEONG SHARE
 
-<br></br>
+> A trusted secondhand marketplace platform for pet owners to buy and sell unused or non-returnable items
 
-## 프로젝트 소개
-* 멍셰어는 더이상 사용하지 않는, 혹은 반품이 불가능한 물품들을 중고로 거래할 수 있는 사이트입니다.
-* 물품 등록 시 가격과 사진, 기본적인 설명이 필수적이기 때문에 신뢰도가 높습니다.
-* 구매자와 간단한 채팅이 가능하고, 이미지 전송 또한 가능하여 조금 더 자세한 사진과 내용을 추가로 더 요청할 수도 있습니다.
-* 거래 완료를 완료하는 것은 구매자와 판매자 양쪽이 동의해야 하므로 사기 걱정을 덜어낼 수 있습니다.
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Visit%20Site-blue?style=for-the-badge)](https://meong-share-257150041772.northamerica-northeast2.run.app/home)
+[![GitHub](https://img.shields.io/badge/GitHub-Repository-black?style=for-the-badge&logo=github)](https://github.com/ida7410/meong_share)
+[![Google Cloud](https://img.shields.io/badge/Google%20Cloud-Run-4285F4?style=for-the-badge&logo=googlecloud)](https://cloud.google.com/run)
 
-<br></br>
-## 개발환경
-* 프론트엔드: `HTML`, `JSP`, `Jquery`
-* 백엔드: `Java`
-* 이슈 관리: `GitHub`
-* 서비스 배포: `AWS`
-* DB: `MySQL`
-* FrameWork: `Spring Boot`, `Apache`, `Bootstrap`, `MySQL Workbench`
+## 📋 Table of Contents
+- [Overview](#overview)
+- [Key Features](#key-features)  
+- [Technology Stack](#technology-stack)
+- [Getting Started](#getting-started)
+- [User Flow](#user-flow)
+- [Development Timeline](#development-timeline)
+- [Contributing](#contributing)
 
-<br></br>
-## 일정표 & 개발현황
-* 예상 일정표
-![Untitled](https://github.com/ida7410/meong_share/assets/96316765/10c6ec6c-f498-4943-9aa6-d8de135f58cc)
-* 실시간 개발 현황 업데이트
-![image](https://github.com/ida7410/meong_share/assets/96316765/a94fdccf-8a38-4ffc-aada-df682d25b3e1)
-> 스프레드 시트: https://docs.google.com/spreadsheets/d/1c1puFADBbbZ8iF9167SB91NuZQi73oMigSuZbW4OXr4/edit?usp=sharing
+## 🎯 Overview
 
-<br></br>
-## DB 구조
-![image](https://github.com/ida7410/meong_share/assets/96316765/412bfff0-fe05-4814-b474-be797faeec2e)
-> URL: https://gitmind.com/app/docs/f8l1gslt
+**Meong Share** is a comprehensive secondhand marketplace specifically designed for pet owners. The platform enables users to trade unused or non-returnable pet-related items with high reliability through secure user authentication, real-time communication, and a trusted transaction system.
 
-<br></br>
-## 사이트 소개
-* 회원가입
-  - 아이디는 중복될 수 없으므로 회원가입 시 중복확인을 거쳐야 합니다.
-  - 비밀번호는 입력과 동시에 유효성 검사가 진행되며 결과가 입력란 오른쪽에 나타납니다.
-  - 이메일 인증 시 실제 이메일로 랜덤한 코드가 발송되며 정확한 코드를 입력해야지만 회원가입이 진행됩니다.
-  - 비밀번호는 SHA256을 n번 반복 적용한 뒤 저장하는 것으로 보안을 강화했습니다.
-{사진}
+**🌐 Live Demo:** [https://meong-share-257150041772.northamerica-northeast2.run.app/home](https://meong-share-257150041772.northamerica-northeast2.run.app/home)
 
-* 채팅
-  - 아직 거래되지 않은 상품에서 문의하기를 클릭하면 채팅방이 생성되며 채팅을 시작할 수 있습니다. 서로 사진을 보내거나 이야기를 나누며 가격을 조정할 수 있습니다.
-  - AJAX 비동기 통신을 사용하여 2초에 한 번씩 채팅방이 새로고침 됩니다.
- {사진}
-  - 거래가 성공적으로 완료되었다면 판매자는 거래 완료를 신청할 수 있으며, 구매자가 거래 완료를 수락 시 자동으로 채팅이 종료되며 다른 사용자에게 상품이 표시되지 않습니다.
-  - 거래 완료 후 구매자는 판매자를 추천할 수도, 하지 않고 넘어갈 수도 있습니다.
-  - 만약 이미 물품이 다른 사람과 거래되었다면 자동으로 채팅이 종료됩니다.
-{사진}
+## ✨ Key Features
 
-* 동물병원 / 동물용 의약품 판매 약국
-  - 서울시 열린 데이터 광장에서 서울시 동불병원과 동물용 의약품 판매 약국 인허가 정보 중 현재 영업 중인 곳만 데이터를 가져와 DB에 우선 저장했습니다. 그 후 DB Select를 사용해 중부원점TM(EPSG:2097) 좌표를 proj4 라이브러리를 사용하여 위경도로 변환해 Update 했습니다.
-    + https://data.seoul.go.kr/dataList/OA-16007/S/1/datasetView.do
-    + https://data.seoul.go.kr/dataList/OA-16008/A/1/datasetView.do
-  - 카카오맵 API를 사용하여 현재 보는 화면 내의 범위를 가져와 그 범위 안에 있는 약국과 병원 리스트를 가지고 맵에 표시, 리스트를 만들었습니다.
-{사진}
+### 🔐 **User Management System**
+- **Secure Registration**: Email verification with SHA256 password encryption
+- **Profile Management**: Update login ID, password, and profile images
+- **Account Authentication**: Secure login system with encrypted credentials
 
-* 아이디 & 비밀번호 찾기
-  - 아이디를 찾기 위해선 회원가입할 때 작성한 이름과 이메일 주소를 받아 확인하고, 일치하는 경우 메일로 아이디를 전송합니다.
-  - 비밀번호를 찾을 때는 아이디와 이메일 주소를 입력받고, 일치하는 경우 이메일로 인증번호를 우선 전송합니다. 인증번호까지 확인한 후에 임시 비밀번호를 발급받을 수 있습니다.
-{사이트 사진} {전송받은 메일 사진}
+### 📦 **Product Marketplace**
+- **Product Listing**: Upload items with detailed descriptions and images
+- **Product Discovery**: Browse and search available items
+- **Like System**: Save interesting products for later
+- **Image Management**: Multiple product photos with cloud storage
 
-<br></br>
-## 향후 추가할 만한 내용
-* 카카오, 네이버, 구글 로그인 & 회원가입 API
-* 문의 받은 내용을 메일로 직접 유저와 소통
-* 영어 버전 추가
+### 💬 **Real-time Chat System**
+- **WebSocket Communication**: Live chat between buyers and sellers
+- **Email Notifications**: Automatic email alerts when new chats are initiated
+- **Message History**: Persistent chat conversations per product
+- **Instant Messaging**: Real-time communication for negotiations
+
+### 🤝 **Secure Transaction Management**
+- **Trade Completion Flow**: Seller initiates completion, buyer accepts
+- **Mutual Agreement**: Both parties must agree to finalize transactions
+- **Chat Termination**: Conversations end when trades are completed
+- **Recommendation System**: Buyers can recommend sellers post-transaction
+
+### 🛡️ **Trust & Safety**
+- **Verified Users**: Email-verified accounts only
+- **Secure Passwords**: SHA256 encryption for enhanced security
+- **Transaction Tracking**: Clear completion workflow prevents disputes
+
+## 🛠️ Technology Stack
+
+### **Frontend**
+- **HTML5** - Semantic markup and structure
+- **JSP** - Server-side rendering and dynamic content
+- **jQuery** - DOM manipulation and AJAX communications
+- **Bootstrap** - Responsive UI framework
+
+### **Backend**
+- **Java** - Core application logic
+- **Spring Boot** - Application framework and dependency injection
+- **WebSocket** - Real-time communication protocol
+
+### **Database & Storage**
+- **Google Cloud SQL** - Primary database system
+- **Google Cloud Storage** - File and image storage
+
+### **Deployment & Infrastructure**
+- **Google Cloud Run** - Serverless deployment platform
+- **SMTP Integration** - Email notification system
+
+### **Development Tools**
+- **GitHub** - Version control and issue management
+- **Maven** - Dependency management and build tool
+
+## 🚀 Getting Started
+
+### 🌐 Live Demo
+Experience Meong Share directly through our live deployment:
+
+**🔗 [Try Meong Share Now](https://meong-share-257150041772.northamerica-northeast2.run.app/home)**
+
+The application is deployed on Google Cloud Run for optimal performance and cost-effectiveness.
+
+### 🛠️ For Developers
+If you're interested in contributing or exploring the codebase:
+
+1. **Explore the Repository**
+   ```bash
+   git clone https://github.com/ida7410/meong_share.git
+   ```
+
+2. **Technology Stack**
+   - **Backend**: Java, Spring Boot, WebSocket
+   - **Frontend**: HTML5, JSP, jQuery, Bootstrap
+   - **Database**: Google Cloud SQL
+   - **Storage**: Google Cloud Storage
+   - **Deployment**: Google Cloud Run
+
+## 👥 User Flow
+
+### **For Sellers**
+1. **Sign Up** → Email verification → Profile setup
+2. **Upload Products** → Add photos, descriptions, pricing
+3. **Receive Notifications** → Email alerts for new chat inquiries
+4. **Chat with Buyers** → Real-time negotiation via WebSocket
+5. **Complete Trade** → Send completion request to buyer
+6. **Receive Recommendation** → Optional buyer feedback
+
+### **For Buyers**
+1. **Browse Products** → Search and discover items
+2. **Like Items** → Save interesting products
+3. **Start Conversations** → Send messages to sellers
+4. **Live Chat** → Real-time communication with sellers
+5. **Accept Trade Completion** → Confirm successful transaction
+6. **Recommend Seller** → Optional seller feedback
+
+## 🔧 Core Features Explained
+
+### User Registration & Authentication
+- **Email Verification**: Secure account activation via email
+- **Password Security**: SHA256 encryption with secure storage
+- **Profile Management**: Update personal information and profile pictures
+
+### Product Management
+- **Listing Creation**: Comprehensive product upload with images
+- **Image Storage**: Google Cloud Storage integration for reliable file handling
+- **Product Interaction**: Like and message functionality per listing
+
+### Communication System
+- **WebSocket Integration**: Real-time messaging without page refreshes
+- **Email Integration**: SMTP notifications for new chat initiations
+- **Chat Persistence**: Message history maintained throughout conversations
+
+### Transaction Workflow
+- **Seller-Initiated Completion**: Trade completion requests from product owners
+- **Buyer Confirmation**: Acceptance-based transaction finalization
+- **Automatic Chat Management**: Conversations terminate upon completed trades
+- **Feedback System**: Post-transaction recommendation capabilities
+
+## 📅 Development Timeline
+
+### **Version 1.0**
+**Development Period:** February 1, 2023 - March 14, 2024
+- Initial marketplace platform development
+- Core features: user authentication, product listings, chat system
+- Original deployment on AWS
+
+### **Version 2.0** 🚀
+**Development Started:** August 2025 - Present
+- Platform modernization and feature enhancements
+- Migration to Google Cloud Run for improved scalability and cost-efficiency
+- WebSocket implementation for real-time communication
+- Enhanced user experience and system optimizations
+
+**Current Status:** Version 2.0 in active development
+
+## 🔗 System Integrations
+
+- **Google Cloud Services** - SQL database and file storage
+- **SMTP Email Services** - Automated notification system
+- **WebSocket Protocol** - Real-time communication infrastructure
+
+## 📈 Future Enhancements
+
+- [ ] Mobile application development
+- [ ] Advanced search and filtering
+- [ ] Payment gateway integration
+- [ ] Enhanced recommendation algorithm
+- [ ] Advanced analytics dashboard
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is available under the MIT License. See the LICENSE file for more details.
+
+## 📧 Contact
+
+For questions, suggestions, or support, please reach out through the contact form on the website or create an issue in this repository.
+
+---
+
+**Made with ❤️ for pet lovers everywhere** 🐕🐱
