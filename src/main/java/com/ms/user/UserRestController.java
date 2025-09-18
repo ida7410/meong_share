@@ -377,9 +377,11 @@ public class UserRestController {
 		}
 		
 		// DB update
-		userBO.updateUser(userId, loginId, nickname, name, phoneNumber, email, profileImageFile);
-		
-		session.setAttribute("userNickname", nickname);
+		// returns updated nickname
+		User user = userBO.updateUser(userId, loginId, nickname, name, phoneNumber, email, profileImageFile);
+
+		session.setAttribute("userLoginId", user.getLoginId());
+		session.setAttribute("userNickname", user.getNickname());
 
 		result.put("code", 200);
 		result.put("result", "success");

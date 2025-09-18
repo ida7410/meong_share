@@ -73,7 +73,8 @@
 		
 		let duplicateId = true;
 		let idChecked = false;
-		
+		let fileChanged = false;
+
 		$("#profileImageFile").on("change", function(event) {
 			var reader = new FileReader();
 			
@@ -83,6 +84,7 @@
 			};
 			
 			reader.readAsDataURL(event.target.files[0]);
+			fileChanged = true;
 		});
 		
 		$("#id").on("input", function() {
@@ -147,6 +149,7 @@
 			let phoneNumberThird = $("#phone-number-third").val().trim();
 			let phoneNumber = phoneNumberFirst + phoneNumberSecond + phoneNumberThird;
 			let email = $("#email").val().trim();
+			let imageUrl = "";
 
 			if (loginId) {
 				if (duplicateId) {
@@ -167,28 +170,39 @@
 				phoneNumber = "";
 			}
 
-			// upload file to gcs & get public url
-			let file = $("#profileImageFile")[0].files[0];
-			let fileName = $("#profileImageFile").val();
-			let ext = fileName.split('.')[1];
-			let formData = new FormData();
-			formData.append("file", file);
-			formData.append("key", `${userLoginId}`);
-			formData.append("ext", ext);
-			formData.append("type", "profile-images");
+			if (fileChanged) {
 
-			const uploadResponse = await fetch("/uploadToGcs", {
-				method: "POST",
-				body: formData
-			});
+				// upload file to local & get url
+				let file = $("#profileImageFile")[0].files[0];
+				let fileName = $("#profileImageFile").val();
+				let ext = fileName.split('.')[1];
+				let formData = new FormData();
+				formData.append("file", file);
+				formData.append("key", `${userLoginId}`);
+				formData.append("ext", ext);
+				formData.append("type", "profile-images");
 
-			const uploadResult = await uploadResponse.json();
-			if (uploadResult.code !== 200) {
-				alert("Upload failed: " + uploadResult.error);
-				return;
+				const uploadResponse = await fetch("/uploadToGcs", {
+					method: "POST",
+					body: formData
+				});
+				if (!uploadResponse.ok) {
+					throw new Error(`HTTP error! status: ${uploadResponse.status}`);
+				}
+
+				// Check if response has content before parsing JSON
+				const text = await uploadResponse.text();
+				if (!text) {
+					throw new Error('Empty response from server');
+				}
+
+				const uploadResult = JSON.parse(text);
+				if (uploadResult.code !== 200) {
+					alert("Upload failed: " + uploadResult.error);
+					return;
+				}
+				imageUrl = uploadResult.imageUrl;
 			}
-			const imageUrl = uploadResult.imageUrl;
-			console.log(imageUrl)
 
 			formData = new FormData();
 			formData.append("loginId", loginId);

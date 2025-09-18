@@ -102,7 +102,7 @@ public class UserBO {
 	 * @param email
 	 * @param profileImageFile
 	 */
-	public void updateUser(
+	public User updateUser(
 			int id, String loginId, 
 			String nickname, String name,
 			String phoneNumber, String email,
@@ -127,12 +127,14 @@ public class UserBO {
 		if (email == null || email.isEmpty()) {
 			email = user.getEmail();
 		}
-		if (profileImageFile == null) {
+		if (profileImageFile == null || profileImageFile.isEmpty()) {
 			profileImageFile = user.getProfileImagePath();
 		}
 
 		// update user
 		userMapper.updateUser(id, loginId, nickname, name, phoneNumber, email, profileImageFile);
+		user = userMapper.selectUserById(id);
+		return user;
 	}
 	
 }
