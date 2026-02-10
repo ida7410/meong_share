@@ -180,14 +180,8 @@ If you're interested in contributing or exploring the codebase:
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## 📄 License
-
-This project is available under the MIT License. See the LICENSE file for more details.
-
 ## 📧 Contact
 
 For questions, suggestions, or support, please reach out through the contact form on the website or create an issue in this repository.
 
 ---
-
-**Made with ❤️ for pet lovers everywhere** 🐕🐱
